@@ -1,0 +1,2 @@
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\Definitions.Stealth.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\Util.h

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Stealth.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{EF6B31E8-BCAD-4F36-86E7-1695903151A1}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\Stealth.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\StealthEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{D35A8F37-06C8-406C-8ADD-18292AE31E4E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\Stealth">
+      <UniqueIdentifier>{0A543E03-5AFD-49A0-9CD3-EB5654348230}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\Stealth\ArgusCharacter.cpp">
+      <Filter>Source\Stealth</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Stealth\ArgusCharacter.h">
+      <Filter>Source\Stealth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Stealth\Enumeration.h">
+      <Filter>Source\Stealth</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Stealth\PlayerSpawnPoint.cpp">
+      <Filter>Source\Stealth</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Stealth\PlayerSpawnPoint.h">
+      <Filter>Source\Stealth</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Stealth\SpyCharacter.cpp">
+      <Filter>Source\Stealth</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Stealth\SpyCharacter.h">
+      <Filter>Source\Stealth</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\Stealth\Stealth.Build.cs">
+      <Filter>Source\Stealth</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\Stealth\Stealth.cpp">
+      <Filter>Source\Stealth</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Stealth\Stealth.h">
+      <Filter>Source\Stealth</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Stealth\StealthCharacter.cpp">
+      <Filter>Source\Stealth</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Stealth\StealthCharacter.h">
+      <Filter>Source\Stealth</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Stealth\StealthGameMode.cpp">
+      <Filter>Source\Stealth</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Stealth\StealthGameMode.h">
+      <Filter>Source\Stealth</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Stealth\StealthUserWidget.cpp">
+      <Filter>Source\Stealth</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Stealth\StealthUserWidget.h">
+      <Filter>Source\Stealth</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Stealth\Util.cpp">
+      <Filter>Source\Stealth</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Stealth\Util.h">
+      <Filter>Source\Stealth</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "Stealth",
+			"Path": "C:\\UE4_Engine\\Projects\\Stealth\\Source\\Stealth.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "StealthEditor",
+			"Path": "C:\\UE4_Engine\\Projects\\Stealth\\Source\\StealthEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
