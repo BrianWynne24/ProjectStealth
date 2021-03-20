@@ -8,14 +8,26 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class UObject;
+enum class ETeam : uint8;
 #ifdef STEALTH_StealthCharacter_generated_h
 #error "StealthCharacter.generated.h already included, missing '#pragma once' in StealthCharacter.h"
 #endif
 #define STEALTH_StealthCharacter_generated_h
 
 #define Stealth_Source_Stealth_StealthCharacter_h_13_SPARSE_DATA
-#define Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS
-#define Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS_NO_PURE_DECLS
+#define Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execEquipWeapon); \
+	DECLARE_FUNCTION(execGetTeam);
+
+
+#define Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execEquipWeapon); \
+	DECLARE_FUNCTION(execGetTeam);
+
+
 #define Stealth_Source_Stealth_StealthCharacter_h_13_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAStealthCharacter(); \
@@ -59,8 +71,6 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AStealthCharacter); \
 
 
 #define Stealth_Source_Stealth_StealthCharacter_h_13_PRIVATE_PROPERTY_OFFSET \
-	FORCEINLINE static uint32 __PPO__CameraBoom() { return STRUCT_OFFSET(AStealthCharacter, CameraBoom); } \
-	FORCEINLINE static uint32 __PPO__FollowCamera() { return STRUCT_OFFSET(AStealthCharacter, FollowCamera); } \
 	FORCEINLINE static uint32 __PPO__Team() { return STRUCT_OFFSET(AStealthCharacter, Team); }
 
 

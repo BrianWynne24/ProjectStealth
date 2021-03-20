@@ -39,5 +39,10 @@ I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\PawnMovement
 I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\Interfaces/NetworkPredictionInterface.h
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\NetworkPredictionInterface.generated.h
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\CharacterMovementComponent.generated.h
-I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/SpringArmComponent.h
-I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SpringArmComponent.generated.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\WeaponBase.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\Animation/SkeletalMeshActor.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\Matinee/MatineeAnimInterface.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\MatineeAnimInterface.generated.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SkeletalMeshActor.generated.h
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\WeaponBase.generated.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\Util.h

@@ -7,13 +7,20 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
-#include "GameFramework/SpringArmComponent.h"
+#include "WeaponBase.h"
+#include "Util.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AStealthCharacter
 
 AStealthCharacter::AStealthCharacter()
 {
+	static ConstructorHelpers::FObjectFinder<UClass> AnimBlueprint(TEXT("AnimBlueprint'/Game/Mannequin/Animations/ThirdPerson_AnimBP.ThirdPerson_AnimBP_C'"));
+	if (AnimBlueprint.Object != NULL)
+		AnimationClass = AnimBlueprint.Object;
+
+	StartingWeaponClass = AWeaponBase::StaticClass();
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -32,17 +39,7 @@ AStealthCharacter::AStealthCharacter()
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
 
-	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
-	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
-
-	// Create a follow camera
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
-	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-
+	RootComponent = GetCapsuleComponent();
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
@@ -143,3 +140,37 @@ ETeam AStealthCharacter::GetTeam()
 {
 	return Team;
 }
+
+void AStealthCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (CharacterMesh == NULL)
+		return;
+
+	USkeletalMeshComponent* characterMesh = GetMesh();
+	characterMesh->SetSkeletalMesh(CharacterMesh);
+	characterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+	//characterMesh->SetAnimInstanceClass(AnimationClass->StaticClass());
+	characterMesh->SetAnimClass(AnimationClass);
+
+	// TODO: Fix this issue?
+	characterMesh->SetWorldRotation(FRotator(0, 270, 0));
+	//characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() + FVector(0, 0, -98));
+
+	float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() - FVector(0, 0, rootHeight));
+
+	EquipWeapon(StartingWeaponClass);
+}
+
+/*void AStealthCharacter::EquipWeapon(UClass* weaponClass)
+{
+	// Player only has the ability for one weapon - this will problably not change in the future
+	if (CurrentWeapon != NULL)
+		CurrentWeapon->Destroy();
+
+	//CurrentWeapon = CreateDefaultSubobject<weaponClass>(TEXT("CurrentWeapon"));
+	CurrentWeapon = (AWeaponBase*)GetWorld()->SpawnActor(weaponClass);
+	CurrentWeapon->EquipToCharacter(this);
+}*/

@@ -10,3 +10,12 @@ I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\RootMotionSo
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\Character.generated.h
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthCharacter.generated.h
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\ArgusCharacter.generated.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\WeaponRifle.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\WeaponBase.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\Animation/SkeletalMeshActor.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\Matinee/MatineeAnimInterface.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\MatineeAnimInterface.generated.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SkeletalMeshActor.generated.h
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\WeaponBase.generated.h
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\WeaponRifle.generated.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\Util.h

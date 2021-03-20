@@ -13,5 +13,9 @@ UCLASS()
 class STEALTH_API AWeaponTaser : public AWeaponBase
 {
 	GENERATED_BODY()
+
+public:
+
+	AWeaponTaser();
 	
 };

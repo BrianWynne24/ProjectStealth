@@ -25,6 +25,9 @@ public:
 	UPROPERTY()
 	TArray<APlayerSpawnPoint*> SpawnPoints;
 
+	UPROPERTY()
+	EGameType GameType;
+
 	/* Overrides */
 	void PostLogin(APlayerController* NewPlayer);
 	void StartPlay();

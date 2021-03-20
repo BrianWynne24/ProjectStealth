@@ -340,5 +340,5 @@ ASALocalRun/
 healthchecksdb
 
 # Directories
-Content/
-Binaries/
+[Cc]ontent/
+[Bb]inaries/

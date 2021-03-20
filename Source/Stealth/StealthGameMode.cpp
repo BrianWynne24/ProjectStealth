@@ -51,8 +51,6 @@ void AStealthGameMode::StartPlay()
 
 void AStealthGameMode::SetPlayerTeam(APlayerController* Player, ETeam team)
 {
-	Util::Debug("SetTeam");
-
 	SpawnPlayerCharacter(Player, team);
 }
 
@@ -84,7 +82,6 @@ void AStealthGameMode::SpawnPlayerCharacter(APlayerController* Player, ETeam tea
 		return;
 
 	AStealthCharacter* Character = World->SpawnActor<AStealthCharacter>(TeamClass, curLocation, curRotation);
-
 	if (Character != NULL)
 	{
 		Player->UnPossess();

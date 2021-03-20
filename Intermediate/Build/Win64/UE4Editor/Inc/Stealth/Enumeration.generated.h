@@ -17,6 +17,14 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define CURRENT_FILE_ID Stealth_Source_Stealth_Enumeration_h
 
 
+#define FOREACH_ENUM_EGAMETYPE(op) \
+	op(EGameType::GAMEMODE_DEATHMATCH) \
+	op(EGameType::GAMEMODE_EXTRACTION) \
+	op(EGameType::GAMEMODE_INFILTRATE) 
+
+enum class EGameType : uint8;
+template<> STEALTH_API UEnum* StaticEnum<EGameType>();
+
 #define FOREACH_ENUM_ETEAM(op) \
 	op(ETeam::TEAM_SPECTATOR) \
 	op(ETeam::TEAM_SPY) \

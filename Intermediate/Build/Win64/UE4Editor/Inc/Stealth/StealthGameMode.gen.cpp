@@ -22,6 +22,7 @@ void EmptyLinkFunctionForGeneratedCodeStealthGameMode() {}
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
 	UMG_API UClass* Z_Construct_UClass_UUserWidget_NoRegister();
+	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_EGameType();
 // End Cross Module References
 	DEFINE_FUNCTION(AStealthGameMode::execGetTeamCharacterClass)
 	{
@@ -146,6 +147,11 @@ void EmptyLinkFunctionForGeneratedCodeStealthGameMode() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_SpawnPoints_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_SpawnPoints;
+		static const UE4CodeGen_Private::FBytePropertyParams NewProp_GameType_Underlying;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_GameType_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_GameType;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UE4CodeGen_Private::FClassParams ClassParams;
@@ -181,10 +187,19 @@ void EmptyLinkFunctionForGeneratedCodeStealthGameMode() {}
 	};
 #endif
 	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UClass_AStealthGameMode_Statics::NewProp_SpawnPoints = { "SpawnPoints", nullptr, (EPropertyFlags)0x0010000000000000, UE4CodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AStealthGameMode, SpawnPoints), EArrayPropertyFlags::None, METADATA_PARAMS(Z_Construct_UClass_AStealthGameMode_Statics::NewProp_SpawnPoints_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AStealthGameMode_Statics::NewProp_SpawnPoints_MetaData)) };
+	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UClass_AStealthGameMode_Statics::NewProp_GameType_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UE4CodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, 1, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AStealthGameMode_Statics::NewProp_GameType_MetaData[] = {
+		{ "ModuleRelativePath", "StealthGameMode.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UClass_AStealthGameMode_Statics::NewProp_GameType = { "GameType", nullptr, (EPropertyFlags)0x0010000000000000, UE4CodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AStealthGameMode, GameType), Z_Construct_UEnum_Stealth_EGameType, METADATA_PARAMS(Z_Construct_UClass_AStealthGameMode_Statics::NewProp_GameType_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AStealthGameMode_Statics::NewProp_GameType_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AStealthGameMode_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthGameMode_Statics::NewProp_TeamSelectionWidget,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthGameMode_Statics::NewProp_SpawnPoints_Inner,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthGameMode_Statics::NewProp_SpawnPoints,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthGameMode_Statics::NewProp_GameType_Underlying,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthGameMode_Statics::NewProp_GameType,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_AStealthGameMode_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<AStealthGameMode>::IsAbstract,
@@ -213,7 +228,7 @@ void EmptyLinkFunctionForGeneratedCodeStealthGameMode() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStealthGameMode, 3100094437);
+	IMPLEMENT_CLASS(AStealthGameMode, 1985358523);
 	template<> STEALTH_API UClass* StaticClass<AStealthGameMode>()
 	{
 		return AStealthGameMode::StaticClass();

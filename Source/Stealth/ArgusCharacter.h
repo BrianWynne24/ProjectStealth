@@ -13,5 +13,11 @@ UCLASS()
 class STEALTH_API AArgusCharacter : public AStealthCharacter
 {
 	GENERATED_BODY()
-	
+
+	AArgusCharacter();
+
+public:
+
+	void BeginPlay();
+	void EquipWeapon(UClass* weaponClass);
 };

@@ -12,14 +12,6 @@ class AStealthCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
-
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
-
 	UPROPERTY(EditAnywhere, Category = "Team", meta = (Bitmask, BitmaskEnum = "ETeam"))
 	TEnumAsByte<ETeam> Team;
 
@@ -34,7 +26,25 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	class USkeletalMesh* CharacterMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	class UClass* AnimationClass;
+
+	UPROPERTY()
+	class AWeaponBase* CurrentWeapon;
+
+	UPROPERTY()
+	class UClass* StartingWeaponClass;
+
+	UFUNCTION()
 	ETeam GetTeam();
+
+	void BeginPlay();
+
+	UFUNCTION()
+	virtual void EquipWeapon(UClass* weaponClass) {}
 
 protected:
 
@@ -71,9 +81,10 @@ protected:
 	// End of APawn interface
 
 public:
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	FORCEINLINE class USkeletalMesh* GetSkeletalMesh() const { return CharacterMesh; }
+
+	FORCEINLINE class AWeaponBase* GetCurrentWeapon() const { return CurrentWeapon; }
+
 };
 

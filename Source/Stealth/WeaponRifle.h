@@ -13,5 +13,9 @@ UCLASS()
 class STEALTH_API AWeaponRifle : public AWeaponBase
 {
 	GENERATED_BODY()
+
+public:
+
+	AWeaponRifle();
 	
 };
