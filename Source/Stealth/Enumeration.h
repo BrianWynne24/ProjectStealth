@@ -5,16 +5,26 @@
 UENUM(BlueprintType)
 enum class ETeam : uint8
 {
-	TEAM_SPECTATOR,
-	TEAM_SPY,
-	TEAM_ARGUS,
-	TEAM_RANDOM
+	UNASSIGNED,
+	RANDOM,
+	SPECTATOR,
+	SPY,
+	ARGUS
 };
 
 UENUM(BlueprintType)
 enum class EGameType : uint8 
 {
-	GAMEMODE_DEATHMATCH,
-	GAMEMODE_EXTRACTION,
-	GAMEMODE_INFILTRATE
+	DEATHMATCH,
+	EXTRACTION,
+	INFILTRATE
+};
+
+UENUM(BlueprintType)
+enum class EGameState : uint8
+{
+	LOBBY,
+	PRE_GAME,
+	ACTIVE,
+	POST_GAME
 };

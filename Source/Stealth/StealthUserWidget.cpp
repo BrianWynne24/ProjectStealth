@@ -4,6 +4,7 @@
 #include "StealthUserWidget.h"
 #include "Components/Button.h"
 #include "StealthGameMode.h"
+#include "StealthPlayerState.h"
 #include "Util.h"
 
 void UStealthUserWidget::NativeConstruct()
@@ -17,24 +18,25 @@ void UStealthUserWidget::NativeConstruct()
 
 void UStealthUserWidget::SpectatorButtonClicked()
 {
-	this->JoinTeam(ETeam::TEAM_SPECTATOR);
+	this->JoinTeam(ETeam::SPECTATOR);
 }
 
 void UStealthUserWidget::SpyButtonClicked()
 {
-	this->JoinTeam(ETeam::TEAM_SPY);
+	this->JoinTeam(ETeam::SPY);
 }
 
 void UStealthUserWidget::ArgusButtonClicked()
 {
-	this->JoinTeam(ETeam::TEAM_ARGUS);
+	this->JoinTeam(ETeam::ARGUS);
 }
 
 void UStealthUserWidget::JoinTeam(ETeam team)
 {
-	APlayerController* Player = GetOwningPlayer();
-	AStealthGameMode* Gamemode = (AStealthGameMode*)GetWorld()->GetAuthGameMode();
+	//AStealthGameMode* Gamemode = (AStealthGameMode*)GetWorld()->GetAuthGameMode();
+	//Gamemode->SetPlayerTeam(Player, team);
 
-	Gamemode->SetPlayerTeam(Player, team);
-	RemoveFromViewport();
+	AStealthPlayerState* PlayerState = (AStealthPlayerState*)GetOwningPlayerState();
+	PlayerState->SetTeam(team);
+	this->RemoveFromViewport();
 }

@@ -9,7 +9,6 @@
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 class UObject;
-enum class ETeam : uint8;
 #ifdef STEALTH_StealthCharacter_generated_h
 #error "StealthCharacter.generated.h already included, missing '#pragma once' in StealthCharacter.h"
 #endif
@@ -17,24 +16,34 @@ enum class ETeam : uint8;
 
 #define Stealth_Source_Stealth_StealthCharacter_h_13_SPARSE_DATA
 #define Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS \
+	virtual void ClientTeamSelectMenu_Implementation(); \
  \
-	DECLARE_FUNCTION(execEquipWeapon); \
-	DECLARE_FUNCTION(execGetTeam);
+	DECLARE_FUNCTION(execClientTeamSelectMenu); \
+	DECLARE_FUNCTION(execEquipWeapon);
 
 
 #define Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void ClientTeamSelectMenu_Implementation(); \
  \
-	DECLARE_FUNCTION(execEquipWeapon); \
-	DECLARE_FUNCTION(execGetTeam);
+	DECLARE_FUNCTION(execClientTeamSelectMenu); \
+	DECLARE_FUNCTION(execEquipWeapon);
 
 
+#define Stealth_Source_Stealth_StealthCharacter_h_13_EVENT_PARMS
+#define Stealth_Source_Stealth_StealthCharacter_h_13_CALLBACK_WRAPPERS
 #define Stealth_Source_Stealth_StealthCharacter_h_13_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAStealthCharacter(); \
 	friend struct Z_Construct_UClass_AStealthCharacter_Statics; \
 public: \
 	DECLARE_CLASS(AStealthCharacter, ACharacter, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
-	DECLARE_SERIALIZER(AStealthCharacter)
+	DECLARE_SERIALIZER(AStealthCharacter) \
+	enum class ENetFields_Private : uint16 \
+	{ \
+		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
+		CurrentWeapon=NETFIELD_REP_START, \
+		NETFIELD_REP_END=CurrentWeapon	}; \
+	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
 #define Stealth_Source_Stealth_StealthCharacter_h_13_INCLASS \
@@ -43,7 +52,13 @@ private: \
 	friend struct Z_Construct_UClass_AStealthCharacter_Statics; \
 public: \
 	DECLARE_CLASS(AStealthCharacter, ACharacter, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
-	DECLARE_SERIALIZER(AStealthCharacter)
+	DECLARE_SERIALIZER(AStealthCharacter) \
+	enum class ENetFields_Private : uint16 \
+	{ \
+		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
+		CurrentWeapon=NETFIELD_REP_START, \
+		NETFIELD_REP_END=CurrentWeapon	}; \
+	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
 #define Stealth_Source_Stealth_StealthCharacter_h_13_STANDARD_CONSTRUCTORS \
@@ -70,17 +85,18 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AStealthCharacter); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(AStealthCharacter)
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_13_PRIVATE_PROPERTY_OFFSET \
-	FORCEINLINE static uint32 __PPO__Team() { return STRUCT_OFFSET(AStealthCharacter, Team); }
+#define Stealth_Source_Stealth_StealthCharacter_h_13_PRIVATE_PROPERTY_OFFSET
+#define Stealth_Source_Stealth_StealthCharacter_h_10_PROLOG \
+	Stealth_Source_Stealth_StealthCharacter_h_13_EVENT_PARMS
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_10_PROLOG
 #define Stealth_Source_Stealth_StealthCharacter_h_13_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
 	Stealth_Source_Stealth_StealthCharacter_h_13_PRIVATE_PROPERTY_OFFSET \
 	Stealth_Source_Stealth_StealthCharacter_h_13_SPARSE_DATA \
 	Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS \
+	Stealth_Source_Stealth_StealthCharacter_h_13_CALLBACK_WRAPPERS \
 	Stealth_Source_Stealth_StealthCharacter_h_13_INCLASS \
 	Stealth_Source_Stealth_StealthCharacter_h_13_STANDARD_CONSTRUCTORS \
 public: \
@@ -93,6 +109,7 @@ public: \
 	Stealth_Source_Stealth_StealthCharacter_h_13_PRIVATE_PROPERTY_OFFSET \
 	Stealth_Source_Stealth_StealthCharacter_h_13_SPARSE_DATA \
 	Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS_NO_PURE_DECLS \
+	Stealth_Source_Stealth_StealthCharacter_h_13_CALLBACK_WRAPPERS \
 	Stealth_Source_Stealth_StealthCharacter_h_13_INCLASS_NO_PURE_DECLS \
 	Stealth_Source_Stealth_StealthCharacter_h_13_ENHANCED_CONSTRUCTORS \
 private: \

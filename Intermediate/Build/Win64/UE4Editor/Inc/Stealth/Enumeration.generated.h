@@ -17,19 +17,29 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define CURRENT_FILE_ID Stealth_Source_Stealth_Enumeration_h
 
 
+#define FOREACH_ENUM_EGAMESTATE(op) \
+	op(EGameState::LOBBY) \
+	op(EGameState::PRE_GAME) \
+	op(EGameState::ACTIVE) \
+	op(EGameState::POST_GAME) 
+
+enum class EGameState : uint8;
+template<> STEALTH_API UEnum* StaticEnum<EGameState>();
+
 #define FOREACH_ENUM_EGAMETYPE(op) \
-	op(EGameType::GAMEMODE_DEATHMATCH) \
-	op(EGameType::GAMEMODE_EXTRACTION) \
-	op(EGameType::GAMEMODE_INFILTRATE) 
+	op(EGameType::DEATHMATCH) \
+	op(EGameType::EXTRACTION) \
+	op(EGameType::INFILTRATE) 
 
 enum class EGameType : uint8;
 template<> STEALTH_API UEnum* StaticEnum<EGameType>();
 
 #define FOREACH_ENUM_ETEAM(op) \
-	op(ETeam::TEAM_SPECTATOR) \
-	op(ETeam::TEAM_SPY) \
-	op(ETeam::TEAM_ARGUS) \
-	op(ETeam::TEAM_RANDOM) 
+	op(ETeam::UNASSIGNED) \
+	op(ETeam::RANDOM) \
+	op(ETeam::SPECTATOR) \
+	op(ETeam::SPY) \
+	op(ETeam::ARGUS) 
 
 enum class ETeam : uint8;
 template<> STEALTH_API UEnum* StaticEnum<ETeam>();

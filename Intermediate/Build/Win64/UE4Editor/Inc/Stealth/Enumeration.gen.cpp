@@ -13,10 +13,69 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeEnumeration() {}
 // Cross Module References
-	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_EGameType();
+	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_EGameState();
 	UPackage* Z_Construct_UPackage__Script_Stealth();
+	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_EGameType();
 	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_ETeam();
 // End Cross Module References
+	static UEnum* EGameState_StaticEnum()
+	{
+		static UEnum* Singleton = nullptr;
+		if (!Singleton)
+		{
+			Singleton = GetStaticEnum(Z_Construct_UEnum_Stealth_EGameState, Z_Construct_UPackage__Script_Stealth(), TEXT("EGameState"));
+		}
+		return Singleton;
+	}
+	template<> STEALTH_API UEnum* StaticEnum<EGameState>()
+	{
+		return EGameState_StaticEnum();
+	}
+	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EGameState(EGameState_StaticEnum, TEXT("/Script/Stealth"), TEXT("EGameState"), false, nullptr, nullptr);
+	uint32 Get_Z_Construct_UEnum_Stealth_EGameState_Hash() { return 1211205119U; }
+	UEnum* Z_Construct_UEnum_Stealth_EGameState()
+	{
+#if WITH_HOT_RELOAD
+		UPackage* Outer = Z_Construct_UPackage__Script_Stealth();
+		static UEnum* ReturnEnum = FindExistingEnumIfHotReloadOrDynamic(Outer, TEXT("EGameState"), 0, Get_Z_Construct_UEnum_Stealth_EGameState_Hash(), false);
+#else
+		static UEnum* ReturnEnum = nullptr;
+#endif // WITH_HOT_RELOAD
+		if (!ReturnEnum)
+		{
+			static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = {
+				{ "EGameState::LOBBY", (int64)EGameState::LOBBY },
+				{ "EGameState::PRE_GAME", (int64)EGameState::PRE_GAME },
+				{ "EGameState::ACTIVE", (int64)EGameState::ACTIVE },
+				{ "EGameState::POST_GAME", (int64)EGameState::POST_GAME },
+			};
+#if WITH_METADATA
+			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+				{ "ACTIVE.Name", "EGameState::ACTIVE" },
+				{ "BlueprintType", "true" },
+				{ "LOBBY.Name", "EGameState::LOBBY" },
+				{ "ModuleRelativePath", "Enumeration.h" },
+				{ "POST_GAME.Name", "EGameState::POST_GAME" },
+				{ "PRE_GAME.Name", "EGameState::PRE_GAME" },
+			};
+#endif
+			static const UE4CodeGen_Private::FEnumParams EnumParams = {
+				(UObject*(*)())Z_Construct_UPackage__Script_Stealth,
+				nullptr,
+				"EGameState",
+				"EGameState",
+				Enumerators,
+				UE_ARRAY_COUNT(Enumerators),
+				RF_Public|RF_Transient|RF_MarkAsNative,
+				EEnumFlags::None,
+				UE4CodeGen_Private::EDynamicType::NotDynamic,
+				(uint8)UEnum::ECppForm::EnumClass,
+				METADATA_PARAMS(Enum_MetaDataParams, UE_ARRAY_COUNT(Enum_MetaDataParams))
+			};
+			UE4CodeGen_Private::ConstructUEnum(ReturnEnum, EnumParams);
+		}
+		return ReturnEnum;
+	}
 	static UEnum* EGameType_StaticEnum()
 	{
 		static UEnum* Singleton = nullptr;
@@ -31,7 +90,7 @@ void EmptyLinkFunctionForGeneratedCodeEnumeration() {}
 		return EGameType_StaticEnum();
 	}
 	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EGameType(EGameType_StaticEnum, TEXT("/Script/Stealth"), TEXT("EGameType"), false, nullptr, nullptr);
-	uint32 Get_Z_Construct_UEnum_Stealth_EGameType_Hash() { return 3437587198U; }
+	uint32 Get_Z_Construct_UEnum_Stealth_EGameType_Hash() { return 3414441940U; }
 	UEnum* Z_Construct_UEnum_Stealth_EGameType()
 	{
 #if WITH_HOT_RELOAD
@@ -43,16 +102,16 @@ void EmptyLinkFunctionForGeneratedCodeEnumeration() {}
 		if (!ReturnEnum)
 		{
 			static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = {
-				{ "EGameType::GAMEMODE_DEATHMATCH", (int64)EGameType::GAMEMODE_DEATHMATCH },
-				{ "EGameType::GAMEMODE_EXTRACTION", (int64)EGameType::GAMEMODE_EXTRACTION },
-				{ "EGameType::GAMEMODE_INFILTRATE", (int64)EGameType::GAMEMODE_INFILTRATE },
+				{ "EGameType::DEATHMATCH", (int64)EGameType::DEATHMATCH },
+				{ "EGameType::EXTRACTION", (int64)EGameType::EXTRACTION },
+				{ "EGameType::INFILTRATE", (int64)EGameType::INFILTRATE },
 			};
 #if WITH_METADATA
 			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
 				{ "BlueprintType", "true" },
-				{ "GAMEMODE_DEATHMATCH.Name", "EGameType::GAMEMODE_DEATHMATCH" },
-				{ "GAMEMODE_EXTRACTION.Name", "EGameType::GAMEMODE_EXTRACTION" },
-				{ "GAMEMODE_INFILTRATE.Name", "EGameType::GAMEMODE_INFILTRATE" },
+				{ "DEATHMATCH.Name", "EGameType::DEATHMATCH" },
+				{ "EXTRACTION.Name", "EGameType::EXTRACTION" },
+				{ "INFILTRATE.Name", "EGameType::INFILTRATE" },
 				{ "ModuleRelativePath", "Enumeration.h" },
 			};
 #endif
@@ -87,7 +146,7 @@ void EmptyLinkFunctionForGeneratedCodeEnumeration() {}
 		return ETeam_StaticEnum();
 	}
 	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_ETeam(ETeam_StaticEnum, TEXT("/Script/Stealth"), TEXT("ETeam"), false, nullptr, nullptr);
-	uint32 Get_Z_Construct_UEnum_Stealth_ETeam_Hash() { return 1392071072U; }
+	uint32 Get_Z_Construct_UEnum_Stealth_ETeam_Hash() { return 1752787549U; }
 	UEnum* Z_Construct_UEnum_Stealth_ETeam()
 	{
 #if WITH_HOT_RELOAD
@@ -99,19 +158,21 @@ void EmptyLinkFunctionForGeneratedCodeEnumeration() {}
 		if (!ReturnEnum)
 		{
 			static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = {
-				{ "ETeam::TEAM_SPECTATOR", (int64)ETeam::TEAM_SPECTATOR },
-				{ "ETeam::TEAM_SPY", (int64)ETeam::TEAM_SPY },
-				{ "ETeam::TEAM_ARGUS", (int64)ETeam::TEAM_ARGUS },
-				{ "ETeam::TEAM_RANDOM", (int64)ETeam::TEAM_RANDOM },
+				{ "ETeam::UNASSIGNED", (int64)ETeam::UNASSIGNED },
+				{ "ETeam::RANDOM", (int64)ETeam::RANDOM },
+				{ "ETeam::SPECTATOR", (int64)ETeam::SPECTATOR },
+				{ "ETeam::SPY", (int64)ETeam::SPY },
+				{ "ETeam::ARGUS", (int64)ETeam::ARGUS },
 			};
 #if WITH_METADATA
 			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+				{ "ARGUS.Name", "ETeam::ARGUS" },
 				{ "BlueprintType", "true" },
 				{ "ModuleRelativePath", "Enumeration.h" },
-				{ "TEAM_ARGUS.Name", "ETeam::TEAM_ARGUS" },
-				{ "TEAM_RANDOM.Name", "ETeam::TEAM_RANDOM" },
-				{ "TEAM_SPECTATOR.Name", "ETeam::TEAM_SPECTATOR" },
-				{ "TEAM_SPY.Name", "ETeam::TEAM_SPY" },
+				{ "RANDOM.Name", "ETeam::RANDOM" },
+				{ "SPECTATOR.Name", "ETeam::SPECTATOR" },
+				{ "SPY.Name", "ETeam::SPY" },
+				{ "UNASSIGNED.Name", "ETeam::UNASSIGNED" },
 			};
 #endif
 			static const UE4CodeGen_Private::FEnumParams EnumParams = {

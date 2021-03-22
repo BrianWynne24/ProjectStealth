@@ -8,21 +8,38 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+enum class ETeam : uint8;
 #ifdef STEALTH_PlayerSpawnPoint_generated_h
 #error "PlayerSpawnPoint.generated.h already included, missing '#pragma once' in PlayerSpawnPoint.h"
 #endif
 #define STEALTH_PlayerSpawnPoint_generated_h
 
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_SPARSE_DATA
-#define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_RPC_WRAPPERS
-#define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_RPC_WRAPPERS_NO_PURE_DECLS
+#define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execCanUse); \
+	DECLARE_FUNCTION(execGetTeam);
+
+
+#define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execCanUse); \
+	DECLARE_FUNCTION(execGetTeam);
+
+
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAPlayerSpawnPoint(); \
 	friend struct Z_Construct_UClass_APlayerSpawnPoint_Statics; \
 public: \
 	DECLARE_CLASS(APlayerSpawnPoint, ATargetPoint, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
-	DECLARE_SERIALIZER(APlayerSpawnPoint)
+	DECLARE_SERIALIZER(APlayerSpawnPoint) \
+	enum class ENetFields_Private : uint16 \
+	{ \
+		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
+		LastUsed=NETFIELD_REP_START, \
+		NETFIELD_REP_END=LastUsed	}; \
+	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_INCLASS \
@@ -31,7 +48,13 @@ private: \
 	friend struct Z_Construct_UClass_APlayerSpawnPoint_Statics; \
 public: \
 	DECLARE_CLASS(APlayerSpawnPoint, ATargetPoint, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
-	DECLARE_SERIALIZER(APlayerSpawnPoint)
+	DECLARE_SERIALIZER(APlayerSpawnPoint) \
+	enum class ENetFields_Private : uint16 \
+	{ \
+		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
+		LastUsed=NETFIELD_REP_START, \
+		NETFIELD_REP_END=LastUsed	}; \
+	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_STANDARD_CONSTRUCTORS \

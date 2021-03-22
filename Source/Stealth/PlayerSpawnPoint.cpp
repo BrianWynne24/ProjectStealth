@@ -2,6 +2,7 @@
 
 
 #include "PlayerSpawnPoint.h"
+#include <Runtime\Engine\Public\Net\UnrealNetwork.h>
 
 ETeam APlayerSpawnPoint::GetTeam()
 {
@@ -11,4 +12,11 @@ ETeam APlayerSpawnPoint::GetTeam()
 bool APlayerSpawnPoint::CanUse()
 {
 	return (GetGameTimeSinceCreation() > LastUsed) ? true : false;
+}
+
+void APlayerSpawnPoint::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(APlayerSpawnPoint, Team);
 }

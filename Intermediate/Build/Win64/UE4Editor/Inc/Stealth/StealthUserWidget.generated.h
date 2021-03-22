@@ -8,6 +8,7 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+enum class ETeam : uint8;
 #ifdef STEALTH_StealthUserWidget_generated_h
 #error "StealthUserWidget.generated.h already included, missing '#pragma once' in StealthUserWidget.h"
 #endif
@@ -16,6 +17,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define Stealth_Source_Stealth_StealthUserWidget_h_16_SPARSE_DATA
 #define Stealth_Source_Stealth_StealthUserWidget_h_16_RPC_WRAPPERS \
  \
+	DECLARE_FUNCTION(execJoinTeam); \
 	DECLARE_FUNCTION(execArgusButtonClicked); \
 	DECLARE_FUNCTION(execSpectatorButtonClicked); \
 	DECLARE_FUNCTION(execSpyButtonClicked);
@@ -23,6 +25,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 #define Stealth_Source_Stealth_StealthUserWidget_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
  \
+	DECLARE_FUNCTION(execJoinTeam); \
 	DECLARE_FUNCTION(execArgusButtonClicked); \
 	DECLARE_FUNCTION(execSpectatorButtonClicked); \
 	DECLARE_FUNCTION(execSpyButtonClicked);

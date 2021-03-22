@@ -7,8 +7,13 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+#include "Blueprint/UserWidget.h"
 #include "WeaponBase.h"
 #include "Util.h"
+#include "PlayerSpawnPoint.h"
+#include "StealthGameState.h"
+#include "StealthPlayerState.h"
+#include <Runtime\Engine\Public\Net\UnrealNetwork.h>
 
 //////////////////////////////////////////////////////////////////////////
 // AStealthCharacter
@@ -42,6 +47,9 @@ AStealthCharacter::AStealthCharacter()
 	RootComponent = GetCapsuleComponent();
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	bReplicates = true;
+	bAlwaysRelevant = true;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -136,16 +144,54 @@ void AStealthCharacter::MoveRight(float Value)
 	}
 }
 
-ETeam AStealthCharacter::GetTeam()
+void AStealthCharacter::ClientTeamSelectMenu_Implementation()
 {
-	return Team;
+	if (!IsLocallyControlled())
+		return;
+
+	AStealthPlayerState* playerState = (AStealthPlayerState*)GetPlayerState();
+	if (playerState == NULL || !IsLocallyControlled())
+		return;
+
+	if (playerState->GetTeam() == ETeam::UNASSIGNED)
+	{
+		Util::Debug("Menu");
+
+		APlayerController* Player = (APlayerController*)GetController();
+		if (Player != NULL)
+		{
+			Util::Debug("Player");
+			UUserWidget* teamSelectWidget = CreateWidget<UUserWidget>(Player, playerState->GetTeamSelectMenu());
+
+			teamSelectWidget->SetOwningPlayer(Player);
+			teamSelectWidget->AddToViewport();
+		}
+		return;
+	}
 }
 
 void AStealthCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (CharacterMesh == NULL)
+	ClientTeamSelectMenu();
+	// Just joined, Lets bring up the team select screen
+	/*if (Team == ETeam::UNASSIGNED)
+	{
+		APlayerController* Player = (APlayerController*)GetController();
+		if (Player != NULL && WidgetTeamSelect != NULL)
+		{
+			UUserWidget* teamSelectWidget = CreateWidget<UUserWidget>(Player, WidgetTeamSelect);
+
+			teamSelectWidget->SetOwningPlayer(Player);
+			teamSelectWidget->AddToViewport();
+		}
+		return;
+	}*/
+
+	//Respawn();
+
+	/*if (CharacterMesh == NULL)
 		return;
 
 	USkeletalMeshComponent* characterMesh = GetMesh();
@@ -161,8 +207,113 @@ void AStealthCharacter::BeginPlay()
 	float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
 	characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() - FVector(0, 0, rootHeight));
 
-	EquipWeapon(StartingWeaponClass);
+	EquipWeapon(StartingWeaponClass);*/
 }
+
+/*void AStealthCharacter::SetTeam(ETeam playerTeam)
+{
+	APlayerSpawnPoint* spawnPoint = GetSpawnPoint(team);
+	if (spawnPoint == NULL)
+		return;
+
+	FVector curLocation = spawnPoint->GetActorLocation();
+	FRotator curRotation = FRotator(0, 0, 0);
+
+	UWorld* World = GetWorld();
+	UClass* TeamClass = GetTeamCharacterClass(team);
+
+	if (TeamClass == NULL)
+		return;
+
+	APlayerController* Player = (APlayerController*)GetController();
+	AStealthCharacter* Character = World->SpawnActor<AStealthCharacter>(TeamClass, curLocation, curRotation);
+	if (Character != NULL)
+	{
+		Player->UnPossess();
+		Character->SetOwner(Player);
+		Player->Possess(Character);
+
+		Util::Debug("Character");
+		World->DestroyActor(this);
+	}
+	Util::Debug("Boop");
+}*/
+
+/*void AStealthCharacter::SetTeam_Implementation(ETeam playerTeam)
+{
+	if (!HasAuthority())
+		return;
+
+	Team = playerTeam;
+	Respawn();
+}
+
+void AStealthCharacter::Respawn()
+{
+	UWorld* World = GetWorld();
+	AStealthGameState* GameState = (AStealthGameState*)World->GetGameState();
+
+	APlayerSpawnPoint* spawnPoint = GameState->GetAvailableSpawnPoint(Team);
+	if (spawnPoint == NULL)
+		return;
+
+	FVector curLocation = spawnPoint->GetActorLocation();
+	FRotator curRotation = FRotator(0, 0, 0);
+	UClass* TeamClass = GameState->GetCharacterClass(Team);
+
+	if (TeamClass == NULL)
+		return;
+
+	APlayerController* Player = (APlayerController*)GetController();
+	AStealthCharacter* Character = World->SpawnActor<AStealthCharacter>(TeamClass, curLocation, curRotation);
+	if (Character != NULL)
+	{
+		Util::Debug(":)");
+		Player->UnPossess();
+		Character->SetOwner(Player);
+		Player->Possess(Character);
+
+		World->DestroyActor(this);
+
+		if (Character->CharacterMesh == NULL)
+			return;
+
+		USkeletalMeshComponent* characterMesh = Character->GetMesh();
+		characterMesh->SetSkeletalMesh(CharacterMesh);
+		characterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+		//characterMesh->SetAnimInstanceClass(AnimationClass->StaticClass());
+		characterMesh->SetAnimClass(AnimationClass);
+		characterMesh->SetOnlyOwnerSee(false);
+
+		// TODO: Fix this issue?
+		characterMesh->SetWorldRotation(FRotator(0, 270, 0));
+		//characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() + FVector(0, 0, -98));
+
+		float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+		characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() - FVector(0, 0, rootHeight));
+
+		EquipWeapon(StartingWeaponClass);
+
+		Util::Debug("Character");
+	}
+}
+
+UClass* AStealthGameMode::GetTeamCharacterClass(ETeam team)
+{
+	UClass* teamClass = NULL;
+
+	switch (team)
+	{
+	case (ETeam::ARGUS):
+		teamClass = AArgusCharacter::StaticClass();
+		break;
+	case (ETeam::SPY):
+		teamClass = ASpyCharacter::StaticClass();
+		break;
+	}
+
+	return teamClass;
+}*/
 
 /*void AStealthCharacter::EquipWeapon(UClass* weaponClass)
 {

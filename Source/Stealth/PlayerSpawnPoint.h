@@ -16,13 +16,18 @@ class STEALTH_API APlayerSpawnPoint : public ATargetPoint
 	GENERATED_BODY()
 	
 	UPROPERTY(EditAnywhere, Category = "Team", meta = (Bitmask, BitmaskEnum = "ETeam"))
-		TEnumAsByte<ETeam> Team;
+	TEnumAsByte<ETeam> Team;
 
-	UPROPERTY()
-		int32 LastUsed;
+	UPROPERTY(Replicated)
+	int32 LastUsed;
+
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
 
 public:
 
+	UFUNCTION()
 	ETeam GetTeam();
+
+	UFUNCTION()
 	bool CanUse();
 };

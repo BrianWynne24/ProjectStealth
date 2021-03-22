@@ -12,9 +12,6 @@ class AStealthCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "Team", meta = (Bitmask, BitmaskEnum = "ETeam"))
-	TEnumAsByte<ETeam> Team;
-
 public:
 	AStealthCharacter();
 
@@ -32,19 +29,24 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 	class UClass* AnimationClass;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	class AWeaponBase* CurrentWeapon;
 
 	UPROPERTY()
 	class UClass* StartingWeaponClass;
 
-	UFUNCTION()
-	ETeam GetTeam();
-
 	void BeginPlay();
+
+	//void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps);
 
 	UFUNCTION()
 	virtual void EquipWeapon(UClass* weaponClass) {}
+
+	UFUNCTION(Client, Reliable)
+	void ClientTeamSelectMenu();
+
+	//UFUNCTION()
+	//virtual void Respawn();
 
 protected:
 

@@ -39,6 +39,7 @@ public:
 
 private:
 
+	UFUNCTION()
 	void JoinTeam(ETeam team);
 	
 };
