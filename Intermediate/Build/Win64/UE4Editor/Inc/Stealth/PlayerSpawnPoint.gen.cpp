@@ -19,6 +19,13 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 	UPackage* Z_Construct_UPackage__Script_Stealth();
 	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_ETeam();
 // End Cross Module References
+	DEFINE_FUNCTION(APlayerSpawnPoint::execStartCooldown)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->StartCooldown();
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(APlayerSpawnPoint::execCanUse)
 	{
 		P_FINISH;
@@ -39,6 +46,7 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 		static const FNameNativePtrPair Funcs[] = {
 			{ "CanUse", &APlayerSpawnPoint::execCanUse },
 			{ "GetTeam", &APlayerSpawnPoint::execGetTeam },
+			{ "StartCooldown", &APlayerSpawnPoint::execStartCooldown },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
 	}
@@ -114,6 +122,28 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "PlayerSpawnPoint.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_APlayerSpawnPoint, nullptr, "StartCooldown", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	UClass* Z_Construct_UClass_APlayerSpawnPoint_NoRegister()
 	{
 		return APlayerSpawnPoint::StaticClass();
@@ -145,6 +175,7 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 	const FClassFunctionLinkInfo Z_Construct_UClass_APlayerSpawnPoint_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_APlayerSpawnPoint_CanUse, "CanUse" }, // 599119122
 		{ &Z_Construct_UFunction_APlayerSpawnPoint_GetTeam, "GetTeam" }, // 68016994
+		{ &Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown, "StartCooldown" }, // 2713267619
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_APlayerSpawnPoint_Statics::Class_MetaDataParams[] = {
@@ -201,7 +232,7 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(APlayerSpawnPoint, 355215011);
+	IMPLEMENT_CLASS(APlayerSpawnPoint, 1032153134);
 	template<> STEALTH_API UClass* StaticClass<APlayerSpawnPoint>()
 	{
 		return APlayerSpawnPoint::StaticClass();

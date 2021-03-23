@@ -43,7 +43,7 @@ public:
 	void SetTeam(ETeam playerTeam);
 	void SetTeam_Implementation(ETeam playerTeam);
 
-	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	FORCEINLINE class TSubclassOf<UUserWidget> GetTeamSelectMenu() { return WidgetTeamSelect; }
 };

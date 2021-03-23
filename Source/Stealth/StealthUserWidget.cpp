@@ -33,10 +33,10 @@ void UStealthUserWidget::ArgusButtonClicked()
 
 void UStealthUserWidget::JoinTeam(ETeam team)
 {
-	//AStealthGameMode* Gamemode = (AStealthGameMode*)GetWorld()->GetAuthGameMode();
-	//Gamemode->SetPlayerTeam(Player, team);
+	APlayerController* playerController = (APlayerController*)GetOwningPlayer();
+	playerController->SetShowMouseCursor(false);
 
 	AStealthPlayerState* PlayerState = (AStealthPlayerState*)GetOwningPlayerState();
 	PlayerState->SetTeam(team);
-	this->RemoveFromViewport();
+	RemoveFromViewport();
 }

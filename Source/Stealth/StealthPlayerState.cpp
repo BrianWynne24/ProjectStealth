@@ -2,9 +2,11 @@
 
 
 #include "StealthPlayerState.h"
+#include "StealthGameState.h"
 #include "Blueprint/UserWidget.h"
 #include "Util.h"
-#include <Runtime\Engine\Public\Net\UnrealNetwork.h>
+#include "Engine.h"
+#include "Net/UnrealNetwork.h"
 
 AStealthPlayerState::AStealthPlayerState()
 {
@@ -13,6 +15,9 @@ AStealthPlayerState::AStealthPlayerState()
 		WidgetTeamSelect = TeamSelectionUI.Class;
 
 	Team = ETeam::UNASSIGNED;
+
+	bReplicates = true;
+	bAlwaysRelevant = true;
 }
 
 void AStealthPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -32,7 +37,36 @@ void AStealthPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 
 void AStealthPlayerState::SetTeam_Implementation(ETeam playerTeam)
 {
+	//if (!HasAuthority())
+		//return;
+
 	Team = playerTeam;
+
+	UWorld* World = GetWorld();
+	AStealthGameState* gameState = (AStealthGameState*)World->GetGameState();
+	
+	APlayerSpawnPoint* spawnPoint = gameState->GetAvailableSpawnPoint(playerTeam);
+	if (spawnPoint == NULL)
+		return;
+
+	UClass* teamClass = gameState->GetCharacterClass(playerTeam);
+	if (teamClass == NULL)
+		return;
+
+	FVector curLocation = spawnPoint->GetActorLocation();
+	FRotator curRotation = FRotator(0, 0, 0);
+
+	APlayerController* Player = (APlayerController*)GetOwner();
+	AStealthCharacter* newCharacter = World->SpawnActor<AStealthCharacter>(teamClass, curLocation, curRotation);
+	if (newCharacter == NULL || Player == NULL)
+		return;
+
+	Player->UnPossess();
+	newCharacter->SetOwner(Player);
+	Player->Possess(newCharacter);
+
+	spawnPoint->StartCooldown();
+	//TODO: Delete old character
 }
 
 void AStealthPlayerState::PostActorCreated()

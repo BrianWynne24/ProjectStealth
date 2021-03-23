@@ -20,3 +20,8 @@ void APlayerSpawnPoint::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 
 	DOREPLIFETIME(APlayerSpawnPoint, Team);
 }
+
+void APlayerSpawnPoint::StartCooldown()
+{
+	LastUsed = (GetGameTimeSinceCreation() + 3);
+}

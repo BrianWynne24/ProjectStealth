@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "StealthCharacter.h"
 #include "StealthGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -13,6 +14,9 @@ class AStealthGameMode : public AGameModeBase
 
 public:
 	AStealthGameMode();
+
+	UPROPERTY()
+	class UClass* StealthCharacterClass;
 
 	/* Overrides */
 	void PostLogin(APlayerController* NewPlayer);

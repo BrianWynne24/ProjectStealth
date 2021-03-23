@@ -17,12 +17,14 @@ enum class ETeam : uint8;
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_SPARSE_DATA
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_RPC_WRAPPERS \
  \
+	DECLARE_FUNCTION(execStartCooldown); \
 	DECLARE_FUNCTION(execCanUse); \
 	DECLARE_FUNCTION(execGetTeam);
 
 
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
  \
+	DECLARE_FUNCTION(execStartCooldown); \
 	DECLARE_FUNCTION(execCanUse); \
 	DECLARE_FUNCTION(execGetTeam);
 

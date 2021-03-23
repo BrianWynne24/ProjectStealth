@@ -13,7 +13,8 @@
 #include "PlayerSpawnPoint.h"
 #include "StealthGameState.h"
 #include "StealthPlayerState.h"
-#include <Runtime\Engine\Public\Net\UnrealNetwork.h>
+#include "Engine.h"
+#include "Net/UnrealNetwork.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AStealthCharacter
@@ -43,13 +44,17 @@ AStealthCharacter::AStealthCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
+	GetCharacterMovement()->bRunPhysicsWithNoController = true;
 
 	RootComponent = GetCapsuleComponent();
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
-	bReplicates = true;
-	bAlwaysRelevant = true;
+	SetReplicates(true);
+	SetReplicateMovement(true);
+
+	//AutoPossessAI = EAutoPossessAI::Spawned;
+	//AIControllerClass = NULL;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -144,13 +149,18 @@ void AStealthCharacter::MoveRight(float Value)
 	}
 }
 
-void AStealthCharacter::ClientTeamSelectMenu_Implementation()
+void AStealthCharacter::PostInitializeComponents()
 {
-	if (!IsLocallyControlled())
-		return;
+	Super::PostInitializeComponents();
 
+	/*if (GetNetMode() != NM_Standalone && HasAuthority())
+		SetAutonomousProxy(true);*/
+}
+
+void AStealthCharacter::ClientTeamSelectMenu()
+{
 	AStealthPlayerState* playerState = (AStealthPlayerState*)GetPlayerState();
-	if (playerState == NULL || !IsLocallyControlled())
+	if (playerState == NULL)
 		return;
 
 	if (playerState->GetTeam() == ETeam::UNASSIGNED)
@@ -165,37 +175,17 @@ void AStealthCharacter::ClientTeamSelectMenu_Implementation()
 
 			teamSelectWidget->SetOwningPlayer(Player);
 			teamSelectWidget->AddToViewport();
+
+			Player->SetShowMouseCursor(true);
 		}
 		return;
 	}
 }
 
-void AStealthCharacter::BeginPlay()
+void AStealthCharacter::SetCharacterMesh_Implementation(AStealthCharacter* callerCharacter)
 {
-	Super::BeginPlay();
-
-	ClientTeamSelectMenu();
-	// Just joined, Lets bring up the team select screen
-	/*if (Team == ETeam::UNASSIGNED)
-	{
-		APlayerController* Player = (APlayerController*)GetController();
-		if (Player != NULL && WidgetTeamSelect != NULL)
-		{
-			UUserWidget* teamSelectWidget = CreateWidget<UUserWidget>(Player, WidgetTeamSelect);
-
-			teamSelectWidget->SetOwningPlayer(Player);
-			teamSelectWidget->AddToViewport();
-		}
-		return;
-	}*/
-
-	//Respawn();
-
-	/*if (CharacterMesh == NULL)
-		return;
-
-	USkeletalMeshComponent* characterMesh = GetMesh();
-	characterMesh->SetSkeletalMesh(CharacterMesh);
+	USkeletalMeshComponent* characterMesh = callerCharacter->GetMesh();
+	characterMesh->SetSkeletalMesh(callerCharacter->GetSkeletalMesh());
 	characterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 	//characterMesh->SetAnimInstanceClass(AnimationClass->StaticClass());
 	characterMesh->SetAnimClass(AnimationClass);
@@ -204,10 +194,30 @@ void AStealthCharacter::BeginPlay()
 	characterMesh->SetWorldRotation(FRotator(0, 270, 0));
 	//characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() + FVector(0, 0, -98));
 
-	float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-	characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() - FVector(0, 0, rootHeight));
+	float rootHeight = callerCharacter->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	characterMesh->SetWorldLocation(callerCharacter->GetRootComponent()->GetComponentLocation() - FVector(0, 0, rootHeight));
+}
 
-	EquipWeapon(StartingWeaponClass);*/
+void AStealthCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (Util::IsClient(this))
+		ClientTeamSelectMenu();
+
+	if (GetSkeletalMesh() == NULL)
+		return;
+
+	SetCharacterMesh(this);
+
+	//EquipWeapon(StartingWeaponClass);
+}
+
+void AStealthCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AStealthCharacter, CharacterMesh);
 }
 
 /*void AStealthCharacter::SetTeam(ETeam playerTeam)

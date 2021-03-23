@@ -6,4 +6,13 @@ I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/GameModeBase.h
 I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\Engine/ServerStatReplicator.h
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ServerStatReplicator.generated.h
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameModeBase.generated.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\StealthCharacter.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\Enumeration.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/Character.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/CharacterMovementReplication.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\CharacterMovementReplication.generated.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/RootMotionSource.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\RootMotionSource.generated.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\Character.generated.h
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthCharacter.generated.h
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthGameMode.generated.h

@@ -30,4 +30,7 @@ public:
 
 	UFUNCTION()
 	bool CanUse();
+
+	UFUNCTION()
+	void StartCooldown();
 };

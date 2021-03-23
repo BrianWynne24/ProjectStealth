@@ -8,6 +8,7 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class AStealthCharacter;
 class UObject;
 #ifdef STEALTH_StealthCharacter_generated_h
 #error "StealthCharacter.generated.h already included, missing '#pragma once' in StealthCharacter.h"
@@ -16,20 +17,26 @@ class UObject;
 
 #define Stealth_Source_Stealth_StealthCharacter_h_13_SPARSE_DATA
 #define Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS \
-	virtual void ClientTeamSelectMenu_Implementation(); \
+	virtual void SetCharacterMesh_Implementation(AStealthCharacter* callerCharacter); \
  \
-	DECLARE_FUNCTION(execClientTeamSelectMenu); \
+	DECLARE_FUNCTION(execSetCharacterMesh); \
 	DECLARE_FUNCTION(execEquipWeapon);
 
 
 #define Stealth_Source_Stealth_StealthCharacter_h_13_RPC_WRAPPERS_NO_PURE_DECLS \
-	virtual void ClientTeamSelectMenu_Implementation(); \
+	virtual void SetCharacterMesh_Implementation(AStealthCharacter* callerCharacter); \
  \
-	DECLARE_FUNCTION(execClientTeamSelectMenu); \
+	DECLARE_FUNCTION(execSetCharacterMesh); \
 	DECLARE_FUNCTION(execEquipWeapon);
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_13_EVENT_PARMS
+#define Stealth_Source_Stealth_StealthCharacter_h_13_EVENT_PARMS \
+	struct StealthCharacter_eventSetCharacterMesh_Parms \
+	{ \
+		AStealthCharacter* callerCharacter; \
+	};
+
+
 #define Stealth_Source_Stealth_StealthCharacter_h_13_CALLBACK_WRAPPERS
 #define Stealth_Source_Stealth_StealthCharacter_h_13_INCLASS_NO_PURE_DECLS \
 private: \
@@ -41,7 +48,8 @@ public: \
 	enum class ENetFields_Private : uint16 \
 	{ \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
-		CurrentWeapon=NETFIELD_REP_START, \
+		CharacterMesh=NETFIELD_REP_START, \
+		CurrentWeapon, \
 		NETFIELD_REP_END=CurrentWeapon	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
@@ -56,7 +64,8 @@ public: \
 	enum class ENetFields_Private : uint16 \
 	{ \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
-		CurrentWeapon=NETFIELD_REP_START, \
+		CharacterMesh=NETFIELD_REP_START, \
+		CurrentWeapon, \
 		NETFIELD_REP_END=CurrentWeapon	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 

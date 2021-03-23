@@ -23,7 +23,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 	class USkeletalMesh* CharacterMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
@@ -35,15 +35,18 @@ public:
 	UPROPERTY()
 	class UClass* StartingWeaponClass;
 
-	void BeginPlay();
-
-	//void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps);
+	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UFUNCTION()
 	virtual void EquipWeapon(UClass* weaponClass) {}
 
-	UFUNCTION(Client, Reliable)
+	//UFUNCTION(Client, Reliable)
 	void ClientTeamSelectMenu();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void SetCharacterMesh(AStealthCharacter* callerCharacter);
 
 	//UFUNCTION()
 	//virtual void Respawn();

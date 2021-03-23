@@ -11,6 +11,9 @@ void AStealthGameState::BeginPlay()
 {
 	Super::BeginPlay();
 	PlayerSpawnPoints = GetPlayerSpawnPoints();
+
+	bReplicates = true;
+	bAlwaysRelevant = true;
 }
 
 TArray<APlayerSpawnPoint*> AStealthGameState::GetPlayerSpawnPoints()

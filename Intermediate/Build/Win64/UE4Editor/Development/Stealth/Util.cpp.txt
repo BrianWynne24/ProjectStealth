@@ -1,2 +1,50 @@
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\Definitions.Stealth.h
 C:\UE4_Engine\Projects\Stealth\Source\Stealth\Util.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\APEX_1.4\include\Actor.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\APEX_1.4\include\ApexInterface.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\APEX_1.4\include\ApexUsingNamespace.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/Px.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxSimpleTypes.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxPreprocessor.h
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\INCLUDE\ciso646
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\INCLUDE\iso646.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\APEX_1.4\include\ApexDefs.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\APEX_1.4\include\PhysX3\PhysXSDKVersion.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\APEX_1.4\include\RWLockable.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\PxActor.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\PxPhysXConfig.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\common/PxPhysXCommonConfig.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxBounds3.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxTransform.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxQuat.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxVec3.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxMath.h
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\math.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxIntrinsics.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/windows/PxWindowsIntrinsics.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxAssert.h
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\math.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxPlane.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxMat33.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\PxClient.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxFlags.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\common/PxBase.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\common\PxSerialFramework.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\common\PxCollection.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\common/PxTypeInfo.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\PxShape.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry/PxGeometry.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry/PxGeometryHelpers.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry\PxBoxGeometry.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry\PxSphereGeometry.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry\PxCapsuleGeometry.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry\PxPlaneGeometry.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry\PxConvexMeshGeometry.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry/PxMeshScale.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\common/PxCoreUtilityTypes.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxMemory.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry/PxConvexMesh.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry\PxTriangleMeshGeometry.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\geometry\PxHeightFieldGeometry.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PxShared\include\foundation/PxUnionCast.h
+I:\UE4\UE_4.26\Engine\Source\ThirdParty\PhysX3\PhysX_3.4\Include\PxFiltering.h
