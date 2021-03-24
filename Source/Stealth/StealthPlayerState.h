@@ -41,9 +41,13 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void SetTeam(ETeam playerTeam);
-	void SetTeam_Implementation(ETeam playerTeam);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	FORCEINLINE class TSubclassOf<UUserWidget> GetTeamSelectMenu() { return WidgetTeamSelect; }
+
+private:
+
+	UFUNCTION(Client, Reliable)
+	void ClientTeamSelectUI();
 };

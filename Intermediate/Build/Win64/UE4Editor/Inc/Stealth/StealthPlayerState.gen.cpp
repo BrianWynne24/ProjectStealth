@@ -21,6 +21,13 @@ void EmptyLinkFunctionForGeneratedCodeStealthPlayerState() {}
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 	UMG_API UClass* Z_Construct_UClass_UUserWidget_NoRegister();
 // End Cross Module References
+	DEFINE_FUNCTION(AStealthPlayerState::execClientTeamSelectUI)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ClientTeamSelectUI_Implementation();
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(AStealthPlayerState::execSetTeam)
 	{
 		P_GET_ENUM(ETeam,Z_Param_playerTeam);
@@ -36,6 +43,11 @@ void EmptyLinkFunctionForGeneratedCodeStealthPlayerState() {}
 		*(ETeam*)Z_Param__Result=P_THIS->GetTeam();
 		P_NATIVE_END;
 	}
+	static FName NAME_AStealthPlayerState_ClientTeamSelectUI = FName(TEXT("ClientTeamSelectUI"));
+	void AStealthPlayerState::ClientTeamSelectUI()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_AStealthPlayerState_ClientTeamSelectUI),NULL);
+	}
 	static FName NAME_AStealthPlayerState_SetTeam = FName(TEXT("SetTeam"));
 	void AStealthPlayerState::SetTeam(ETeam playerTeam)
 	{
@@ -47,10 +59,33 @@ void EmptyLinkFunctionForGeneratedCodeStealthPlayerState() {}
 	{
 		UClass* Class = AStealthPlayerState::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
+			{ "ClientTeamSelectUI", &AStealthPlayerState::execClientTeamSelectUI },
 			{ "GetTeam", &AStealthPlayerState::execGetTeam },
 			{ "SetTeam", &AStealthPlayerState::execSetTeam },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_AStealthPlayerState_ClientTeamSelectUI_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStealthPlayerState_ClientTeamSelectUI_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "StealthPlayerState.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStealthPlayerState_ClientTeamSelectUI_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStealthPlayerState, nullptr, "ClientTeamSelectUI", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x01040CC1, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStealthPlayerState_ClientTeamSelectUI_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthPlayerState_ClientTeamSelectUI_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStealthPlayerState_ClientTeamSelectUI()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStealthPlayerState_ClientTeamSelectUI_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	struct Z_Construct_UFunction_AStealthPlayerState_GetTeam_Statics
 	{
@@ -159,6 +194,7 @@ void EmptyLinkFunctionForGeneratedCodeStealthPlayerState() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_Stealth,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_AStealthPlayerState_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_AStealthPlayerState_ClientTeamSelectUI, "ClientTeamSelectUI" }, // 2204791524
 		{ &Z_Construct_UFunction_AStealthPlayerState_GetTeam, "GetTeam" }, // 1614610490
 		{ &Z_Construct_UFunction_AStealthPlayerState_SetTeam, "SetTeam" }, // 1268923621
 	};
@@ -240,7 +276,7 @@ void EmptyLinkFunctionForGeneratedCodeStealthPlayerState() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStealthPlayerState, 4060915338);
+	IMPLEMENT_CLASS(AStealthPlayerState, 2064615894);
 	template<> STEALTH_API UClass* StaticClass<AStealthPlayerState>()
 	{
 		return AStealthPlayerState::StaticClass();

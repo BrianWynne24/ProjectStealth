@@ -69,7 +69,28 @@ void AStealthPlayerState::SetTeam_Implementation(ETeam playerTeam)
 	//TODO: Delete old character
 }
 
+void AStealthPlayerState::ClientTeamSelectUI_Implementation()
+{
+}
+
 void AStealthPlayerState::PostActorCreated()
 {
 	Super::PostActorCreated();
+	
+	// Now we need to bring up the TeamSelectUI
+	//ClientTeamSelectUI();
+	/*if (HasAuthority())
+	{
+		FVector curLocation = FVector(0, 0, 1000);
+		FRotator curRotation = FRotator(0, 0, 0);
+
+		AStealthCharacter* newPawn = World->SpawnActor<AStealthCharacter>(AStealthCharacter::StaticClass(), curLocation, curRotation);
+
+		if (newPawn == NULL)
+			return;
+
+		newPawn->SetOwner(NewPlayer);
+		newPawn->DisableComponentsSimulatePhysics();
+		NewPlayer->Possess(newPawn);
+	}*/
 }

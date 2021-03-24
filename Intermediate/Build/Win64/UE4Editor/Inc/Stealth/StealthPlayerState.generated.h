@@ -16,14 +16,19 @@ enum class ETeam : uint8;
 
 #define Stealth_Source_Stealth_StealthPlayerState_h_16_SPARSE_DATA
 #define Stealth_Source_Stealth_StealthPlayerState_h_16_RPC_WRAPPERS \
+	virtual void ClientTeamSelectUI_Implementation(); \
 	virtual void SetTeam_Implementation(ETeam playerTeam); \
  \
+	DECLARE_FUNCTION(execClientTeamSelectUI); \
 	DECLARE_FUNCTION(execSetTeam); \
 	DECLARE_FUNCTION(execGetTeam);
 
 
 #define Stealth_Source_Stealth_StealthPlayerState_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void ClientTeamSelectUI_Implementation(); \
+	virtual void SetTeam_Implementation(ETeam playerTeam); \
  \
+	DECLARE_FUNCTION(execClientTeamSelectUI); \
 	DECLARE_FUNCTION(execSetTeam); \
 	DECLARE_FUNCTION(execGetTeam);
 

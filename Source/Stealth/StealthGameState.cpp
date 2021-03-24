@@ -10,6 +10,7 @@
 void AStealthGameState::BeginPlay()
 {
 	Super::BeginPlay();
+	//Util::Debug("Gamestate");
 	PlayerSpawnPoints = GetPlayerSpawnPoints();
 
 	bReplicates = true;

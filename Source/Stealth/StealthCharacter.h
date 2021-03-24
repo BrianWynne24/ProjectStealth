@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Enumeration.h"
 #include "GameFramework/Character.h"
+#include "StealthPlayerState.h"
 #include "StealthCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -35,15 +36,21 @@ public:
 	UPROPERTY()
 	class UClass* StartingWeaponClass;
 
+	UPROPERTY()
+	UUserWidget* TeamSelectUI;
+
 	virtual void BeginPlay() override;
-	virtual void PostInitializeComponents() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	void OnRep_PlayerState() override;
 
 	UFUNCTION()
 	virtual void EquipWeapon(UClass* weaponClass) {}
 
-	//UFUNCTION(Client, Reliable)
-	void ClientTeamSelectMenu();
+	UFUNCTION(Client, Reliable)
+	void ClientTeamSelectUI();
+
+	void ClientTeamSelectUIHide();
 
 	UFUNCTION(NetMulticast, Reliable)
 	void SetCharacterMesh(AStealthCharacter* callerCharacter);

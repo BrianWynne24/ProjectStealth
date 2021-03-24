@@ -5,6 +5,7 @@
 #include "Components/Button.h"
 #include "StealthGameMode.h"
 #include "StealthPlayerState.h"
+#include "StealthCharacter.h"
 #include "Util.h"
 
 void UStealthUserWidget::NativeConstruct()
@@ -33,10 +34,14 @@ void UStealthUserWidget::ArgusButtonClicked()
 
 void UStealthUserWidget::JoinTeam(ETeam team)
 {
-	APlayerController* playerController = (APlayerController*)GetOwningPlayer();
-	playerController->SetShowMouseCursor(false);
-
+	//APlayerController* playerController = (APlayerController*)GetOwningPlayer();
 	AStealthPlayerState* PlayerState = (AStealthPlayerState*)GetOwningPlayerState();
 	PlayerState->SetTeam(team);
-	RemoveFromViewport();
+	//playerController->SetShowMouseCursor(false);
+
+	AStealthCharacter* character = (AStealthCharacter*)GetOwningPlayerPawn();
+	if (character != NULL)
+		character->ClientTeamSelectUIHide();
+
+	//RemoveFromViewport();
 }

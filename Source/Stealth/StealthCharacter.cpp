@@ -11,8 +11,8 @@
 #include "WeaponBase.h"
 #include "Util.h"
 #include "PlayerSpawnPoint.h"
+#include "StealthUserWidget.h"
 #include "StealthGameState.h"
-#include "StealthPlayerState.h"
 #include "Engine.h"
 #include "Net/UnrealNetwork.h"
 
@@ -149,15 +149,7 @@ void AStealthCharacter::MoveRight(float Value)
 	}
 }
 
-void AStealthCharacter::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-
-	/*if (GetNetMode() != NM_Standalone && HasAuthority())
-		SetAutonomousProxy(true);*/
-}
-
-void AStealthCharacter::ClientTeamSelectMenu()
+void AStealthCharacter::ClientTeamSelectUI_Implementation()
 {
 	AStealthPlayerState* playerState = (AStealthPlayerState*)GetPlayerState();
 	if (playerState == NULL)
@@ -171,15 +163,30 @@ void AStealthCharacter::ClientTeamSelectMenu()
 		if (Player != NULL)
 		{
 			Util::Debug("Player");
-			UUserWidget* teamSelectWidget = CreateWidget<UUserWidget>(Player, playerState->GetTeamSelectMenu());
 
-			teamSelectWidget->SetOwningPlayer(Player);
-			teamSelectWidget->AddToViewport();
+			TeamSelectUI = CreateWidget<UUserWidget>(Player, playerState->GetTeamSelectMenu());
+			if (TeamSelectUI == NULL)
+				return;
+
+			TeamSelectUI->SetOwningPlayer(Player);
+			TeamSelectUI->AddToViewport();
 
 			Player->SetShowMouseCursor(true);
 		}
 		return;
 	}
+}
+
+void AStealthCharacter::ClientTeamSelectUIHide()
+{
+	if (TeamSelectUI == NULL)
+		return;
+
+	APlayerController* Player = (APlayerController*)TeamSelectUI->GetOwningPlayer();
+	TeamSelectUI->RemoveFromViewport();
+	Player->SetShowMouseCursor(false);
+
+	TeamSelectUI = NULL;
 }
 
 void AStealthCharacter::SetCharacterMesh_Implementation(AStealthCharacter* callerCharacter)
@@ -196,14 +203,19 @@ void AStealthCharacter::SetCharacterMesh_Implementation(AStealthCharacter* calle
 
 	float rootHeight = callerCharacter->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
 	characterMesh->SetWorldLocation(callerCharacter->GetRootComponent()->GetComponentLocation() - FVector(0, 0, rootHeight));
+
+	SetActorEnableCollision(true);
 }
 
 void AStealthCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (Util::IsClient(this))
-		ClientTeamSelectMenu();
+	SetActorEnableCollision(false);
+
+	// This adds capabilities for the host of the Listen Server to select team
+	//if (GetNetMode() == NM_ListenServer && HasAuthority())
+		//ClientTeamSelectUI();
 
 	if (GetSkeletalMesh() == NULL)
 		return;
@@ -218,6 +230,14 @@ void AStealthCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AStealthCharacter, CharacterMesh);
+}
+
+void AStealthCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	if (TeamSelectUI != NULL)
+		ClientTeamSelectUI();
 }
 
 /*void AStealthCharacter::SetTeam(ETeam playerTeam)
