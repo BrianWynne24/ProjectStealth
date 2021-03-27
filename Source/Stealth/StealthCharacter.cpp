@@ -149,46 +149,6 @@ void AStealthCharacter::MoveRight(float Value)
 	}
 }
 
-void AStealthCharacter::ClientTeamSelectUI_Implementation()
-{
-	AStealthPlayerState* playerState = (AStealthPlayerState*)GetPlayerState();
-	if (playerState == NULL)
-		return;
-
-	if (playerState->GetTeam() == ETeam::UNASSIGNED)
-	{
-		Util::Debug("Menu");
-
-		APlayerController* Player = (APlayerController*)GetController();
-		if (Player != NULL)
-		{
-			Util::Debug("Player");
-
-			TeamSelectUI = CreateWidget<UUserWidget>(Player, playerState->GetTeamSelectMenu());
-			if (TeamSelectUI == NULL)
-				return;
-
-			TeamSelectUI->SetOwningPlayer(Player);
-			TeamSelectUI->AddToViewport();
-
-			Player->SetShowMouseCursor(true);
-		}
-		return;
-	}
-}
-
-void AStealthCharacter::ClientTeamSelectUIHide()
-{
-	if (TeamSelectUI == NULL)
-		return;
-
-	APlayerController* Player = (APlayerController*)TeamSelectUI->GetOwningPlayer();
-	TeamSelectUI->RemoveFromViewport();
-	Player->SetShowMouseCursor(false);
-
-	TeamSelectUI = NULL;
-}
-
 void AStealthCharacter::SetCharacterMesh_Implementation(AStealthCharacter* callerCharacter)
 {
 	USkeletalMeshComponent* characterMesh = callerCharacter->GetMesh();
@@ -232,14 +192,6 @@ void AStealthCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME(AStealthCharacter, CharacterMesh);
 }
 
-void AStealthCharacter::OnRep_PlayerState()
-{
-	Super::OnRep_PlayerState();
-
-	if (TeamSelectUI != NULL)
-		ClientTeamSelectUI();
-}
-
 /*void AStealthCharacter::SetTeam(ETeam playerTeam)
 {
 	APlayerSpawnPoint* spawnPoint = GetSpawnPoint(team);
@@ -269,15 +221,7 @@ void AStealthCharacter::OnRep_PlayerState()
 	Util::Debug("Boop");
 }*/
 
-/*void AStealthCharacter::SetTeam_Implementation(ETeam playerTeam)
-{
-	if (!HasAuthority())
-		return;
-
-	Team = playerTeam;
-	Respawn();
-}
-
+/*
 void AStealthCharacter::Respawn()
 {
 	UWorld* World = GetWorld();
@@ -327,23 +271,6 @@ void AStealthCharacter::Respawn()
 		Util::Debug("Character");
 	}
 }
-
-UClass* AStealthGameMode::GetTeamCharacterClass(ETeam team)
-{
-	UClass* teamClass = NULL;
-
-	switch (team)
-	{
-	case (ETeam::ARGUS):
-		teamClass = AArgusCharacter::StaticClass();
-		break;
-	case (ETeam::SPY):
-		teamClass = ASpyCharacter::StaticClass();
-		break;
-	}
-
-	return teamClass;
-}*/
 
 /*void AStealthCharacter::EquipWeapon(UClass* weaponClass)
 {

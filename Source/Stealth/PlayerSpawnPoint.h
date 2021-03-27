@@ -32,5 +32,5 @@ public:
 	bool CanUse();
 
 	UFUNCTION()
-	void StartCooldown();
+	void StartCooldown(uint32 length);
 };

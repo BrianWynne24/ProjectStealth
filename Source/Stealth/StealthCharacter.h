@@ -36,21 +36,11 @@ public:
 	UPROPERTY()
 	class UClass* StartingWeaponClass;
 
-	UPROPERTY()
-	UUserWidget* TeamSelectUI;
-
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	void OnRep_PlayerState() override;
-
 	UFUNCTION()
 	virtual void EquipWeapon(UClass* weaponClass) {}
-
-	UFUNCTION(Client, Reliable)
-	void ClientTeamSelectUI();
-
-	void ClientTeamSelectUIHide();
 
 	UFUNCTION(NetMulticast, Reliable)
 	void SetCharacterMesh(AStealthCharacter* callerCharacter);

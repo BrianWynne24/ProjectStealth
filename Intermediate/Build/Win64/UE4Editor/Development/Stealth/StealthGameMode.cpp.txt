@@ -26,4 +26,6 @@ I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\PlayerState.
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthPlayerState.generated.h
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthCharacter.generated.h
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthGameState.generated.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\StealthPlayerController.h
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthPlayerController.generated.h
 C:\UE4_Engine\Projects\Stealth\Source\Stealth\Util.h

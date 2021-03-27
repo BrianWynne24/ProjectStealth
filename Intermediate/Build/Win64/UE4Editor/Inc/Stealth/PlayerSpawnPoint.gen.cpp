@@ -21,9 +21,10 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 // End Cross Module References
 	DEFINE_FUNCTION(APlayerSpawnPoint::execStartCooldown)
 	{
+		P_GET_PROPERTY(FUInt32Property,Z_Param_length);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->StartCooldown();
+		P_THIS->StartCooldown(Z_Param_length);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(APlayerSpawnPoint::execCanUse)
@@ -124,17 +125,27 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 	}
 	struct Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics
 	{
+		struct PlayerSpawnPoint_eventStartCooldown_Parms
+		{
+			uint32 length;
+		};
+		static const UE4CodeGen_Private::FUInt32PropertyParams NewProp_length;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FUInt32PropertyParams Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::NewProp_length = { "length", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::UInt32, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(PlayerSpawnPoint_eventStartCooldown_Parms, length), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::NewProp_length,
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::Function_MetaDataParams[] = {
 		{ "ModuleRelativePath", "PlayerSpawnPoint.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_APlayerSpawnPoint, nullptr, "StartCooldown", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_APlayerSpawnPoint, nullptr, "StartCooldown", nullptr, nullptr, sizeof(PlayerSpawnPoint_eventStartCooldown_Parms), Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -175,7 +186,7 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 	const FClassFunctionLinkInfo Z_Construct_UClass_APlayerSpawnPoint_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_APlayerSpawnPoint_CanUse, "CanUse" }, // 599119122
 		{ &Z_Construct_UFunction_APlayerSpawnPoint_GetTeam, "GetTeam" }, // 68016994
-		{ &Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown, "StartCooldown" }, // 2713267619
+		{ &Z_Construct_UFunction_APlayerSpawnPoint_StartCooldown, "StartCooldown" }, // 1962238163
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_APlayerSpawnPoint_Statics::Class_MetaDataParams[] = {
@@ -232,7 +243,7 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(APlayerSpawnPoint, 1032153134);
+	IMPLEMENT_CLASS(APlayerSpawnPoint, 1394097469);
 	template<> STEALTH_API UClass* StaticClass<APlayerSpawnPoint>()
 	{
 		return APlayerSpawnPoint::StaticClass();

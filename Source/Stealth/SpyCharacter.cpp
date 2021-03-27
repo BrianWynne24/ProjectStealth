@@ -14,7 +14,7 @@ ASpyCharacter::ASpyCharacter()
 	if (NewCharacterMesh.Object != NULL)
 	{
 		CharacterMesh = NewCharacterMesh.Object;
-		Util::Debug("Assigned Skeleton - Spy");
+		//Util::Debug("Assigned Skeleton - Spy");
 	}
 
 	StartingWeaponClass = AWeaponTaser::StaticClass();

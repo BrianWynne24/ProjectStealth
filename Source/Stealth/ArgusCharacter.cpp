@@ -13,7 +13,7 @@ AArgusCharacter::AArgusCharacter()
 	if (NewCharacterMesh.Object != NULL)
 	{
 		CharacterMesh = NewCharacterMesh.Object;
-		Util::Debug("Assigned Skeleton - ARGUS");
+		//Util::Debug("Assigned Skeleton - ARGUS");
 	}
 
 	StartingWeaponClass = AWeaponRifle::StaticClass();

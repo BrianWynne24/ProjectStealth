@@ -30,16 +30,8 @@ void AStealthPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	DOREPLIFETIME(AStealthPlayerState, Kills);
 }
 
-/*void AStealthPlayerState::SetTeam(ETeam playerTeam)
-{
-	Team = playerTeam;
-}*/
-
 void AStealthPlayerState::SetTeam_Implementation(ETeam playerTeam)
 {
-	//if (!HasAuthority())
-		//return;
-
 	Team = playerTeam;
 
 	UWorld* World = GetWorld();
@@ -56,6 +48,10 @@ void AStealthPlayerState::SetTeam_Implementation(ETeam playerTeam)
 	FVector curLocation = spawnPoint->GetActorLocation();
 	FRotator curRotation = FRotator(0, 0, 0);
 
+	APawn* oldCharacter = (APawn*)GetPawn();
+	if (oldCharacter != NULL)
+		World->DestroyActor(oldCharacter);
+
 	APlayerController* Player = (APlayerController*)GetOwner();
 	AStealthCharacter* newCharacter = World->SpawnActor<AStealthCharacter>(teamClass, curLocation, curRotation);
 	if (newCharacter == NULL || Player == NULL)
@@ -65,32 +61,10 @@ void AStealthPlayerState::SetTeam_Implementation(ETeam playerTeam)
 	newCharacter->SetOwner(Player);
 	Player->Possess(newCharacter);
 
-	spawnPoint->StartCooldown();
-	//TODO: Delete old character
-}
-
-void AStealthPlayerState::ClientTeamSelectUI_Implementation()
-{
+	spawnPoint->StartCooldown(3);
 }
 
 void AStealthPlayerState::PostActorCreated()
 {
 	Super::PostActorCreated();
-	
-	// Now we need to bring up the TeamSelectUI
-	//ClientTeamSelectUI();
-	/*if (HasAuthority())
-	{
-		FVector curLocation = FVector(0, 0, 1000);
-		FRotator curRotation = FRotator(0, 0, 0);
-
-		AStealthCharacter* newPawn = World->SpawnActor<AStealthCharacter>(AStealthCharacter::StaticClass(), curLocation, curRotation);
-
-		if (newPawn == NULL)
-			return;
-
-		newPawn->SetOwner(NewPlayer);
-		newPawn->DisableComponentsSimulatePhysics();
-		NewPlayer->Possess(newPawn);
-	}*/
 }

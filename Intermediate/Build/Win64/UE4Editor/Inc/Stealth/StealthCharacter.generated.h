@@ -18,19 +18,15 @@ class UObject;
 #define Stealth_Source_Stealth_StealthCharacter_h_14_SPARSE_DATA
 #define Stealth_Source_Stealth_StealthCharacter_h_14_RPC_WRAPPERS \
 	virtual void SetCharacterMesh_Implementation(AStealthCharacter* callerCharacter); \
-	virtual void ClientTeamSelectUI_Implementation(); \
  \
 	DECLARE_FUNCTION(execSetCharacterMesh); \
-	DECLARE_FUNCTION(execClientTeamSelectUI); \
 	DECLARE_FUNCTION(execEquipWeapon);
 
 
 #define Stealth_Source_Stealth_StealthCharacter_h_14_RPC_WRAPPERS_NO_PURE_DECLS \
 	virtual void SetCharacterMesh_Implementation(AStealthCharacter* callerCharacter); \
-	virtual void ClientTeamSelectUI_Implementation(); \
  \
 	DECLARE_FUNCTION(execSetCharacterMesh); \
-	DECLARE_FUNCTION(execClientTeamSelectUI); \
 	DECLARE_FUNCTION(execEquipWeapon);
 
 

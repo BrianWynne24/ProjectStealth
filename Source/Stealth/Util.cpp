@@ -16,5 +16,5 @@ bool Util::IsClient(AActor* actor)
 	if (actor == NULL)
 		return false;
 
-	return ((actor->HasAuthority() && actor->GetNetMode() == NM_ListenServer) || (!actor->HasAuthority() && actor->GetNetMode() != NM_ListenServer));
+	return ((actor->HasAuthority() && actor->GetNetMode() == NM_ListenServer) || (!actor->HasAuthority() && actor->GetNetMode() != NM_ListenServer) || (actor->GetNetMode() == NM_Standalone));
 }

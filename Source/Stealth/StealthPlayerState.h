@@ -17,8 +17,6 @@ class STEALTH_API AStealthPlayerState : public APlayerState
 	
 	AStealthPlayerState();
 
-	void PostActorCreated();
-
 public:
 
 	UPROPERTY(Replicated, EditAnywhere, Category = "Team", meta = (Bitmask, BitmaskEnum = "ETeam"))
@@ -36,18 +34,17 @@ public:
 	UPROPERTY()
 	TSubclassOf<UUserWidget> WidgetTeamSelect;
 
-	UFUNCTION()
-	ETeam GetTeam() { return Team; }
-
 	UFUNCTION(Server, Reliable)
 	void SetTeam(ETeam playerTeam);
 
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	/* Overrides */
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	void PostActorCreated() override;
+
+	/* Gets */
 	FORCEINLINE class TSubclassOf<UUserWidget> GetTeamSelectMenu() { return WidgetTeamSelect; }
 
-private:
-
-	UFUNCTION(Client, Reliable)
-	void ClientTeamSelectUI();
+	UFUNCTION()
+	ETeam GetTeam() { return Team; }
 };

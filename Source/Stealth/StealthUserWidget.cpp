@@ -34,14 +34,11 @@ void UStealthUserWidget::ArgusButtonClicked()
 
 void UStealthUserWidget::JoinTeam(ETeam team)
 {
-	//APlayerController* playerController = (APlayerController*)GetOwningPlayer();
-	AStealthPlayerState* PlayerState = (AStealthPlayerState*)GetOwningPlayerState();
-	PlayerState->SetTeam(team);
-	//playerController->SetShowMouseCursor(false);
+	RemoveFromViewport();
 
-	AStealthCharacter* character = (AStealthCharacter*)GetOwningPlayerPawn();
-	if (character != NULL)
-		character->ClientTeamSelectUIHide();
+	AStealthPlayerState* playerState = (AStealthPlayerState*)GetOwningPlayerState();
+	playerState->SetTeam(team);
 
-	//RemoveFromViewport();
+	APlayerController* playerController = (APlayerController*)GetOwningPlayer();
+	playerController->SetShowMouseCursor(false);
 }

@@ -18,10 +18,6 @@ public:
 	void PostLogin(APlayerController* NewPlayer);
 	void StartPlay();
 
-private:
-
-	UFUNCTION()
-	void SpawnStealthPlayerPawn(APlayerController* NewPlayer);
 };
 
 

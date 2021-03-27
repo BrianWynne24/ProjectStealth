@@ -8,23 +8,14 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
-class APlayerController;
 #ifdef STEALTH_StealthGameMode_generated_h
 #error "StealthGameMode.generated.h already included, missing '#pragma once' in StealthGameMode.h"
 #endif
 #define STEALTH_StealthGameMode_generated_h
 
 #define Stealth_Source_Stealth_StealthGameMode_h_12_SPARSE_DATA
-#define Stealth_Source_Stealth_StealthGameMode_h_12_RPC_WRAPPERS \
- \
-	DECLARE_FUNCTION(execSpawnStealthPlayerPawn);
-
-
-#define Stealth_Source_Stealth_StealthGameMode_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
- \
-	DECLARE_FUNCTION(execSpawnStealthPlayerPawn);
-
-
+#define Stealth_Source_Stealth_StealthGameMode_h_12_RPC_WRAPPERS
+#define Stealth_Source_Stealth_StealthGameMode_h_12_RPC_WRAPPERS_NO_PURE_DECLS
 #define Stealth_Source_Stealth_StealthGameMode_h_12_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAStealthGameMode(); \
