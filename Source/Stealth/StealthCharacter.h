@@ -24,10 +24,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"), ReplicatedUsing = OnRep_CharacterMesh)
 	class USkeletalMesh* CharacterMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 	class UClass* AnimationClass;
 
 	UPROPERTY(Replicated)
@@ -37,16 +37,23 @@ public:
 	class UClass* StartingWeaponClass;
 
 	virtual void BeginPlay() override;
+
+	UFUNCTION(Server, Reliable)
+	void ServerBeginPlay();
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UFUNCTION()
 	virtual void EquipWeapon(UClass* weaponClass) {}
 
-	UFUNCTION(NetMulticast, Reliable)
-	void SetCharacterMesh(AStealthCharacter* callerCharacter);
+	UFUNCTION(Server, Reliable)
+	void ServerSetCharacterMesh();
 
-	//UFUNCTION()
-	//virtual void Respawn();
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiSetCharacterMesh(USkeletalMeshComponent* newMesh);
+
+	UFUNCTION()
+	void OnRep_CharacterMesh();
 
 protected:
 
@@ -54,10 +61,10 @@ protected:
 	void OnResetVR();
 
 	/** Called for forwards/backward input */
-	void MoveForward(float Value);
+	virtual void MoveForward(float Value);
 
 	/** Called for side to side input */
-	void MoveRight(float Value);
+	virtual void MoveRight(float Value);
 
 	/** 
 	 * Called via input to turn at a given rate. 

@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Stealth.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{45ABFD0A-AD6F-4BC2-A37D-FE9A45369392}</UniqueIdentifier>
+      <UniqueIdentifier>{D0E22CD8-B344-4058-93EC-B4F06E293177}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth.Target.cs">
       <Filter>Source</Filter>
@@ -15,7 +15,7 @@
     <None Include="..\..\.gitignore" />
     <None Include="..\..\REAMEM.md" />
     <Filter Include="Config">
-      <UniqueIdentifier>{0170B7BC-FC72-42CD-81F9-289980A0DA1A}</UniqueIdentifier>
+      <UniqueIdentifier>{33F2621F-0BF7-4C49-BD75-0DF3F0355F3D}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -33,7 +33,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Stealth">
-      <UniqueIdentifier>{4B409725-A9D6-405B-8669-BD632D231A79}</UniqueIdentifier>
+      <UniqueIdentifier>{3E7FF73F-1053-41F2-BEE6-1A4F0AEEDB48}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\Stealth\ArgusCharacter.cpp">
       <Filter>Source\Stealth</Filter>
@@ -126,7 +126,7 @@
       <Filter>Source\Stealth</Filter>
     </ClInclude>
     <Filter Include="Source\Stealth\StealthUE4">
-      <UniqueIdentifier>{FEF7444E-5AB6-4110-9EBA-CB88A6C00452}</UniqueIdentifier>
+      <UniqueIdentifier>{E397A760-0C08-4500-967D-6B297FEF19AD}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.gitignore">
       <Filter>Source\Stealth\StealthUE4</Filter>
@@ -135,7 +135,7 @@
       <Filter>Source\Stealth\StealthUE4</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git">
-      <UniqueIdentifier>{1ED61679-F7F3-4DA3-A5E9-E1048E3F399C}</UniqueIdentifier>
+      <UniqueIdentifier>{274C1A73-74FC-4BAB-8342-D2091CC69B28}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\config">
       <Filter>Source\Stealth\StealthUE4\.git</Filter>
@@ -156,7 +156,7 @@
       <Filter>Source\Stealth\StealthUE4\.git</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\hooks">
-      <UniqueIdentifier>{8A3F54C9-9503-4DDE-A2A7-68B169DD6718}</UniqueIdentifier>
+      <UniqueIdentifier>{294B38B7-3CFB-428F-BCDE-E1660BD610F1}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\hooks\applypatch-msg.sample">
       <Filter>Source\Stealth\StealthUE4\.git\hooks</Filter>
@@ -195,82 +195,82 @@
       <Filter>Source\Stealth\StealthUE4\.git\hooks</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\info">
-      <UniqueIdentifier>{49ADCA41-511A-4918-B115-F0649FBB1B1B}</UniqueIdentifier>
+      <UniqueIdentifier>{47DD7E80-F628-4656-B812-6AC8AC289823}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\info\exclude">
       <Filter>Source\Stealth\StealthUE4\.git\info</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\logs">
-      <UniqueIdentifier>{E3683DFC-0540-44C2-ADF0-BEF6D85C9E8A}</UniqueIdentifier>
+      <UniqueIdentifier>{3EDB4314-A255-4B0F-A977-E51A5603C287}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\logs\HEAD">
       <Filter>Source\Stealth\StealthUE4\.git\logs</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\logs\refs">
-      <UniqueIdentifier>{7FD0BD73-0D46-473B-871D-42046AB6CA1E}</UniqueIdentifier>
+      <UniqueIdentifier>{BB6FE03C-CF48-408B-A792-0783FE525B2F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Stealth\StealthUE4\.git\logs\refs\heads">
-      <UniqueIdentifier>{B8B9589B-637C-481D-A272-6AA3CE8C52A8}</UniqueIdentifier>
+      <UniqueIdentifier>{D5C65C7C-DBC3-427A-83DF-0D0CF42CAFA9}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\logs\refs\heads\main">
       <Filter>Source\Stealth\StealthUE4\.git\logs\refs\heads</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\logs\refs\remotes">
-      <UniqueIdentifier>{7B8A4345-34B1-4AEC-BA78-EA8F21D1EC57}</UniqueIdentifier>
+      <UniqueIdentifier>{117DBA35-A08D-4812-9AB8-76EA27299FEB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Stealth\StealthUE4\.git\logs\refs\remotes\origin">
-      <UniqueIdentifier>{2A5BC65F-580D-4F82-9399-C9A8FFBE592B}</UniqueIdentifier>
+      <UniqueIdentifier>{3D3B5304-2195-440E-BAA7-8F1E2002B599}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\logs\refs\remotes\origin\HEAD">
       <Filter>Source\Stealth\StealthUE4\.git\logs\refs\remotes\origin</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\objects">
-      <UniqueIdentifier>{842A90C7-2989-48C1-85F3-A174E203107F}</UniqueIdentifier>
+      <UniqueIdentifier>{F4090C2C-5429-477A-9FC8-83B71A566014}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Stealth\StealthUE4\.git\objects\1c">
-      <UniqueIdentifier>{D9989148-C7DF-4C62-AD93-BF2CFD9ED710}</UniqueIdentifier>
+      <UniqueIdentifier>{58711C1E-68DE-4060-8CB2-B323560923A6}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\objects\1c\1796af899df831d11e1726f673e0a8e1a7bb52">
       <Filter>Source\Stealth\StealthUE4\.git\objects\1c</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\objects\93">
-      <UniqueIdentifier>{3990FFEB-60FB-4FFF-A69F-9DDECB008C2B}</UniqueIdentifier>
+      <UniqueIdentifier>{4139CE3D-8BD3-43FC-A730-DC0ACED3FC2F}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\objects\93\8b1da21a8c96789ee4cb8ff72b3b3552d2017c">
       <Filter>Source\Stealth\StealthUE4\.git\objects\93</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\objects\df">
-      <UniqueIdentifier>{F157175E-7F5F-4C44-8C01-A92B0E29D21D}</UniqueIdentifier>
+      <UniqueIdentifier>{E6588716-A4C2-41B4-9333-38E4266DD6C2}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\objects\df\cfd56f444f9ae40e1082c07fe254cc547136cf">
       <Filter>Source\Stealth\StealthUE4\.git\objects\df</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\objects\f3">
-      <UniqueIdentifier>{728CAE63-1E06-44D3-805E-6D77A7A977BD}</UniqueIdentifier>
+      <UniqueIdentifier>{9FF05143-5D0F-4E00-A6C6-E5E08AD2483D}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\objects\f3\30a3fcf4912999e3e49df8cb26c5da0cdda083">
       <Filter>Source\Stealth\StealthUE4\.git\objects\f3</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\refs">
-      <UniqueIdentifier>{15AA278D-5304-4932-A0E0-CB587C5ADAA6}</UniqueIdentifier>
+      <UniqueIdentifier>{4193B81A-99B4-45F8-98C3-3C9C83FF0513}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Stealth\StealthUE4\.git\refs\heads">
-      <UniqueIdentifier>{FBBB0114-BD7A-44C3-94E6-61469221FC74}</UniqueIdentifier>
+      <UniqueIdentifier>{4219CF82-6B68-4128-8FF9-D68009CF9462}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\refs\heads\main">
       <Filter>Source\Stealth\StealthUE4\.git\refs\heads</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.git\refs\remotes">
-      <UniqueIdentifier>{F2F721B3-F977-4DFB-8D40-362FA9CCAD63}</UniqueIdentifier>
+      <UniqueIdentifier>{6A720DCE-53BA-4E0F-8BA8-0BF7FBCAF8CF}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Stealth\StealthUE4\.git\refs\remotes\origin">
-      <UniqueIdentifier>{FA0B964D-DF3A-4DB8-B0FE-D5441D6EC400}</UniqueIdentifier>
+      <UniqueIdentifier>{AD38A214-EDC3-4DA4-9F51-9D1641E4C74D}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.git\refs\remotes\origin\HEAD">
       <Filter>Source\Stealth\StealthUE4\.git\refs\remotes\origin</Filter>
     </None>
     <Filter Include="Source\Stealth\StealthUE4\.vs">
-      <UniqueIdentifier>{7041917D-C938-4F36-BA40-85C6D7CC449F}</UniqueIdentifier>
+      <UniqueIdentifier>{F0048064-6CA0-44B3-92ED-B0D9E8FF013B}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Stealth\StealthUE4\.vs\ProjectSettings.json">
       <Filter>Source\Stealth\StealthUE4\.vs</Filter>

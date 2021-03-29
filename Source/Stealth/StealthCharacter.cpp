@@ -46,15 +46,13 @@ AStealthCharacter::AStealthCharacter()
 	GetCharacterMovement()->AirControl = 0.2f;
 	GetCharacterMovement()->bRunPhysicsWithNoController = true;
 
-	RootComponent = GetCapsuleComponent();
+	//RootComponent = GetCapsuleComponent();
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	SetReplicates(true);
 	SetReplicateMovement(true);
-
-	//AutoPossessAI = EAutoPossessAI::Spawned;
-	//AIControllerClass = NULL;
+	bAlwaysRelevant = true;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -149,20 +147,40 @@ void AStealthCharacter::MoveRight(float Value)
 	}
 }
 
-void AStealthCharacter::SetCharacterMesh_Implementation(AStealthCharacter* callerCharacter)
+void AStealthCharacter::OnRep_CharacterMesh()
 {
-	USkeletalMeshComponent* characterMesh = callerCharacter->GetMesh();
-	characterMesh->SetSkeletalMesh(callerCharacter->GetSkeletalMesh());
-	characterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-	//characterMesh->SetAnimInstanceClass(AnimationClass->StaticClass());
-	characterMesh->SetAnimClass(AnimationClass);
+	//SetCharacterMesh();
+}
 
-	// TODO: Fix this issue?
-	characterMesh->SetWorldRotation(FRotator(0, 270, 0));
-	//characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() + FVector(0, 0, -98));
+void AStealthCharacter::ServerSetCharacterMesh_Implementation()
+{
+	USkeletalMeshComponent* characterMesh = GetMesh();
 
-	float rootHeight = callerCharacter->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-	characterMesh->SetWorldLocation(callerCharacter->GetRootComponent()->GetComponentLocation() - FVector(0, 0, rootHeight));
+	SetActorEnableCollision(true);
+	MultiSetCharacterMesh(characterMesh);
+
+	//if (GetRemoteRole() == ROLE_Authority)
+	//{
+		float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+		characterMesh->SetWorldLocation(GetRootComponent()->GetComponentLocation() - FVector(0, 0, rootHeight));
+
+		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+	//}
+}
+
+void AStealthCharacter::MultiSetCharacterMesh_Implementation(USkeletalMeshComponent* newMesh)
+{
+	newMesh->SetSkeletalMesh(GetSkeletalMesh());
+	newMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+	newMesh->SetAnimClass(AnimationClass);
+
+	// This is so the skeletal mesh does not float in the air
+	float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	newMesh->SetWorldLocation(GetCapsuleComponent()->GetComponentLocation() - FVector(0, 0, rootHeight));
+	newMesh->SetWorldRotation(FRotator(0, 270, 0));
+
+	BaseTranslationOffset =  FVector(0, 0, -rootHeight);
+	BaseRotationOffset = FRotator(0, 270, 0).Quaternion();
 
 	SetActorEnableCollision(true);
 }
@@ -171,7 +189,12 @@ void AStealthCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetActorEnableCollision(false);
+	//SetActorEnableCollision(false);
+	//GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
+	ServerBeginPlay();
+
+	if (GetSkeletalMesh() != NULL)
+		ServerSetCharacterMesh();
 
 	// This adds capabilities for the host of the Listen Server to select team
 	//if (GetNetMode() == NM_ListenServer && HasAuthority())
@@ -180,9 +203,15 @@ void AStealthCharacter::BeginPlay()
 	if (GetSkeletalMesh() == NULL)
 		return;
 
-	SetCharacterMesh(this);
+	//SetCharacterMesh();
 
 	//EquipWeapon(StartingWeaponClass);
+}
+
+void AStealthCharacter::ServerBeginPlay_Implementation()
+{
+	SetActorEnableCollision(false);
+	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
 }
 
 void AStealthCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -190,6 +219,7 @@ void AStealthCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AStealthCharacter, CharacterMesh);
+	DOREPLIFETIME(AStealthCharacter, AnimationClass);
 }
 
 /*void AStealthCharacter::SetTeam(ETeam playerTeam)

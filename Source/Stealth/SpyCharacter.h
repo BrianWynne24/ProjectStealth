@@ -18,11 +18,11 @@ class STEALTH_API ASpyCharacter : public AStealthCharacter
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class USpringArmComponent* CameraBoom;
+	class USpringArmComponent* CameraBoom;
 
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UCameraComponent* FollowCamera;
+	class UCameraComponent* FollowCamera;
 
 	void Tick(float deltaSeconds);
 
@@ -36,16 +36,64 @@ public:
 private:
 
 	UPROPERTY()
-		bool bHanging;
+	bool bHanging;
 
+	/*UFUNCTION()
+	void OnRep_Hanging();*/
+
+	UPROPERTY()
+	float HangCooldown;
+
+	UPROPERTY(EditAnywhere)
+	UAnimSequence* AnimationHang;
+
+	UFUNCTION(Server, Reliable)
+	void ServerStartHang();
+
+	UFUNCTION(Server, Reliable)
+	void ServerCancelHang();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastStartHang(FVector forwardHit, FVector upperHit);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastCancelHang();
+
+	UFUNCTION()
 	void TickHangTrace(float deltaSeconds);
 
-	bool HangForwardTrace(FHitResult& hitDetails);
-	bool HangAboveTrace(FHitResult& hitDetails);
+	UFUNCTION()
+	void StartHangCooldown();
+
+	UFUNCTION()
+	bool CanHang();
+
+	UFUNCTION()
+	FHitResult PerformLineTrace(FVector startLoc, FVector endLoc);
+	FHitResult PerformLineTrace(FVector endLoc);
+
+	UFUNCTION()
+	FHitResult TraceClimbForward();
+
+	UFUNCTION()
+	FHitResult TraceClimbTop();
+
+	UFUNCTION()
+	bool OnGround();
 
 protected:
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	/** Called for forwards/backward input */
+	void MoveForward(float Value) override;
+
+	/** Called for side to side input */
+	void MoveRight(float Value) override;
+
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	void BeginPlay() override;
 
 public:
 	/** Returns CameraBoom subobject **/

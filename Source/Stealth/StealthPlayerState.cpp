@@ -61,7 +61,7 @@ void AStealthPlayerState::SetTeam_Implementation(ETeam playerTeam)
 	newCharacter->SetOwner(Player);
 	Player->Possess(newCharacter);
 
-	spawnPoint->StartCooldown(3);
+	spawnPoint->StartCooldown(0);
 }
 
 void AStealthPlayerState::PostActorCreated()
