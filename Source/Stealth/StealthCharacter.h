@@ -24,10 +24,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category = "Mesh", meta = (AllowPrivateAccess = "true"), ReplicatedUsing = OnRep_CharacterMesh)
+	UPROPERTY()
+	class USkeletalMesh* InitCharacterMesh;
+
+	UPROPERTY(Replicated, ReplicatedUsing = OnRep_CharacterMesh)
 	class USkeletalMesh* CharacterMesh;
 
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY()
 	class UClass* AnimationClass;
 
 	UPROPERTY(Replicated)
@@ -48,9 +51,6 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void ServerSetCharacterMesh();
-
-	UFUNCTION(NetMulticast, Reliable)
-	void MultiSetCharacterMesh(USkeletalMeshComponent* newMesh);
 
 	UFUNCTION()
 	void OnRep_CharacterMesh();
@@ -91,7 +91,9 @@ protected:
 
 public:
 
-	FORCEINLINE class USkeletalMesh* GetSkeletalMesh() const { return CharacterMesh; }
+	FORCEINLINE class USkeletalMesh* GetSkeletalMesh() const { return InitCharacterMesh; }
+
+	FORCEINLINE class USkeletalMesh* GetCharacterMesh() const { return CharacterMesh; }
 
 	FORCEINLINE class AWeaponBase* GetCurrentWeapon() const { return CurrentWeapon; }
 

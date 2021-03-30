@@ -39,7 +39,8 @@ public: \
 	enum class ENetFields_Private : uint16 \
 	{ \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
-		LastUsed=NETFIELD_REP_START, \
+		Team=NETFIELD_REP_START, \
+		LastUsed, \
 		NETFIELD_REP_END=LastUsed	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
@@ -54,7 +55,8 @@ public: \
 	enum class ENetFields_Private : uint16 \
 	{ \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
-		LastUsed=NETFIELD_REP_START, \
+		Team=NETFIELD_REP_START, \
+		LastUsed, \
 		NETFIELD_REP_END=LastUsed	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 

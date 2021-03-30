@@ -8,7 +8,6 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
-class USkeletalMeshComponent;
 class UObject;
 #ifdef STEALTH_StealthCharacter_generated_h
 #error "StealthCharacter.generated.h already included, missing '#pragma once' in StealthCharacter.h"
@@ -17,36 +16,26 @@ class UObject;
 
 #define Stealth_Source_Stealth_StealthCharacter_h_14_SPARSE_DATA
 #define Stealth_Source_Stealth_StealthCharacter_h_14_RPC_WRAPPERS \
-	virtual void MultiSetCharacterMesh_Implementation(USkeletalMeshComponent* newMesh); \
 	virtual void ServerSetCharacterMesh_Implementation(); \
 	virtual void ServerBeginPlay_Implementation(); \
  \
 	DECLARE_FUNCTION(execOnRep_CharacterMesh); \
-	DECLARE_FUNCTION(execMultiSetCharacterMesh); \
 	DECLARE_FUNCTION(execServerSetCharacterMesh); \
 	DECLARE_FUNCTION(execEquipWeapon); \
 	DECLARE_FUNCTION(execServerBeginPlay);
 
 
 #define Stealth_Source_Stealth_StealthCharacter_h_14_RPC_WRAPPERS_NO_PURE_DECLS \
-	virtual void MultiSetCharacterMesh_Implementation(USkeletalMeshComponent* newMesh); \
 	virtual void ServerSetCharacterMesh_Implementation(); \
 	virtual void ServerBeginPlay_Implementation(); \
  \
 	DECLARE_FUNCTION(execOnRep_CharacterMesh); \
-	DECLARE_FUNCTION(execMultiSetCharacterMesh); \
 	DECLARE_FUNCTION(execServerSetCharacterMesh); \
 	DECLARE_FUNCTION(execEquipWeapon); \
 	DECLARE_FUNCTION(execServerBeginPlay);
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_EVENT_PARMS \
-	struct StealthCharacter_eventMultiSetCharacterMesh_Parms \
-	{ \
-		USkeletalMeshComponent* newMesh; \
-	};
-
-
+#define Stealth_Source_Stealth_StealthCharacter_h_14_EVENT_PARMS
 #define Stealth_Source_Stealth_StealthCharacter_h_14_CALLBACK_WRAPPERS
 #define Stealth_Source_Stealth_StealthCharacter_h_14_INCLASS_NO_PURE_DECLS \
 private: \
@@ -59,7 +48,6 @@ public: \
 	{ \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
 		CharacterMesh=NETFIELD_REP_START, \
-		AnimationClass, \
 		CurrentWeapon, \
 		NETFIELD_REP_END=CurrentWeapon	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
@@ -76,7 +64,6 @@ public: \
 	{ \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
 		CharacterMesh=NETFIELD_REP_START, \
-		AnimationClass, \
 		CurrentWeapon, \
 		NETFIELD_REP_END=CurrentWeapon	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;

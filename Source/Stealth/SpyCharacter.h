@@ -33,13 +33,19 @@ public:
 	void Jump();
 	void StopJumping();
 
+	UFUNCTION(Server, Reliable)
+	void ServerClimbFinish();
+
 private:
 
-	UPROPERTY()
+	UPROPERTY(ReplicatedUsing = OnRep_Hanging)
 	bool bHanging;
 
-	/*UFUNCTION()
-	void OnRep_Hanging();*/
+	UPROPERTY()
+	uint32 ClimbCooldown;
+
+	UFUNCTION()
+	void OnRep_Hanging();
 
 	UPROPERTY()
 	float HangCooldown;
@@ -53,14 +59,14 @@ private:
 	UFUNCTION(Server, Reliable)
 	void ServerCancelHang();
 
-	UFUNCTION(NetMulticast, Reliable)
+	/*UFUNCTION(NetMulticast, Reliable)
 	void MulticastStartHang(FVector forwardHit, FVector upperHit);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MulticastCancelHang();
+	void MulticastCancelHang();*/
 
 	UFUNCTION()
-	void TickHangTrace(float deltaSeconds);
+	TArray<FHitResult> TickHangTrace(bool bIsServer);
 
 	UFUNCTION()
 	void StartHangCooldown();
@@ -68,9 +74,18 @@ private:
 	UFUNCTION()
 	bool CanHang();
 
+	UFUNCTION(Server, Reliable)
+	void ServerClimbUp();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastClimbUp();
+
 	UFUNCTION()
-	FHitResult PerformLineTrace(FVector startLoc, FVector endLoc);
-	FHitResult PerformLineTrace(FVector endLoc);
+	bool CanClimbUp();
+
+	UFUNCTION()
+	FHitResult PerformLineTrace(FVector startLoc, FVector endLoc, FName traceName);
+	FHitResult PerformLineTrace(FVector endLoc, FName traceName);
 
 	UFUNCTION()
 	FHitResult TraceClimbForward();

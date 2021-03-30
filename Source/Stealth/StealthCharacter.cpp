@@ -149,69 +149,50 @@ void AStealthCharacter::MoveRight(float Value)
 
 void AStealthCharacter::OnRep_CharacterMesh()
 {
-	//SetCharacterMesh();
+	GetMesh()->SetSkeletalMesh(GetSkeletalMesh());
+	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+	GetMesh()->SetAnimClass(AnimationClass);
+
+	// This is so the skeletal mesh does not float in the air
+	float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	GetMesh()->SetWorldLocation(GetCapsuleComponent()->GetComponentLocation() - FVector(0, 0, rootHeight));
+	GetMesh()->SetWorldRotation(FRotator(0, 270, 0));
+
+	BaseTranslationOffset = FVector(0, 0, -rootHeight);
+	BaseRotationOffset = FRotator(0, 270, 0).Quaternion();
+
+	CharacterMesh = InitCharacterMesh;
 }
 
 void AStealthCharacter::ServerSetCharacterMesh_Implementation()
 {
-	USkeletalMeshComponent* characterMesh = GetMesh();
-
-	SetActorEnableCollision(true);
-	MultiSetCharacterMesh(characterMesh);
-
-	//if (GetRemoteRole() == ROLE_Authority)
-	//{
-		float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-		characterMesh->SetWorldLocation(GetRootComponent()->GetComponentLocation() - FVector(0, 0, rootHeight));
-
-		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
-	//}
-}
-
-void AStealthCharacter::MultiSetCharacterMesh_Implementation(USkeletalMeshComponent* newMesh)
-{
-	newMesh->SetSkeletalMesh(GetSkeletalMesh());
-	newMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-	newMesh->SetAnimClass(AnimationClass);
-
-	// This is so the skeletal mesh does not float in the air
 	float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-	newMesh->SetWorldLocation(GetCapsuleComponent()->GetComponentLocation() - FVector(0, 0, rootHeight));
-	newMesh->SetWorldRotation(FRotator(0, 270, 0));
+	GetMesh()->SetWorldLocation(GetRootComponent()->GetComponentLocation() - FVector(0, 0, rootHeight));
 
-	BaseTranslationOffset =  FVector(0, 0, -rootHeight);
-	BaseRotationOffset = FRotator(0, 270, 0).Quaternion();
-
+	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
 	SetActorEnableCollision(true);
+
+	CharacterMesh = InitCharacterMesh;
+	
+	if (GetNetMode() == NM_ListenServer)
+		OnRep_CharacterMesh();
 }
 
 void AStealthCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//SetActorEnableCollision(false);
-	//GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
 	ServerBeginPlay();
 
 	if (GetSkeletalMesh() != NULL)
 		ServerSetCharacterMesh();
-
-	// This adds capabilities for the host of the Listen Server to select team
-	//if (GetNetMode() == NM_ListenServer && HasAuthority())
-		//ClientTeamSelectUI();
-
-	if (GetSkeletalMesh() == NULL)
-		return;
-
-	//SetCharacterMesh();
-
-	//EquipWeapon(StartingWeaponClass);
 }
 
 void AStealthCharacter::ServerBeginPlay_Implementation()
 {
 	SetActorEnableCollision(false);
 	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
+	SetOwner(GetController());
 }
 
 void AStealthCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -219,96 +200,4 @@ void AStealthCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AStealthCharacter, CharacterMesh);
-	DOREPLIFETIME(AStealthCharacter, AnimationClass);
 }
-
-/*void AStealthCharacter::SetTeam(ETeam playerTeam)
-{
-	APlayerSpawnPoint* spawnPoint = GetSpawnPoint(team);
-	if (spawnPoint == NULL)
-		return;
-
-	FVector curLocation = spawnPoint->GetActorLocation();
-	FRotator curRotation = FRotator(0, 0, 0);
-
-	UWorld* World = GetWorld();
-	UClass* TeamClass = GetTeamCharacterClass(team);
-
-	if (TeamClass == NULL)
-		return;
-
-	APlayerController* Player = (APlayerController*)GetController();
-	AStealthCharacter* Character = World->SpawnActor<AStealthCharacter>(TeamClass, curLocation, curRotation);
-	if (Character != NULL)
-	{
-		Player->UnPossess();
-		Character->SetOwner(Player);
-		Player->Possess(Character);
-
-		Util::Debug("Character");
-		World->DestroyActor(this);
-	}
-	Util::Debug("Boop");
-}*/
-
-/*
-void AStealthCharacter::Respawn()
-{
-	UWorld* World = GetWorld();
-	AStealthGameState* GameState = (AStealthGameState*)World->GetGameState();
-
-	APlayerSpawnPoint* spawnPoint = GameState->GetAvailableSpawnPoint(Team);
-	if (spawnPoint == NULL)
-		return;
-
-	FVector curLocation = spawnPoint->GetActorLocation();
-	FRotator curRotation = FRotator(0, 0, 0);
-	UClass* TeamClass = GameState->GetCharacterClass(Team);
-
-	if (TeamClass == NULL)
-		return;
-
-	APlayerController* Player = (APlayerController*)GetController();
-	AStealthCharacter* Character = World->SpawnActor<AStealthCharacter>(TeamClass, curLocation, curRotation);
-	if (Character != NULL)
-	{
-		Util::Debug(":)");
-		Player->UnPossess();
-		Character->SetOwner(Player);
-		Player->Possess(Character);
-
-		World->DestroyActor(this);
-
-		if (Character->CharacterMesh == NULL)
-			return;
-
-		USkeletalMeshComponent* characterMesh = Character->GetMesh();
-		characterMesh->SetSkeletalMesh(CharacterMesh);
-		characterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-		//characterMesh->SetAnimInstanceClass(AnimationClass->StaticClass());
-		characterMesh->SetAnimClass(AnimationClass);
-		characterMesh->SetOnlyOwnerSee(false);
-
-		// TODO: Fix this issue?
-		characterMesh->SetWorldRotation(FRotator(0, 270, 0));
-		//characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() + FVector(0, 0, -98));
-
-		float rootHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-		characterMesh->SetWorldLocation(RootComponent->GetComponentLocation() - FVector(0, 0, rootHeight));
-
-		EquipWeapon(StartingWeaponClass);
-
-		Util::Debug("Character");
-	}
-}
-
-/*void AStealthCharacter::EquipWeapon(UClass* weaponClass)
-{
-	// Player only has the ability for one weapon - this will problably not change in the future
-	if (CurrentWeapon != NULL)
-		CurrentWeapon->Destroy();
-
-	//CurrentWeapon = CreateDefaultSubobject<weaponClass>(TEXT("CurrentWeapon"));
-	CurrentWeapon = (AWeaponBase*)GetWorld()->SpawnActor(weaponClass);
-	CurrentWeapon->EquipToCharacter(this);
-}*/

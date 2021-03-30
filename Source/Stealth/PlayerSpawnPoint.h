@@ -15,7 +15,7 @@ class STEALTH_API APlayerSpawnPoint : public ATargetPoint
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, Category = "Team", meta = (Bitmask, BitmaskEnum = "ETeam"))
+	UPROPERTY(Replicated, EditAnywhere, Category = "Team", meta = (Bitmask, BitmaskEnum = "ETeam"))
 	TEnumAsByte<ETeam> Team;
 
 	UPROPERTY(Replicated)

@@ -12,7 +12,7 @@ AArgusCharacter::AArgusCharacter()
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> NewCharacterMesh(TEXT("/Game/Mannequin/Character/Mesh/SK_Mannequin"));
 	if (NewCharacterMesh.Object != NULL)
 	{
-		CharacterMesh = NewCharacterMesh.Object;
+		InitCharacterMesh = NewCharacterMesh.Object;
 		//Util::Debug("Assigned Skeleton - ARGUS");
 	}
 

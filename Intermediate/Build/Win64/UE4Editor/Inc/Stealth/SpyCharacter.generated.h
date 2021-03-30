@@ -17,51 +17,52 @@ struct FVector;
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_SPARSE_DATA
 #define Stealth_Source_Stealth_SpyCharacter_h_15_RPC_WRAPPERS \
-	virtual void MulticastCancelHang_Implementation(); \
-	virtual void MulticastStartHang_Implementation(FVector forwardHit, FVector upperHit); \
+	virtual void MulticastClimbUp_Implementation(); \
+	virtual void ServerClimbUp_Implementation(); \
 	virtual void ServerCancelHang_Implementation(); \
 	virtual void ServerStartHang_Implementation(); \
+	virtual void ServerClimbFinish_Implementation(); \
  \
 	DECLARE_FUNCTION(execOnGround); \
 	DECLARE_FUNCTION(execTraceClimbTop); \
 	DECLARE_FUNCTION(execTraceClimbForward); \
 	DECLARE_FUNCTION(execPerformLineTrace); \
+	DECLARE_FUNCTION(execCanClimbUp); \
+	DECLARE_FUNCTION(execMulticastClimbUp); \
+	DECLARE_FUNCTION(execServerClimbUp); \
 	DECLARE_FUNCTION(execCanHang); \
 	DECLARE_FUNCTION(execStartHangCooldown); \
 	DECLARE_FUNCTION(execTickHangTrace); \
-	DECLARE_FUNCTION(execMulticastCancelHang); \
-	DECLARE_FUNCTION(execMulticastStartHang); \
 	DECLARE_FUNCTION(execServerCancelHang); \
-	DECLARE_FUNCTION(execServerStartHang);
+	DECLARE_FUNCTION(execServerStartHang); \
+	DECLARE_FUNCTION(execOnRep_Hanging); \
+	DECLARE_FUNCTION(execServerClimbFinish);
 
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
-	virtual void MulticastCancelHang_Implementation(); \
-	virtual void MulticastStartHang_Implementation(FVector forwardHit, FVector upperHit); \
+	virtual void MulticastClimbUp_Implementation(); \
+	virtual void ServerClimbUp_Implementation(); \
 	virtual void ServerCancelHang_Implementation(); \
 	virtual void ServerStartHang_Implementation(); \
+	virtual void ServerClimbFinish_Implementation(); \
  \
 	DECLARE_FUNCTION(execOnGround); \
 	DECLARE_FUNCTION(execTraceClimbTop); \
 	DECLARE_FUNCTION(execTraceClimbForward); \
 	DECLARE_FUNCTION(execPerformLineTrace); \
+	DECLARE_FUNCTION(execCanClimbUp); \
+	DECLARE_FUNCTION(execMulticastClimbUp); \
+	DECLARE_FUNCTION(execServerClimbUp); \
 	DECLARE_FUNCTION(execCanHang); \
 	DECLARE_FUNCTION(execStartHangCooldown); \
 	DECLARE_FUNCTION(execTickHangTrace); \
-	DECLARE_FUNCTION(execMulticastCancelHang); \
-	DECLARE_FUNCTION(execMulticastStartHang); \
 	DECLARE_FUNCTION(execServerCancelHang); \
-	DECLARE_FUNCTION(execServerStartHang);
+	DECLARE_FUNCTION(execServerStartHang); \
+	DECLARE_FUNCTION(execOnRep_Hanging); \
+	DECLARE_FUNCTION(execServerClimbFinish);
 
 
-#define Stealth_Source_Stealth_SpyCharacter_h_15_EVENT_PARMS \
-	struct SpyCharacter_eventMulticastStartHang_Parms \
-	{ \
-		FVector forwardHit; \
-		FVector upperHit; \
-	};
-
-
+#define Stealth_Source_Stealth_SpyCharacter_h_15_EVENT_PARMS
 #define Stealth_Source_Stealth_SpyCharacter_h_15_CALLBACK_WRAPPERS
 #define Stealth_Source_Stealth_SpyCharacter_h_15_INCLASS_NO_PURE_DECLS \
 private: \
@@ -69,7 +70,13 @@ private: \
 	friend struct Z_Construct_UClass_ASpyCharacter_Statics; \
 public: \
 	DECLARE_CLASS(ASpyCharacter, AStealthCharacter, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
-	DECLARE_SERIALIZER(ASpyCharacter)
+	DECLARE_SERIALIZER(ASpyCharacter) \
+	enum class ENetFields_Private : uint16 \
+	{ \
+		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
+		bHanging=NETFIELD_REP_START, \
+		NETFIELD_REP_END=bHanging	}; \
+	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_INCLASS \
@@ -78,7 +85,13 @@ private: \
 	friend struct Z_Construct_UClass_ASpyCharacter_Statics; \
 public: \
 	DECLARE_CLASS(ASpyCharacter, AStealthCharacter, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
-	DECLARE_SERIALIZER(ASpyCharacter)
+	DECLARE_SERIALIZER(ASpyCharacter) \
+	enum class ENetFields_Private : uint16 \
+	{ \
+		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
+		bHanging=NETFIELD_REP_START, \
+		NETFIELD_REP_END=bHanging	}; \
+	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_STANDARD_CONSTRUCTORS \
@@ -109,6 +122,7 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(ASpyCharacter); \
 	FORCEINLINE static uint32 __PPO__CameraBoom() { return STRUCT_OFFSET(ASpyCharacter, CameraBoom); } \
 	FORCEINLINE static uint32 __PPO__FollowCamera() { return STRUCT_OFFSET(ASpyCharacter, FollowCamera); } \
 	FORCEINLINE static uint32 __PPO__bHanging() { return STRUCT_OFFSET(ASpyCharacter, bHanging); } \
+	FORCEINLINE static uint32 __PPO__ClimbCooldown() { return STRUCT_OFFSET(ASpyCharacter, ClimbCooldown); } \
 	FORCEINLINE static uint32 __PPO__HangCooldown() { return STRUCT_OFFSET(ASpyCharacter, HangCooldown); } \
 	FORCEINLINE static uint32 __PPO__AnimationHang() { return STRUCT_OFFSET(ASpyCharacter, AnimationHang); }
 

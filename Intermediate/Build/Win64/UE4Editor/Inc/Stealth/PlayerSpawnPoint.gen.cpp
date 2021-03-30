@@ -204,7 +204,7 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 		{ "ModuleRelativePath", "PlayerSpawnPoint.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UClass_APlayerSpawnPoint_Statics::NewProp_Team = { "Team", nullptr, (EPropertyFlags)0x0040000000000001, UE4CodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(APlayerSpawnPoint, Team), Z_Construct_UEnum_Stealth_ETeam, METADATA_PARAMS(Z_Construct_UClass_APlayerSpawnPoint_Statics::NewProp_Team_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_APlayerSpawnPoint_Statics::NewProp_Team_MetaData)) };
+	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UClass_APlayerSpawnPoint_Statics::NewProp_Team = { "Team", nullptr, (EPropertyFlags)0x0040000000000021, UE4CodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(APlayerSpawnPoint, Team), Z_Construct_UEnum_Stealth_ETeam, METADATA_PARAMS(Z_Construct_UClass_APlayerSpawnPoint_Statics::NewProp_Team_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_APlayerSpawnPoint_Statics::NewProp_Team_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_APlayerSpawnPoint_Statics::NewProp_LastUsed_MetaData[] = {
 		{ "ModuleRelativePath", "PlayerSpawnPoint.h" },
@@ -243,7 +243,7 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(APlayerSpawnPoint, 1394097469);
+	IMPLEMENT_CLASS(APlayerSpawnPoint, 3091676622);
 	template<> STEALTH_API UClass* StaticClass<APlayerSpawnPoint>()
 	{
 		return APlayerSpawnPoint::StaticClass();
@@ -252,9 +252,11 @@ void EmptyLinkFunctionForGeneratedCodePlayerSpawnPoint() {}
 
 	void APlayerSpawnPoint::ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const
 	{
+		static const FName Name_Team(TEXT("Team"));
 		static const FName Name_LastUsed(TEXT("LastUsed"));
 
 		const bool bIsValid = true
+			&& Name_Team == ClassReps[(int32)ENetFields_Private::Team].Property->GetFName()
 			&& Name_LastUsed == ClassReps[(int32)ENetFields_Private::LastUsed].Property->GetFName();
 
 		checkf(bIsValid, TEXT("UHT Generated Rep Indices do not match runtime populated Rep Indices for properties in APlayerSpawnPoint"));
