@@ -10,18 +10,6 @@ void UStealthAnimClimbNotify::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimS
 {
 	Super::NotifyEnd(MeshComp, Animation);
 
-	UWorld* World = GetWorld();
-	if (World == nullptr)
-		return;
-
-	AStealthPlayerController* playerController = (AStealthPlayerController*)GetWorld()->GetFirstLocalPlayerFromController();
-	if (playerController == nullptr)
-		return;
-
-	ASpyCharacter* spyCharacter = (ASpyCharacter*)playerController->GetPawn();
-	if (spyCharacter == nullptr)
-		return;
-
+	ASpyCharacter* spyCharacter = (ASpyCharacter*)MeshComp->GetOwner();
 	spyCharacter->ServerClimbFinish();
-	Util::Debug("Boop");
 }

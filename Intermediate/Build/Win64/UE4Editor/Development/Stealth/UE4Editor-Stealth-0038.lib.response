@@ -7,6 +7,7 @@
 /IGNORE:4221
 /NODEFAULTLIB
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\StealthEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\StealthAnimClimbNotify.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\ArgusCharacter.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\PlayerSpawnPoint.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\SpyCharacter.cpp.obj"
@@ -26,6 +27,7 @@
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\PlayerSpawnPoint.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\SpyCharacter.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\Stealth.init.gen.cpp.obj"
+"C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\StealthAnimClimbNotify.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\StealthCharacter.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\StealthGameMode.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\StealthGameState.gen.cpp.obj"

@@ -48,6 +48,7 @@ void ASpyCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ASpyCharacter, bHanging);
+	DOREPLIFETIME(ASpyCharacter, bClimbing);
 }
 
 void ASpyCharacter::Tick(float deltaSeconds)
@@ -62,6 +63,26 @@ void ASpyCharacter::Tick(float deltaSeconds)
 		{
 			APlayerController* playerController = (APlayerController*)GetController();
 			EnableInput(playerController);
+		}
+	}
+
+	// We need the server to check to hang if the player is moving right or left
+	// This will prevent the player from sliding past the wall
+	// Also added support for ListenServers
+	if ((GetRemoteRole() == ENetRole::ROLE_Authority || GetNetMode() == NM_ListenServer) && bHanging && !bClimbing)
+	{
+		APlayerController* playerController = (APlayerController*)GetController();
+		if (playerController == nullptr)
+			return;
+
+		float moveRight = playerController->GetInputAxisValue(FName("MoveRight"));
+		if (moveRight != 0)
+			return;
+
+		FVector currentVelocity = GetVelocity();
+		if (currentVelocity.X != 0 || currentVelocity.Y != 0 || currentVelocity.Z != 0)
+		{
+			ServerStopMovement();
 		}
 	}
 }
@@ -113,6 +134,9 @@ void ASpyCharacter::ServerStartHang_Implementation()
 
 void ASpyCharacter::ServerCancelHang_Implementation()
 {
+	if (bClimbing)
+		return;
+
 	bHanging = false;
 	StartHangCooldown();
 	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
@@ -145,8 +169,8 @@ void ASpyCharacter::OnRep_Hanging()
 		GetMesh()->PlayAnimation(AnimationHang, false);
 		GetMesh()->SetPlayRate(0);
 
-		APlayerController* playerController = (APlayerController*)GetController();
-		EnableInput(playerController);
+		//APlayerController* playerController = (APlayerController*)GetController();
+		//EnableInput(playerController);
 
 		ClimbCooldown = GetGameTimeSinceCreation() + 0.35;
 	}
@@ -190,12 +214,26 @@ FHitResult ASpyCharacter::TraceClimbTop()
 	FVector startLoc, endLoc;
 
 	float capsuleHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-	startLoc = GetActorLocation() + (GetActorForwardVector() * 50);
+	startLoc = GetActorLocation() + (GetActorForwardVector() * 45);
 	startLoc.Z += capsuleHeight;
 	endLoc = startLoc;
 	endLoc.Z -= capsuleHeight;
 
 	return PerformLineTrace(startLoc, endLoc, TEXT("HangTickTop")); // Check above
+}
+
+FHitResult ASpyCharacter::TraceHangMoveRight(bool bLeft)
+{
+	float dirValue = 40;
+	if (bLeft)
+		dirValue *= -1;
+
+	FVector startLoc, endLoc;
+
+	startLoc = GetActorLocation() + (GetActorRightVector() * dirValue);
+	endLoc = startLoc + (GetActorForwardVector() * 50);
+
+	return PerformLineTrace(startLoc, endLoc, TEXT("RightLeftHangTrace"));
 }
 
 void ASpyCharacter::ServerClimbUp_Implementation()
@@ -204,14 +242,41 @@ void ASpyCharacter::ServerClimbUp_Implementation()
 		return;
 
 	//bHanging = false;
+	bClimbing = true;
 	MulticastClimbUp();
+}
+
+void ASpyCharacter::ServerClimbRight_Implementation(bool bLeft)
+{
+	if (!CanClimbRight(bLeft))
+		return;
+
+	float force = 100.f;
+	if (bLeft)
+		force *= -1;
+
+	GetCharacterMovement()->Velocity = GetActorRightVector() * force;
 }
 
 void ASpyCharacter::ServerClimbFinish_Implementation()
 {
+	FHitResult topHit = TraceClimbTop();
+	if (!topHit.IsValidBlockingHit())
+		return;
+
+	FVector topLoc = topHit.ImpactPoint;
+	topLoc += (GetActorForwardVector() * 40);
+	topLoc.Z += 15; //Offset
+	SetActorLocation(topLoc);
+
 	GetCharacterMovement()->StopActiveMovement();
 	GetCharacterMovement()->StopMovementImmediately();
 	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+
+	bHanging = false;
+	bClimbing = false;
+	if (GetNetMode() == NM_ListenServer)
+		OnRep_Hanging();
 }
 
 void ASpyCharacter::MulticastClimbUp_Implementation()
@@ -228,8 +293,17 @@ bool ASpyCharacter::CanClimbUp()
 	return false;
 }
 
+bool ASpyCharacter::CanClimbRight(bool bLeft)
+{
+	FHitResult hitResult = TraceHangMoveRight(bLeft);
+	return hitResult.IsValidBlockingHit();
+}
+
 bool ASpyCharacter::OnGround()
 {
+	if (bHanging)
+		return false;
+
 	FVector startLoc, endLoc;
 
 	startLoc = GetActorLocation();
@@ -262,11 +336,12 @@ void ASpyCharacter::MoveForward(float Value)
 {
 	if (bHanging)
 	{
-		if (Value > 0 && CanClimbUp())
+		if (Value > 0 && CanClimbUp() && !bClimbing)
 		{
+			bClimbing = true;
 			Util::Debug("ClimbUp");
 			ServerClimbUp();
-			ClimbCooldown = GetGameTimeSinceCreation() + (AnimationHang->GetPlayLength()+0.3);
+			ClimbCooldown = GetGameTimeSinceCreation() + (AnimationHang->GetPlayLength()*1.7);
 		}
 
 		return;
@@ -277,10 +352,39 @@ void ASpyCharacter::MoveForward(float Value)
 
 void ASpyCharacter::MoveRight(float Value)
 {
-	if (bHanging)
+	if (bClimbing)
 		return;
 
+	if (bHanging)
+	{
+		if (Value > 0.0f && CanClimbRight(false))	// Right
+		{
+			ServerClimbRight(false);
+		}
+		else if (Value < 0.0f && CanClimbRight(true))// Left
+		{
+			ServerClimbRight(true);
+		}
+		else if (Value == 0.0f && GetGameTimeSinceCreation() > NetStopMovementCooldown)
+		{
+			FVector vel = GetVelocity();
+			if (vel.X != 0 || vel.Y != 0 || vel.Z != 0)
+			{
+				ServerStopMovement();
+				NetStopMovementCooldown = GetGameTimeSinceCreation() + 1.0f;
+			}
+		}
+
+		return;
+	}
+
 	Super::MoveRight(Value);
+}
+
+void ASpyCharacter::ServerStopMovement_Implementation()
+{
+	GetCharacterMovement()->StopActiveMovement();
+	GetCharacterMovement()->StopMovementImmediately();
 }
 
 void ASpyCharacter::Jump()
@@ -292,8 +396,6 @@ void ASpyCharacter::Jump()
 	}
 
 	Super::Jump();
-
-	//TickHangTrace(0);
 }
 
 bool ASpyCharacter::CanHang()

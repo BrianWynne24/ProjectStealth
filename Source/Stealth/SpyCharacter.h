@@ -41,8 +41,14 @@ private:
 	UPROPERTY(ReplicatedUsing = OnRep_Hanging)
 	bool bHanging;
 
+	UPROPERTY(Replicated)
+	bool bClimbing;
+
 	UPROPERTY()
 	uint32 ClimbCooldown;
+
+	UPROPERTY()
+	uint32 NetStopMovementCooldown;
 
 	UFUNCTION()
 	void OnRep_Hanging();
@@ -58,6 +64,9 @@ private:
 
 	UFUNCTION(Server, Reliable)
 	void ServerCancelHang();
+
+	UFUNCTION(Server, Reliable)
+	void ServerStopMovement();
 
 	/*UFUNCTION(NetMulticast, Reliable)
 	void MulticastStartHang(FVector forwardHit, FVector upperHit);
@@ -77,11 +86,17 @@ private:
 	UFUNCTION(Server, Reliable)
 	void ServerClimbUp();
 
+	UFUNCTION(Server, Reliable)
+	void ServerClimbRight(bool bLeft);
+
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastClimbUp();
 
 	UFUNCTION()
 	bool CanClimbUp();
+
+	UFUNCTION()
+	bool CanClimbRight(bool bLeft);
 
 	UFUNCTION()
 	FHitResult PerformLineTrace(FVector startLoc, FVector endLoc, FName traceName);
@@ -92,6 +107,9 @@ private:
 
 	UFUNCTION()
 	FHitResult TraceClimbTop();
+
+	UFUNCTION()
+	FHitResult TraceHangMoveRight(bool bLeft);
 
 	UFUNCTION()
 	bool OnGround();
