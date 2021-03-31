@@ -10,10 +10,11 @@ and acrobatic. They will only have the ability to use a taser with limited ammo.
 mobility. They will be unable to traverse the map as quick as spies.
 
 TEAM SPY: (Third-person Stealth)
+
 	Movement Abilities:
 		[X] Hang Ledge
 		[] Climb up to platform from ledge
-		[] Move left to right on ledge
+		[X] Move left to right on ledge
 		[] Turn corner on ledge (left&right)
 		[] Drop to lower ledge
 		
@@ -35,6 +36,7 @@ TEAM SPY: (Third-person Stealth)
 		[] Alarm Snare - (3) Shootable, alerts the player snare went off when enemy passes by
 		
 TEAM ARGUS: (First-person Action)
+
 	Movement Abilities:
 		[] Charge - Perform a quick but short charge forward. If spy is hit they will be K.O.
 		[] Beserker - 360 degree spin that will K.O. a spy in a short radius. Disoriented effects afterwards
