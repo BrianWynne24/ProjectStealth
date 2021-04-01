@@ -62,6 +62,9 @@ private:
 	UFUNCTION(Server, Reliable)
 	void ServerStartHang();
 
+	UFUNCTION(Client, Reliable)
+	void ClientStartHang(float newYaw);
+
 	UFUNCTION(Server, Reliable)
 	void ServerCancelHang();
 
@@ -89,6 +92,9 @@ private:
 	UFUNCTION(Server, Reliable)
 	void ServerClimbRight(bool bLeft);
 
+	UFUNCTION(Server, Reliable)
+	void ServerSwingRight(bool bLeft);
+
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastClimbUp();
 
@@ -97,6 +103,9 @@ private:
 
 	UFUNCTION()
 	bool CanClimbRight(bool bLeft);
+
+	UFUNCTION()
+	bool CanSwingRight(bool bLeft);
 
 	UFUNCTION()
 	FHitResult PerformLineTrace(FVector startLoc, FVector endLoc, FName traceName);
@@ -110,6 +119,9 @@ private:
 
 	UFUNCTION()
 	FHitResult TraceHangMoveRight(bool bLeft);
+
+	UFUNCTION()
+	FHitResult TraceHangSwingRight(bool bLeft);
 
 	UFUNCTION()
 	bool OnGround();

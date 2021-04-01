@@ -18,21 +18,26 @@ struct FVector;
 #define Stealth_Source_Stealth_SpyCharacter_h_15_SPARSE_DATA
 #define Stealth_Source_Stealth_SpyCharacter_h_15_RPC_WRAPPERS \
 	virtual void MulticastClimbUp_Implementation(); \
+	virtual void ServerSwingRight_Implementation(bool bLeft); \
 	virtual void ServerClimbRight_Implementation(bool bLeft); \
 	virtual void ServerClimbUp_Implementation(); \
 	virtual void ServerStopMovement_Implementation(); \
 	virtual void ServerCancelHang_Implementation(); \
+	virtual void ClientStartHang_Implementation(float newYaw); \
 	virtual void ServerStartHang_Implementation(); \
 	virtual void ServerClimbFinish_Implementation(); \
  \
 	DECLARE_FUNCTION(execOnGround); \
+	DECLARE_FUNCTION(execTraceHangSwingRight); \
 	DECLARE_FUNCTION(execTraceHangMoveRight); \
 	DECLARE_FUNCTION(execTraceClimbTop); \
 	DECLARE_FUNCTION(execTraceClimbForward); \
 	DECLARE_FUNCTION(execPerformLineTrace); \
+	DECLARE_FUNCTION(execCanSwingRight); \
 	DECLARE_FUNCTION(execCanClimbRight); \
 	DECLARE_FUNCTION(execCanClimbUp); \
 	DECLARE_FUNCTION(execMulticastClimbUp); \
+	DECLARE_FUNCTION(execServerSwingRight); \
 	DECLARE_FUNCTION(execServerClimbRight); \
 	DECLARE_FUNCTION(execServerClimbUp); \
 	DECLARE_FUNCTION(execCanHang); \
@@ -40,6 +45,7 @@ struct FVector;
 	DECLARE_FUNCTION(execTickHangTrace); \
 	DECLARE_FUNCTION(execServerStopMovement); \
 	DECLARE_FUNCTION(execServerCancelHang); \
+	DECLARE_FUNCTION(execClientStartHang); \
 	DECLARE_FUNCTION(execServerStartHang); \
 	DECLARE_FUNCTION(execOnRep_Hanging); \
 	DECLARE_FUNCTION(execServerClimbFinish);
@@ -47,21 +53,26 @@ struct FVector;
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
 	virtual void MulticastClimbUp_Implementation(); \
+	virtual void ServerSwingRight_Implementation(bool bLeft); \
 	virtual void ServerClimbRight_Implementation(bool bLeft); \
 	virtual void ServerClimbUp_Implementation(); \
 	virtual void ServerStopMovement_Implementation(); \
 	virtual void ServerCancelHang_Implementation(); \
+	virtual void ClientStartHang_Implementation(float newYaw); \
 	virtual void ServerStartHang_Implementation(); \
 	virtual void ServerClimbFinish_Implementation(); \
  \
 	DECLARE_FUNCTION(execOnGround); \
+	DECLARE_FUNCTION(execTraceHangSwingRight); \
 	DECLARE_FUNCTION(execTraceHangMoveRight); \
 	DECLARE_FUNCTION(execTraceClimbTop); \
 	DECLARE_FUNCTION(execTraceClimbForward); \
 	DECLARE_FUNCTION(execPerformLineTrace); \
+	DECLARE_FUNCTION(execCanSwingRight); \
 	DECLARE_FUNCTION(execCanClimbRight); \
 	DECLARE_FUNCTION(execCanClimbUp); \
 	DECLARE_FUNCTION(execMulticastClimbUp); \
+	DECLARE_FUNCTION(execServerSwingRight); \
 	DECLARE_FUNCTION(execServerClimbRight); \
 	DECLARE_FUNCTION(execServerClimbUp); \
 	DECLARE_FUNCTION(execCanHang); \
@@ -69,13 +80,22 @@ struct FVector;
 	DECLARE_FUNCTION(execTickHangTrace); \
 	DECLARE_FUNCTION(execServerStopMovement); \
 	DECLARE_FUNCTION(execServerCancelHang); \
+	DECLARE_FUNCTION(execClientStartHang); \
 	DECLARE_FUNCTION(execServerStartHang); \
 	DECLARE_FUNCTION(execOnRep_Hanging); \
 	DECLARE_FUNCTION(execServerClimbFinish);
 
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_EVENT_PARMS \
+	struct SpyCharacter_eventClientStartHang_Parms \
+	{ \
+		float newYaw; \
+	}; \
 	struct SpyCharacter_eventServerClimbRight_Parms \
+	{ \
+		bool bLeft; \
+	}; \
+	struct SpyCharacter_eventServerSwingRight_Parms \
 	{ \
 		bool bLeft; \
 	};
