@@ -19,6 +19,8 @@ class UObject;
 	virtual void ServerSetCharacterMesh_Implementation(); \
 	virtual void ServerBeginPlay_Implementation(); \
  \
+	DECLARE_FUNCTION(execOnRep_Health); \
+	DECLARE_FUNCTION(execOnRep_CurrentWeapon); \
 	DECLARE_FUNCTION(execOnRep_CharacterMesh); \
 	DECLARE_FUNCTION(execServerSetCharacterMesh); \
 	DECLARE_FUNCTION(execEquipWeapon); \
@@ -29,6 +31,8 @@ class UObject;
 	virtual void ServerSetCharacterMesh_Implementation(); \
 	virtual void ServerBeginPlay_Implementation(); \
  \
+	DECLARE_FUNCTION(execOnRep_Health); \
+	DECLARE_FUNCTION(execOnRep_CurrentWeapon); \
 	DECLARE_FUNCTION(execOnRep_CharacterMesh); \
 	DECLARE_FUNCTION(execServerSetCharacterMesh); \
 	DECLARE_FUNCTION(execEquipWeapon); \
@@ -49,7 +53,8 @@ public: \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
 		CharacterMesh=NETFIELD_REP_START, \
 		CurrentWeapon, \
-		NETFIELD_REP_END=CurrentWeapon	}; \
+		Health, \
+		NETFIELD_REP_END=Health	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
@@ -65,7 +70,8 @@ public: \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
 		CharacterMesh=NETFIELD_REP_START, \
 		CurrentWeapon, \
-		NETFIELD_REP_END=CurrentWeapon	}; \
+		Health, \
+		NETFIELD_REP_END=Health	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 

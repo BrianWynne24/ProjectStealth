@@ -28,3 +28,10 @@ enum class EGameState : uint8
 	ACTIVE,
 	POST_GAME
 };
+
+UENUM(BlueprintType)
+enum class EWeaponMode : uint8
+{
+	SINGLE,
+	AUTOMATIC
+};

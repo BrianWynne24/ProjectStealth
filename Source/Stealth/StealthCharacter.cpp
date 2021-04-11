@@ -46,13 +46,26 @@ AStealthCharacter::AStealthCharacter()
 	GetCharacterMovement()->AirControl = 0.2f;
 	GetCharacterMovement()->bRunPhysicsWithNoController = true;
 
-	//RootComponent = GetCapsuleComponent();
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+	//Configure Camera
+	ViewCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("ViewCamera"));
+	ViewCamera->SetupAttachment(RootComponent);
+
+	// Configure ViewModel Attachment for weapon
+	WeaponViewModelAttachment = CreateDefaultSubobject<USceneComponent>(TEXT("ViewModelAttachment"));
+	WeaponViewModelAttachment->SetupAttachment(ViewCamera);
+
+	FVector relLoc = FVector(30, 25, -24);
+	WeaponViewModelAttachment->SetRelativeLocation(relLoc);
+
+	FRotator relRot = FRotator(0, -90, 0);
+	WeaponViewModelAttachment->SetRelativeRotation(relRot);
 
 	SetReplicates(true);
 	SetReplicateMovement(true);
 	bAlwaysRelevant = true;
+
+	// Custom variables
+	Health = 100.f;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -65,6 +78,9 @@ void AStealthCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	PlayerInputComponent->BindAction("Attack1", IE_Pressed, this, &AStealthCharacter::PrimaryAttackBegin);
+	PlayerInputComponent->BindAction("Attack1", IE_Released, this, &AStealthCharacter::PrimaryAttackEnd);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AStealthCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AStealthCharacter::MoveRight);
 
@@ -75,35 +91,6 @@ void AStealthCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	PlayerInputComponent->BindAxis("TurnRate", this, &AStealthCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AStealthCharacter::LookUpAtRate);
-
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &AStealthCharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &AStealthCharacter::TouchStopped);
-
-	// VR headset functionality
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AStealthCharacter::OnResetVR);
-}
-
-
-void AStealthCharacter::OnResetVR()
-{
-	// If Stealth is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in Stealth.Build.cs is not automatically propagated
-	// and a linker error will result.
-	// You will need to either:
-	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
-	// or:
-	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
-
-void AStealthCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		Jump();
-}
-
-void AStealthCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		StopJumping();
 }
 
 void AStealthCharacter::TurnAtRate(float Rate)
@@ -188,6 +175,11 @@ void AStealthCharacter::BeginPlay()
 		ServerSetCharacterMesh();
 }
 
+void AStealthCharacter::Tick(float deltaSeconds)
+{
+	Super::Tick(deltaSeconds);
+}
+
 void AStealthCharacter::ServerBeginPlay_Implementation()
 {
 	SetActorEnableCollision(false);
@@ -195,9 +187,37 @@ void AStealthCharacter::ServerBeginPlay_Implementation()
 	SetOwner(GetController());
 }
 
+void AStealthCharacter::OnRep_CurrentWeapon()
+{
+	CurrentWeapon->ClientAttach();
+}
+
+void AStealthCharacter::OnRep_Health()
+{
+
+}
+
+void AStealthCharacter::PrimaryAttackBegin()
+{
+	if (GetCurrentWeapon() == nullptr)
+		return;
+
+	GetCurrentWeapon()->ShootPrimary();
+}
+
+void AStealthCharacter::PrimaryAttackEnd()
+{
+	if (GetCurrentWeapon() == nullptr)
+		return;
+
+	GetCurrentWeapon()->StopPrimaryFire();
+}
+
 void AStealthCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AStealthCharacter, CharacterMesh);
+	DOREPLIFETIME(AStealthCharacter, CurrentWeapon);
+	DOREPLIFETIME(AStealthCharacter, Health);
 }

@@ -17,6 +17,13 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define CURRENT_FILE_ID Stealth_Source_Stealth_Enumeration_h
 
 
+#define FOREACH_ENUM_EWEAPONMODE(op) \
+	op(EWeaponMode::SINGLE) \
+	op(EWeaponMode::AUTOMATIC) 
+
+enum class EWeaponMode : uint8;
+template<> STEALTH_API UEnum* StaticEnum<EWeaponMode>();
+
 #define FOREACH_ENUM_EGAMESTATE(op) \
 	op(EGameState::LOBBY) \
 	op(EGameState::PRE_GAME) \

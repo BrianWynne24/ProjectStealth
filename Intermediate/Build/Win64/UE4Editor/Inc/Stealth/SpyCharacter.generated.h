@@ -18,11 +18,12 @@ struct FVector;
 #define Stealth_Source_Stealth_SpyCharacter_h_15_SPARSE_DATA
 #define Stealth_Source_Stealth_SpyCharacter_h_15_RPC_WRAPPERS \
 	virtual void MulticastClimbUp_Implementation(); \
-	virtual void ServerSwingRight_Implementation(bool bLeft); \
+	virtual void ServerSwingOuterRight_Implementation(bool bLeft); \
 	virtual void ServerClimbRight_Implementation(bool bLeft); \
 	virtual void ServerClimbUp_Implementation(); \
 	virtual void ServerStopMovement_Implementation(); \
 	virtual void ServerCancelHang_Implementation(); \
+	virtual void ClientFixPosition_Implementation(FVector newPosition, bool bLeft); \
 	virtual void ClientStartHang_Implementation(float newYaw); \
 	virtual void ServerStartHang_Implementation(); \
 	virtual void ServerClimbFinish_Implementation(); \
@@ -33,11 +34,11 @@ struct FVector;
 	DECLARE_FUNCTION(execTraceClimbTop); \
 	DECLARE_FUNCTION(execTraceClimbForward); \
 	DECLARE_FUNCTION(execPerformLineTrace); \
-	DECLARE_FUNCTION(execCanSwingRight); \
+	DECLARE_FUNCTION(execCanSwingOuterRight); \
 	DECLARE_FUNCTION(execCanClimbRight); \
 	DECLARE_FUNCTION(execCanClimbUp); \
 	DECLARE_FUNCTION(execMulticastClimbUp); \
-	DECLARE_FUNCTION(execServerSwingRight); \
+	DECLARE_FUNCTION(execServerSwingOuterRight); \
 	DECLARE_FUNCTION(execServerClimbRight); \
 	DECLARE_FUNCTION(execServerClimbUp); \
 	DECLARE_FUNCTION(execCanHang); \
@@ -45,6 +46,7 @@ struct FVector;
 	DECLARE_FUNCTION(execTickHangTrace); \
 	DECLARE_FUNCTION(execServerStopMovement); \
 	DECLARE_FUNCTION(execServerCancelHang); \
+	DECLARE_FUNCTION(execClientFixPosition); \
 	DECLARE_FUNCTION(execClientStartHang); \
 	DECLARE_FUNCTION(execServerStartHang); \
 	DECLARE_FUNCTION(execOnRep_Hanging); \
@@ -53,11 +55,12 @@ struct FVector;
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
 	virtual void MulticastClimbUp_Implementation(); \
-	virtual void ServerSwingRight_Implementation(bool bLeft); \
+	virtual void ServerSwingOuterRight_Implementation(bool bLeft); \
 	virtual void ServerClimbRight_Implementation(bool bLeft); \
 	virtual void ServerClimbUp_Implementation(); \
 	virtual void ServerStopMovement_Implementation(); \
 	virtual void ServerCancelHang_Implementation(); \
+	virtual void ClientFixPosition_Implementation(FVector newPosition, bool bLeft); \
 	virtual void ClientStartHang_Implementation(float newYaw); \
 	virtual void ServerStartHang_Implementation(); \
 	virtual void ServerClimbFinish_Implementation(); \
@@ -68,11 +71,11 @@ struct FVector;
 	DECLARE_FUNCTION(execTraceClimbTop); \
 	DECLARE_FUNCTION(execTraceClimbForward); \
 	DECLARE_FUNCTION(execPerformLineTrace); \
-	DECLARE_FUNCTION(execCanSwingRight); \
+	DECLARE_FUNCTION(execCanSwingOuterRight); \
 	DECLARE_FUNCTION(execCanClimbRight); \
 	DECLARE_FUNCTION(execCanClimbUp); \
 	DECLARE_FUNCTION(execMulticastClimbUp); \
-	DECLARE_FUNCTION(execServerSwingRight); \
+	DECLARE_FUNCTION(execServerSwingOuterRight); \
 	DECLARE_FUNCTION(execServerClimbRight); \
 	DECLARE_FUNCTION(execServerClimbUp); \
 	DECLARE_FUNCTION(execCanHang); \
@@ -80,6 +83,7 @@ struct FVector;
 	DECLARE_FUNCTION(execTickHangTrace); \
 	DECLARE_FUNCTION(execServerStopMovement); \
 	DECLARE_FUNCTION(execServerCancelHang); \
+	DECLARE_FUNCTION(execClientFixPosition); \
 	DECLARE_FUNCTION(execClientStartHang); \
 	DECLARE_FUNCTION(execServerStartHang); \
 	DECLARE_FUNCTION(execOnRep_Hanging); \
@@ -87,6 +91,11 @@ struct FVector;
 
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_EVENT_PARMS \
+	struct SpyCharacter_eventClientFixPosition_Parms \
+	{ \
+		FVector newPosition; \
+		bool bLeft; \
+	}; \
 	struct SpyCharacter_eventClientStartHang_Parms \
 	{ \
 		float newYaw; \
@@ -95,7 +104,7 @@ struct FVector;
 	{ \
 		bool bLeft; \
 	}; \
-	struct SpyCharacter_eventServerSwingRight_Parms \
+	struct SpyCharacter_eventServerSwingOuterRight_Parms \
 	{ \
 		bool bLeft; \
 	};
@@ -160,7 +169,6 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(ASpyCharacter); \
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_PRIVATE_PROPERTY_OFFSET \
 	FORCEINLINE static uint32 __PPO__CameraBoom() { return STRUCT_OFFSET(ASpyCharacter, CameraBoom); } \
-	FORCEINLINE static uint32 __PPO__FollowCamera() { return STRUCT_OFFSET(ASpyCharacter, FollowCamera); } \
 	FORCEINLINE static uint32 __PPO__bHanging() { return STRUCT_OFFSET(ASpyCharacter, bHanging); } \
 	FORCEINLINE static uint32 __PPO__bClimbing() { return STRUCT_OFFSET(ASpyCharacter, bClimbing); } \
 	FORCEINLINE static uint32 __PPO__ClimbCooldown() { return STRUCT_OFFSET(ASpyCharacter, ClimbCooldown); } \

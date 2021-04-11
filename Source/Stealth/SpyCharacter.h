@@ -14,19 +14,15 @@ class STEALTH_API ASpyCharacter : public AStealthCharacter
 {
 	GENERATED_BODY()
 
-	ASpyCharacter();
-
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
-
 	void Tick(float deltaSeconds);
 
 public:
+
+	ASpyCharacter();
 
 	void EquipWeapon(UClass* weaponClass);
 
@@ -65,6 +61,9 @@ private:
 	UFUNCTION(Client, Reliable)
 	void ClientStartHang(float newYaw);
 
+	UFUNCTION(Client, Reliable)
+	void ClientFixPosition(FVector newPosition, bool bLeft);
+
 	UFUNCTION(Server, Reliable)
 	void ServerCancelHang();
 
@@ -93,7 +92,7 @@ private:
 	void ServerClimbRight(bool bLeft);
 
 	UFUNCTION(Server, Reliable)
-	void ServerSwingRight(bool bLeft);
+	void ServerSwingOuterRight(bool bLeft);
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastClimbUp();
@@ -105,7 +104,7 @@ private:
 	bool CanClimbRight(bool bLeft);
 
 	UFUNCTION()
-	bool CanSwingRight(bool bLeft);
+	bool CanSwingOuterRight(bool bLeft);
 
 	UFUNCTION()
 	FHitResult PerformLineTrace(FVector startLoc, FVector endLoc, FName traceName);
@@ -143,7 +142,5 @@ protected:
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
+	
 };

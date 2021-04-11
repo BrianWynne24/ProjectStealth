@@ -14,36 +14,58 @@ class AStealthCharacter;
 #endif
 #define STEALTH_WeaponBase_generated_h
 
-#define Stealth_Source_Stealth_WeaponBase_h_16_SPARSE_DATA
-#define Stealth_Source_Stealth_WeaponBase_h_16_RPC_WRAPPERS \
+#define Stealth_Source_Stealth_WeaponBase_h_15_SPARSE_DATA
+#define Stealth_Source_Stealth_WeaponBase_h_15_RPC_WRAPPERS \
+	virtual void ServerShootSecondary_Implementation(); \
+	virtual void ServerShootPrimary_Implementation(); \
  \
-	DECLARE_FUNCTION(execEquipToCharacter);
+	DECLARE_FUNCTION(execServerShootSecondary); \
+	DECLARE_FUNCTION(execServerShootPrimary); \
+	DECLARE_FUNCTION(execCanShootSecondary); \
+	DECLARE_FUNCTION(execCanShootPrimary); \
+	DECLARE_FUNCTION(execShootSecondary); \
+	DECLARE_FUNCTION(execStopPrimaryFire); \
+	DECLARE_FUNCTION(execShootPrimary); \
+	DECLARE_FUNCTION(execClientAttach); \
+	DECLARE_FUNCTION(execServerEquipToCharacter);
 
 
-#define Stealth_Source_Stealth_WeaponBase_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
+#define Stealth_Source_Stealth_WeaponBase_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void ServerShootSecondary_Implementation(); \
+	virtual void ServerShootPrimary_Implementation(); \
  \
-	DECLARE_FUNCTION(execEquipToCharacter);
+	DECLARE_FUNCTION(execServerShootSecondary); \
+	DECLARE_FUNCTION(execServerShootPrimary); \
+	DECLARE_FUNCTION(execCanShootSecondary); \
+	DECLARE_FUNCTION(execCanShootPrimary); \
+	DECLARE_FUNCTION(execShootSecondary); \
+	DECLARE_FUNCTION(execStopPrimaryFire); \
+	DECLARE_FUNCTION(execShootPrimary); \
+	DECLARE_FUNCTION(execClientAttach); \
+	DECLARE_FUNCTION(execServerEquipToCharacter);
 
 
-#define Stealth_Source_Stealth_WeaponBase_h_16_INCLASS_NO_PURE_DECLS \
+#define Stealth_Source_Stealth_WeaponBase_h_15_EVENT_PARMS
+#define Stealth_Source_Stealth_WeaponBase_h_15_CALLBACK_WRAPPERS
+#define Stealth_Source_Stealth_WeaponBase_h_15_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAWeaponBase(); \
 	friend struct Z_Construct_UClass_AWeaponBase_Statics; \
 public: \
-	DECLARE_CLASS(AWeaponBase, ASkeletalMeshActor, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
+	DECLARE_CLASS(AWeaponBase, AActor, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
 	DECLARE_SERIALIZER(AWeaponBase)
 
 
-#define Stealth_Source_Stealth_WeaponBase_h_16_INCLASS \
+#define Stealth_Source_Stealth_WeaponBase_h_15_INCLASS \
 private: \
 	static void StaticRegisterNativesAWeaponBase(); \
 	friend struct Z_Construct_UClass_AWeaponBase_Statics; \
 public: \
-	DECLARE_CLASS(AWeaponBase, ASkeletalMeshActor, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
+	DECLARE_CLASS(AWeaponBase, AActor, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/Stealth"), NO_API) \
 	DECLARE_SERIALIZER(AWeaponBase)
 
 
-#define Stealth_Source_Stealth_WeaponBase_h_16_STANDARD_CONSTRUCTORS \
+#define Stealth_Source_Stealth_WeaponBase_h_15_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API AWeaponBase(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(AWeaponBase) \
@@ -56,7 +78,7 @@ private: \
 public:
 
 
-#define Stealth_Source_Stealth_WeaponBase_h_16_ENHANCED_CONSTRUCTORS \
+#define Stealth_Source_Stealth_WeaponBase_h_15_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API AWeaponBase(AWeaponBase&&); \
@@ -67,28 +89,33 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AWeaponBase); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(AWeaponBase)
 
 
-#define Stealth_Source_Stealth_WeaponBase_h_16_PRIVATE_PROPERTY_OFFSET
-#define Stealth_Source_Stealth_WeaponBase_h_13_PROLOG
-#define Stealth_Source_Stealth_WeaponBase_h_16_GENERATED_BODY_LEGACY \
+#define Stealth_Source_Stealth_WeaponBase_h_15_PRIVATE_PROPERTY_OFFSET
+#define Stealth_Source_Stealth_WeaponBase_h_12_PROLOG \
+	Stealth_Source_Stealth_WeaponBase_h_15_EVENT_PARMS
+
+
+#define Stealth_Source_Stealth_WeaponBase_h_15_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	Stealth_Source_Stealth_WeaponBase_h_16_PRIVATE_PROPERTY_OFFSET \
-	Stealth_Source_Stealth_WeaponBase_h_16_SPARSE_DATA \
-	Stealth_Source_Stealth_WeaponBase_h_16_RPC_WRAPPERS \
-	Stealth_Source_Stealth_WeaponBase_h_16_INCLASS \
-	Stealth_Source_Stealth_WeaponBase_h_16_STANDARD_CONSTRUCTORS \
+	Stealth_Source_Stealth_WeaponBase_h_15_PRIVATE_PROPERTY_OFFSET \
+	Stealth_Source_Stealth_WeaponBase_h_15_SPARSE_DATA \
+	Stealth_Source_Stealth_WeaponBase_h_15_RPC_WRAPPERS \
+	Stealth_Source_Stealth_WeaponBase_h_15_CALLBACK_WRAPPERS \
+	Stealth_Source_Stealth_WeaponBase_h_15_INCLASS \
+	Stealth_Source_Stealth_WeaponBase_h_15_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define Stealth_Source_Stealth_WeaponBase_h_16_GENERATED_BODY \
+#define Stealth_Source_Stealth_WeaponBase_h_15_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	Stealth_Source_Stealth_WeaponBase_h_16_PRIVATE_PROPERTY_OFFSET \
-	Stealth_Source_Stealth_WeaponBase_h_16_SPARSE_DATA \
-	Stealth_Source_Stealth_WeaponBase_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
-	Stealth_Source_Stealth_WeaponBase_h_16_INCLASS_NO_PURE_DECLS \
-	Stealth_Source_Stealth_WeaponBase_h_16_ENHANCED_CONSTRUCTORS \
+	Stealth_Source_Stealth_WeaponBase_h_15_PRIVATE_PROPERTY_OFFSET \
+	Stealth_Source_Stealth_WeaponBase_h_15_SPARSE_DATA \
+	Stealth_Source_Stealth_WeaponBase_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	Stealth_Source_Stealth_WeaponBase_h_15_CALLBACK_WRAPPERS \
+	Stealth_Source_Stealth_WeaponBase_h_15_INCLASS_NO_PURE_DECLS \
+	Stealth_Source_Stealth_WeaponBase_h_15_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

@@ -30,11 +30,20 @@ public:
 	UPROPERTY(Replicated, ReplicatedUsing = OnRep_CharacterMesh)
 	class USkeletalMesh* CharacterMesh;
 
+	UPROPERTY(EditAnywhere)
+	class USceneComponent* WeaponViewModelAttachment;
+
 	UPROPERTY()
 	class UClass* AnimationClass;
 
-	UPROPERTY(Replicated)
+	UPROPERTY(Replicated, ReplicatedUsing = OnRep_CurrentWeapon)
 	class AWeaponBase* CurrentWeapon;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Health)
+	float Health;
+
+	UPROPERTY()
+	bool bPrimaryFiring;
 
 	UPROPERTY()
 	class UClass* StartingWeaponClass;
@@ -55,10 +64,13 @@ public:
 	UFUNCTION()
 	void OnRep_CharacterMesh();
 
-protected:
+	UFUNCTION()
+	void OnRep_CurrentWeapon();
 
-	/** Resets HMD orientation in VR. */
-	void OnResetVR();
+	UFUNCTION()
+	void OnRep_Health();
+
+protected:
 
 	/** Called for forwards/backward input */
 	virtual void MoveForward(float Value);
@@ -78,11 +90,10 @@ protected:
 	 */
 	void LookUpAtRate(float Rate);
 
-	/** Handler for when a touch input begins. */
-	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
+	void PrimaryAttackBegin();
+	void PrimaryAttackEnd();
 
-	/** Handler for when a touch input stops. */
-	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+	void Tick(float deltaSeconds);
 
 protected:
 	// APawn interface
@@ -91,11 +102,18 @@ protected:
 
 public:
 
+	/** Camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UCameraComponent* ViewCamera;
+
 	FORCEINLINE class USkeletalMesh* GetSkeletalMesh() const { return InitCharacterMesh; }
 
 	FORCEINLINE class USkeletalMesh* GetCharacterMesh() const { return CharacterMesh; }
 
 	FORCEINLINE class AWeaponBase* GetCurrentWeapon() const { return CurrentWeapon; }
 
+	FORCEINLINE class UCameraComponent* GetViewCamera() const { return ViewCamera; }
+
+	FORCEINLINE class USceneComponent* GetWeaponViewModelAttachment() const { return WeaponViewModelAttachment; }
 };
 

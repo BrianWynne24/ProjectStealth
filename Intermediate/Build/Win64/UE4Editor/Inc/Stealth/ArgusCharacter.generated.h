@@ -8,14 +8,33 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class UObject;
 #ifdef STEALTH_ArgusCharacter_generated_h
 #error "ArgusCharacter.generated.h already included, missing '#pragma once' in ArgusCharacter.h"
 #endif
 #define STEALTH_ArgusCharacter_generated_h
 
 #define Stealth_Source_Stealth_ArgusCharacter_h_15_SPARSE_DATA
-#define Stealth_Source_Stealth_ArgusCharacter_h_15_RPC_WRAPPERS
-#define Stealth_Source_Stealth_ArgusCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS
+#define Stealth_Source_Stealth_ArgusCharacter_h_15_RPC_WRAPPERS \
+	virtual void ServerEquipWeapon_Implementation(UClass* weaponClass); \
+ \
+	DECLARE_FUNCTION(execServerEquipWeapon);
+
+
+#define Stealth_Source_Stealth_ArgusCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void ServerEquipWeapon_Implementation(UClass* weaponClass); \
+ \
+	DECLARE_FUNCTION(execServerEquipWeapon);
+
+
+#define Stealth_Source_Stealth_ArgusCharacter_h_15_EVENT_PARMS \
+	struct ArgusCharacter_eventServerEquipWeapon_Parms \
+	{ \
+		UClass* weaponClass; \
+	};
+
+
+#define Stealth_Source_Stealth_ArgusCharacter_h_15_CALLBACK_WRAPPERS
 #define Stealth_Source_Stealth_ArgusCharacter_h_15_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAArgusCharacter(); \
@@ -59,13 +78,17 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AArgusCharacter); \
 
 
 #define Stealth_Source_Stealth_ArgusCharacter_h_15_PRIVATE_PROPERTY_OFFSET
-#define Stealth_Source_Stealth_ArgusCharacter_h_12_PROLOG
+#define Stealth_Source_Stealth_ArgusCharacter_h_12_PROLOG \
+	Stealth_Source_Stealth_ArgusCharacter_h_15_EVENT_PARMS
+
+
 #define Stealth_Source_Stealth_ArgusCharacter_h_15_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_PRIVATE_PROPERTY_OFFSET \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_SPARSE_DATA \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_RPC_WRAPPERS \
+	Stealth_Source_Stealth_ArgusCharacter_h_15_CALLBACK_WRAPPERS \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_INCLASS \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_STANDARD_CONSTRUCTORS \
 public: \
@@ -78,6 +101,7 @@ public: \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_PRIVATE_PROPERTY_OFFSET \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_SPARSE_DATA \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	Stealth_Source_Stealth_ArgusCharacter_h_15_CALLBACK_WRAPPERS \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_INCLASS_NO_PURE_DECLS \
 	Stealth_Source_Stealth_ArgusCharacter_h_15_ENHANCED_CONSTRUCTORS \
 private: \

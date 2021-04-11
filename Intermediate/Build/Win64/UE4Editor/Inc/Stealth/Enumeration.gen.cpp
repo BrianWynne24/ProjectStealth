@@ -13,11 +13,66 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeEnumeration() {}
 // Cross Module References
-	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_EGameState();
+	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_EWeaponMode();
 	UPackage* Z_Construct_UPackage__Script_Stealth();
+	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_EGameState();
 	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_EGameType();
 	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_ETeam();
 // End Cross Module References
+	static UEnum* EWeaponMode_StaticEnum()
+	{
+		static UEnum* Singleton = nullptr;
+		if (!Singleton)
+		{
+			Singleton = GetStaticEnum(Z_Construct_UEnum_Stealth_EWeaponMode, Z_Construct_UPackage__Script_Stealth(), TEXT("EWeaponMode"));
+		}
+		return Singleton;
+	}
+	template<> STEALTH_API UEnum* StaticEnum<EWeaponMode>()
+	{
+		return EWeaponMode_StaticEnum();
+	}
+	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EWeaponMode(EWeaponMode_StaticEnum, TEXT("/Script/Stealth"), TEXT("EWeaponMode"), false, nullptr, nullptr);
+	uint32 Get_Z_Construct_UEnum_Stealth_EWeaponMode_Hash() { return 1641974240U; }
+	UEnum* Z_Construct_UEnum_Stealth_EWeaponMode()
+	{
+#if WITH_HOT_RELOAD
+		UPackage* Outer = Z_Construct_UPackage__Script_Stealth();
+		static UEnum* ReturnEnum = FindExistingEnumIfHotReloadOrDynamic(Outer, TEXT("EWeaponMode"), 0, Get_Z_Construct_UEnum_Stealth_EWeaponMode_Hash(), false);
+#else
+		static UEnum* ReturnEnum = nullptr;
+#endif // WITH_HOT_RELOAD
+		if (!ReturnEnum)
+		{
+			static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = {
+				{ "EWeaponMode::SINGLE", (int64)EWeaponMode::SINGLE },
+				{ "EWeaponMode::AUTOMATIC", (int64)EWeaponMode::AUTOMATIC },
+			};
+#if WITH_METADATA
+			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+				{ "AUTOMATIC.Name", "EWeaponMode::AUTOMATIC" },
+				{ "BlueprintType", "true" },
+				{ "ModuleRelativePath", "Enumeration.h" },
+				{ "SINGLE.Name", "EWeaponMode::SINGLE" },
+			};
+#endif
+			static const UE4CodeGen_Private::FEnumParams EnumParams = {
+				(UObject*(*)())Z_Construct_UPackage__Script_Stealth,
+				nullptr,
+				"EWeaponMode",
+				"EWeaponMode",
+				Enumerators,
+				UE_ARRAY_COUNT(Enumerators),
+				RF_Public|RF_Transient|RF_MarkAsNative,
+				EEnumFlags::None,
+				UE4CodeGen_Private::EDynamicType::NotDynamic,
+				(uint8)UEnum::ECppForm::EnumClass,
+				METADATA_PARAMS(Enum_MetaDataParams, UE_ARRAY_COUNT(Enum_MetaDataParams))
+			};
+			UE4CodeGen_Private::ConstructUEnum(ReturnEnum, EnumParams);
+		}
+		return ReturnEnum;
+	}
 	static UEnum* EGameState_StaticEnum()
 	{
 		static UEnum* Singleton = nullptr;

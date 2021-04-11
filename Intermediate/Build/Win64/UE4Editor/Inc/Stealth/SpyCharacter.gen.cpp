@@ -20,7 +20,6 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FVector();
 	ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FHitResult();
 	ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
-	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UAnimSequence_NoRegister();
 // End Cross Module References
 	DEFINE_FUNCTION(ASpyCharacter::execOnGround)
@@ -70,12 +69,12 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		*(FHitResult*)Z_Param__Result=P_THIS->PerformLineTrace(Z_Param_startLoc,Z_Param_endLoc,Z_Param_traceName);
 		P_NATIVE_END;
 	}
-	DEFINE_FUNCTION(ASpyCharacter::execCanSwingRight)
+	DEFINE_FUNCTION(ASpyCharacter::execCanSwingOuterRight)
 	{
 		P_GET_UBOOL(Z_Param_bLeft);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		*(bool*)Z_Param__Result=P_THIS->CanSwingRight(Z_Param_bLeft);
+		*(bool*)Z_Param__Result=P_THIS->CanSwingOuterRight(Z_Param_bLeft);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(ASpyCharacter::execCanClimbRight)
@@ -100,12 +99,12 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		P_THIS->MulticastClimbUp_Implementation();
 		P_NATIVE_END;
 	}
-	DEFINE_FUNCTION(ASpyCharacter::execServerSwingRight)
+	DEFINE_FUNCTION(ASpyCharacter::execServerSwingOuterRight)
 	{
 		P_GET_UBOOL(Z_Param_bLeft);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->ServerSwingRight_Implementation(Z_Param_bLeft);
+		P_THIS->ServerSwingOuterRight_Implementation(Z_Param_bLeft);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(ASpyCharacter::execServerClimbRight)
@@ -159,6 +158,15 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		P_THIS->ServerCancelHang_Implementation();
 		P_NATIVE_END;
 	}
+	DEFINE_FUNCTION(ASpyCharacter::execClientFixPosition)
+	{
+		P_GET_STRUCT(FVector,Z_Param_newPosition);
+		P_GET_UBOOL(Z_Param_bLeft);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ClientFixPosition_Implementation(Z_Param_newPosition,Z_Param_bLeft);
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(ASpyCharacter::execClientStartHang)
 	{
 		P_GET_PROPERTY(FFloatProperty,Z_Param_newYaw);
@@ -187,6 +195,14 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		P_NATIVE_BEGIN;
 		P_THIS->ServerClimbFinish_Implementation();
 		P_NATIVE_END;
+	}
+	static FName NAME_ASpyCharacter_ClientFixPosition = FName(TEXT("ClientFixPosition"));
+	void ASpyCharacter::ClientFixPosition(FVector newPosition, bool bLeft)
+	{
+		SpyCharacter_eventClientFixPosition_Parms Parms;
+		Parms.newPosition=newPosition;
+		Parms.bLeft=bLeft ? true : false;
+		ProcessEvent(FindFunctionChecked(NAME_ASpyCharacter_ClientFixPosition),&Parms);
 	}
 	static FName NAME_ASpyCharacter_ClientStartHang = FName(TEXT("ClientStartHang"));
 	void ASpyCharacter::ClientStartHang(float newYaw)
@@ -232,12 +248,12 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 	{
 		ProcessEvent(FindFunctionChecked(NAME_ASpyCharacter_ServerStopMovement),NULL);
 	}
-	static FName NAME_ASpyCharacter_ServerSwingRight = FName(TEXT("ServerSwingRight"));
-	void ASpyCharacter::ServerSwingRight(bool bLeft)
+	static FName NAME_ASpyCharacter_ServerSwingOuterRight = FName(TEXT("ServerSwingOuterRight"));
+	void ASpyCharacter::ServerSwingOuterRight(bool bLeft)
 	{
-		SpyCharacter_eventServerSwingRight_Parms Parms;
+		SpyCharacter_eventServerSwingOuterRight_Parms Parms;
 		Parms.bLeft=bLeft ? true : false;
-		ProcessEvent(FindFunctionChecked(NAME_ASpyCharacter_ServerSwingRight),&Parms);
+		ProcessEvent(FindFunctionChecked(NAME_ASpyCharacter_ServerSwingOuterRight),&Parms);
 	}
 	void ASpyCharacter::StaticRegisterNativesASpyCharacter()
 	{
@@ -246,7 +262,8 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 			{ "CanClimbRight", &ASpyCharacter::execCanClimbRight },
 			{ "CanClimbUp", &ASpyCharacter::execCanClimbUp },
 			{ "CanHang", &ASpyCharacter::execCanHang },
-			{ "CanSwingRight", &ASpyCharacter::execCanSwingRight },
+			{ "CanSwingOuterRight", &ASpyCharacter::execCanSwingOuterRight },
+			{ "ClientFixPosition", &ASpyCharacter::execClientFixPosition },
 			{ "ClientStartHang", &ASpyCharacter::execClientStartHang },
 			{ "MulticastClimbUp", &ASpyCharacter::execMulticastClimbUp },
 			{ "OnGround", &ASpyCharacter::execOnGround },
@@ -258,7 +275,7 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 			{ "ServerClimbUp", &ASpyCharacter::execServerClimbUp },
 			{ "ServerStartHang", &ASpyCharacter::execServerStartHang },
 			{ "ServerStopMovement", &ASpyCharacter::execServerStopMovement },
-			{ "ServerSwingRight", &ASpyCharacter::execServerSwingRight },
+			{ "ServerSwingOuterRight", &ASpyCharacter::execServerSwingOuterRight },
 			{ "StartHangCooldown", &ASpyCharacter::execStartHangCooldown },
 			{ "TickHangTrace", &ASpyCharacter::execTickHangTrace },
 			{ "TraceClimbForward", &ASpyCharacter::execTraceClimbForward },
@@ -388,9 +405,9 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics
+	struct Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics
 	{
-		struct SpyCharacter_eventCanSwingRight_Parms
+		struct SpyCharacter_eventCanSwingOuterRight_Parms
 		{
 			bool bLeft;
 			bool ReturnValue;
@@ -405,32 +422,68 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
-	void Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::NewProp_bLeft_SetBit(void* Obj)
+	void Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::NewProp_bLeft_SetBit(void* Obj)
 	{
-		((SpyCharacter_eventCanSwingRight_Parms*)Obj)->bLeft = 1;
+		((SpyCharacter_eventCanSwingOuterRight_Parms*)Obj)->bLeft = 1;
 	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::NewProp_bLeft = { "bLeft", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(SpyCharacter_eventCanSwingRight_Parms), &Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::NewProp_bLeft_SetBit, METADATA_PARAMS(nullptr, 0) };
-	void Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::NewProp_ReturnValue_SetBit(void* Obj)
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::NewProp_bLeft = { "bLeft", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(SpyCharacter_eventCanSwingOuterRight_Parms), &Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::NewProp_bLeft_SetBit, METADATA_PARAMS(nullptr, 0) };
+	void Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::NewProp_ReturnValue_SetBit(void* Obj)
 	{
-		((SpyCharacter_eventCanSwingRight_Parms*)Obj)->ReturnValue = 1;
+		((SpyCharacter_eventCanSwingOuterRight_Parms*)Obj)->ReturnValue = 1;
 	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(SpyCharacter_eventCanSwingRight_Parms), &Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::PropPointers[] = {
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::NewProp_bLeft,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::NewProp_ReturnValue,
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(SpyCharacter_eventCanSwingOuterRight_Parms), &Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::NewProp_bLeft,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::NewProp_ReturnValue,
 	};
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::Function_MetaDataParams[] = {
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::Function_MetaDataParams[] = {
 		{ "ModuleRelativePath", "SpyCharacter.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASpyCharacter, nullptr, "CanSwingRight", nullptr, nullptr, sizeof(SpyCharacter_eventCanSwingRight_Parms), Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00040401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_ASpyCharacter_CanSwingRight()
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASpyCharacter, nullptr, "CanSwingOuterRight", nullptr, nullptr, sizeof(SpyCharacter_eventCanSwingOuterRight_Parms), Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00040401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight()
 	{
 		static UFunction* ReturnFunction = nullptr;
 		if (!ReturnFunction)
 		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASpyCharacter_CanSwingRight_Statics::FuncParams);
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics
+	{
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_newPosition;
+		static void NewProp_bLeft_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_bLeft;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::NewProp_newPosition = { "newPosition", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SpyCharacter_eventClientFixPosition_Parms, newPosition), Z_Construct_UScriptStruct_FVector, METADATA_PARAMS(nullptr, 0) };
+	void Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::NewProp_bLeft_SetBit(void* Obj)
+	{
+		((SpyCharacter_eventClientFixPosition_Parms*)Obj)->bLeft = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::NewProp_bLeft = { "bLeft", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(SpyCharacter_eventClientFixPosition_Parms), &Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::NewProp_bLeft_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::NewProp_newPosition,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::NewProp_bLeft,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "SpyCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASpyCharacter, nullptr, "ClientFixPosition", nullptr, nullptr, sizeof(SpyCharacter_eventClientFixPosition_Parms), Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x01840CC1, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASpyCharacter_ClientFixPosition()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASpyCharacter_ClientFixPosition_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -730,7 +783,7 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics
+	struct Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics
 	{
 		static void NewProp_bLeft_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_bLeft;
@@ -740,26 +793,26 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
-	void Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::NewProp_bLeft_SetBit(void* Obj)
+	void Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::NewProp_bLeft_SetBit(void* Obj)
 	{
-		((SpyCharacter_eventServerSwingRight_Parms*)Obj)->bLeft = 1;
+		((SpyCharacter_eventServerSwingOuterRight_Parms*)Obj)->bLeft = 1;
 	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::NewProp_bLeft = { "bLeft", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(SpyCharacter_eventServerSwingRight_Parms), &Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::NewProp_bLeft_SetBit, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::PropPointers[] = {
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::NewProp_bLeft,
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::NewProp_bLeft = { "bLeft", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(SpyCharacter_eventServerSwingOuterRight_Parms), &Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::NewProp_bLeft_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::NewProp_bLeft,
 	};
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::Function_MetaDataParams[] = {
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::Function_MetaDataParams[] = {
 		{ "ModuleRelativePath", "SpyCharacter.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASpyCharacter, nullptr, "ServerSwingRight", nullptr, nullptr, sizeof(SpyCharacter_eventServerSwingRight_Parms), Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00240CC1, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_ASpyCharacter_ServerSwingRight()
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASpyCharacter, nullptr, "ServerSwingOuterRight", nullptr, nullptr, sizeof(SpyCharacter_eventServerSwingOuterRight_Parms), Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00240CC1, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight()
 	{
 		static UFunction* ReturnFunction = nullptr;
 		if (!ReturnFunction)
 		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASpyCharacter_ServerSwingRight_Statics::FuncParams);
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -993,10 +1046,6 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_CameraBoom;
 #if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_FollowCamera_MetaData[];
-#endif
-		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_FollowCamera;
-#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_bHanging_MetaData[];
 #endif
 		static void NewProp_bHanging_SetBit(void* Obj);
@@ -1034,7 +1083,8 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		{ &Z_Construct_UFunction_ASpyCharacter_CanClimbRight, "CanClimbRight" }, // 1512732208
 		{ &Z_Construct_UFunction_ASpyCharacter_CanClimbUp, "CanClimbUp" }, // 1534762384
 		{ &Z_Construct_UFunction_ASpyCharacter_CanHang, "CanHang" }, // 1491335431
-		{ &Z_Construct_UFunction_ASpyCharacter_CanSwingRight, "CanSwingRight" }, // 1865451890
+		{ &Z_Construct_UFunction_ASpyCharacter_CanSwingOuterRight, "CanSwingOuterRight" }, // 3550756427
+		{ &Z_Construct_UFunction_ASpyCharacter_ClientFixPosition, "ClientFixPosition" }, // 1870849543
 		{ &Z_Construct_UFunction_ASpyCharacter_ClientStartHang, "ClientStartHang" }, // 1151226086
 		{ &Z_Construct_UFunction_ASpyCharacter_MulticastClimbUp, "MulticastClimbUp" }, // 2015842220
 		{ &Z_Construct_UFunction_ASpyCharacter_OnGround, "OnGround" }, // 3218753052
@@ -1046,7 +1096,7 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		{ &Z_Construct_UFunction_ASpyCharacter_ServerClimbUp, "ServerClimbUp" }, // 2994272222
 		{ &Z_Construct_UFunction_ASpyCharacter_ServerStartHang, "ServerStartHang" }, // 1987140113
 		{ &Z_Construct_UFunction_ASpyCharacter_ServerStopMovement, "ServerStopMovement" }, // 2420557626
-		{ &Z_Construct_UFunction_ASpyCharacter_ServerSwingRight, "ServerSwingRight" }, // 2183652389
+		{ &Z_Construct_UFunction_ASpyCharacter_ServerSwingOuterRight, "ServerSwingOuterRight" }, // 166556126
 		{ &Z_Construct_UFunction_ASpyCharacter_StartHangCooldown, "StartHangCooldown" }, // 1543046441
 		{ &Z_Construct_UFunction_ASpyCharacter_TickHangTrace, "TickHangTrace" }, // 1255633411
 		{ &Z_Construct_UFunction_ASpyCharacter_TraceClimbForward, "TraceClimbForward" }, // 633302541
@@ -1073,17 +1123,6 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 	};
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpyCharacter_Statics::NewProp_CameraBoom = { "CameraBoom", nullptr, (EPropertyFlags)0x00400000000a001d, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ASpyCharacter, CameraBoom), Z_Construct_UClass_USpringArmComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ASpyCharacter_Statics::NewProp_CameraBoom_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ASpyCharacter_Statics::NewProp_CameraBoom_MetaData)) };
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ASpyCharacter_Statics::NewProp_FollowCamera_MetaData[] = {
-		{ "AllowPrivateAccess", "true" },
-		{ "Category", "Camera" },
-		{ "Comment", "/** Follow camera */" },
-		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "SpyCharacter.h" },
-		{ "ToolTip", "Follow camera" },
-	};
-#endif
-	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpyCharacter_Statics::NewProp_FollowCamera = { "FollowCamera", nullptr, (EPropertyFlags)0x00400000000a001d, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ASpyCharacter, FollowCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ASpyCharacter_Statics::NewProp_FollowCamera_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ASpyCharacter_Statics::NewProp_FollowCamera_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ASpyCharacter_Statics::NewProp_bHanging_MetaData[] = {
 		{ "ModuleRelativePath", "SpyCharacter.h" },
@@ -1131,7 +1170,6 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpyCharacter_Statics::NewProp_AnimationHang = { "AnimationHang", nullptr, (EPropertyFlags)0x0040000000000001, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ASpyCharacter, AnimationHang), Z_Construct_UClass_UAnimSequence_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ASpyCharacter_Statics::NewProp_AnimationHang_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ASpyCharacter_Statics::NewProp_AnimationHang_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASpyCharacter_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpyCharacter_Statics::NewProp_CameraBoom,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpyCharacter_Statics::NewProp_FollowCamera,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpyCharacter_Statics::NewProp_bHanging,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpyCharacter_Statics::NewProp_bClimbing,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpyCharacter_Statics::NewProp_ClimbCooldown,
@@ -1166,7 +1204,7 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(ASpyCharacter, 2263619456);
+	IMPLEMENT_CLASS(ASpyCharacter, 1823438405);
 	template<> STEALTH_API UClass* StaticClass<ASpyCharacter>()
 	{
 		return ASpyCharacter::StaticClass();

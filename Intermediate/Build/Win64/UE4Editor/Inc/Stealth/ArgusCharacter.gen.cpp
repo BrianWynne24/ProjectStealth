@@ -17,9 +17,59 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 	STEALTH_API UClass* Z_Construct_UClass_AArgusCharacter();
 	STEALTH_API UClass* Z_Construct_UClass_AStealthCharacter();
 	UPackage* Z_Construct_UPackage__Script_Stealth();
+	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
+	COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
 // End Cross Module References
+	DEFINE_FUNCTION(AArgusCharacter::execServerEquipWeapon)
+	{
+		P_GET_OBJECT(UClass,Z_Param_weaponClass);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ServerEquipWeapon_Implementation(Z_Param_weaponClass);
+		P_NATIVE_END;
+	}
+	static FName NAME_AArgusCharacter_ServerEquipWeapon = FName(TEXT("ServerEquipWeapon"));
+	void AArgusCharacter::ServerEquipWeapon(UClass* weaponClass)
+	{
+		ArgusCharacter_eventServerEquipWeapon_Parms Parms;
+		Parms.weaponClass=weaponClass;
+		ProcessEvent(FindFunctionChecked(NAME_AArgusCharacter_ServerEquipWeapon),&Parms);
+	}
 	void AArgusCharacter::StaticRegisterNativesAArgusCharacter()
 	{
+		UClass* Class = AArgusCharacter::StaticClass();
+		static const FNameNativePtrPair Funcs[] = {
+			{ "ServerEquipWeapon", &AArgusCharacter::execServerEquipWeapon },
+		};
+		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics
+	{
+		static const UE4CodeGen_Private::FClassPropertyParams NewProp_weaponClass;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FClassPropertyParams Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::NewProp_weaponClass = { "weaponClass", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ArgusCharacter_eventServerEquipWeapon_Parms, weaponClass), Z_Construct_UClass_UObject_NoRegister, Z_Construct_UClass_UClass, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::NewProp_weaponClass,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "ArgusCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AArgusCharacter, nullptr, "ServerEquipWeapon", nullptr, nullptr, sizeof(ArgusCharacter_eventServerEquipWeapon_Parms), Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00220CC0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	UClass* Z_Construct_UClass_AArgusCharacter_NoRegister()
 	{
@@ -28,6 +78,7 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 	struct Z_Construct_UClass_AArgusCharacter_Statics
 	{
 		static UObject* (*const DependentSingletons[])();
+		static const FClassFunctionLinkInfo FuncInfo[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
@@ -37,6 +88,9 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 	UObject* (*const Z_Construct_UClass_AArgusCharacter_Statics::DependentSingletons[])() = {
 		(UObject* (*)())Z_Construct_UClass_AStealthCharacter,
 		(UObject* (*)())Z_Construct_UPackage__Script_Stealth,
+	};
+	const FClassFunctionLinkInfo Z_Construct_UClass_AArgusCharacter_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon, "ServerEquipWeapon" }, // 3301431893
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AArgusCharacter_Statics::Class_MetaDataParams[] = {
@@ -54,11 +108,11 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 		"Game",
 		&StaticCppClassTypeInfo,
 		DependentSingletons,
-		nullptr,
+		FuncInfo,
 		nullptr,
 		nullptr,
 		UE_ARRAY_COUNT(DependentSingletons),
-		0,
+		UE_ARRAY_COUNT(FuncInfo),
 		0,
 		0,
 		0x009000A4u,
@@ -73,7 +127,7 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AArgusCharacter, 3056343321);
+	IMPLEMENT_CLASS(AArgusCharacter, 3912225082);
 	template<> STEALTH_API UClass* StaticClass<AArgusCharacter>()
 	{
 		return AArgusCharacter::StaticClass();

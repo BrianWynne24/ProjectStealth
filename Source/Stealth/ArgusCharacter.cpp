@@ -3,6 +3,8 @@
 
 #include "ArgusCharacter.h"
 //#include "WeaponBase.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "WeaponRifle.h"
 #include "Util.h"
 
@@ -11,14 +13,16 @@ AArgusCharacter::AArgusCharacter()
 	/* Load our Skeleton for ARGUS */
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> NewCharacterMesh(TEXT("/Game/Mannequin/Character/Mesh/SK_Mannequin"));
 	if (NewCharacterMesh.Object != NULL)
-	{
 		InitCharacterMesh = NewCharacterMesh.Object;
-		//Util::Debug("Assigned Skeleton - ARGUS");
-	}
 
 	StartingWeaponClass = AWeaponRifle::StaticClass();
 
-	bUseControllerRotationYaw = true;
+	ViewCamera->bUsePawnControlRotation = true;
+
+	UCharacterMovementComponent* movementComp = GetCharacterMovement();
+	movementComp->MaxWalkSpeed = 350.f;
+	movementComp->bUseControllerDesiredRotation = true;
+	movementComp->bOrientRotationToMovement = false;
 }
 
 void AArgusCharacter::BeginPlay()
@@ -27,13 +31,22 @@ void AArgusCharacter::BeginPlay()
 
 	USkeletalMeshComponent* skeletalMesh = GetMesh();
 	skeletalMesh->SetOwnerNoSee(true);
+
+	// Snaps camera to Head while in FPP
+	ViewCamera->AttachToComponent(skeletalMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("fpp_cameraSocket"));
+
+	ServerEquipWeapon(StartingWeaponClass);
 }
 
-void AArgusCharacter::EquipWeapon(UClass* weaponClass)
+void AArgusCharacter::ServerEquipWeapon_Implementation(UClass* weaponClass)
 {
-	if (CurrentWeapon != NULL)
+	if (CurrentWeapon != nullptr)
 		CurrentWeapon->Destroy();
 
-	CurrentWeapon = (AWeaponBase*)GetWorld()->SpawnActor(weaponClass);
-	CurrentWeapon->EquipToCharacter(this);
+	FActorSpawnParameters spawnParams;
+	spawnParams.Owner = this;
+
+	//CurrentWeapon = (AWeaponRifle*)GetWorld()->SpawnActor(weaponClass);
+	CurrentWeapon = GetWorld()->SpawnActor<AWeaponBase>(weaponClass, spawnParams);
+	CurrentWeapon->ServerEquipToCharacter(this);
 }

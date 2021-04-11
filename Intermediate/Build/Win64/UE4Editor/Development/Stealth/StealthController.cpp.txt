@@ -1,3 +1,0 @@
-C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\Definitions.Stealth.h
-C:\UE4_Engine\Projects\Stealth\Source\Stealth\StealthController.h
-C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthController.generated.h

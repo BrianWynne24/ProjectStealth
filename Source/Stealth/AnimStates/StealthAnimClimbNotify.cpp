@@ -11,5 +11,6 @@ void UStealthAnimClimbNotify::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimS
 	Super::NotifyEnd(MeshComp, Animation);
 
 	ASpyCharacter* spyCharacter = (ASpyCharacter*)MeshComp->GetOwner();
-	spyCharacter->ServerClimbFinish();
+	if (spyCharacter != nullptr)
+		spyCharacter->ServerClimbFinish();
 }

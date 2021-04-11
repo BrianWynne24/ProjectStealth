@@ -14,10 +14,12 @@ class STEALTH_API AArgusCharacter : public AStealthCharacter
 {
 	GENERATED_BODY()
 
-	AArgusCharacter();
-
 public:
 
+	AArgusCharacter();
+
 	void BeginPlay();
-	void EquipWeapon(UClass* weaponClass);
+
+	UFUNCTION(Server, Reliable)
+	void ServerEquipWeapon(UClass* weaponClass);
 };

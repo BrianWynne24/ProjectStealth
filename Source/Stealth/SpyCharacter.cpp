@@ -30,17 +30,18 @@ ASpyCharacter::ASpyCharacter()
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.f; // The camera follows at this distance behind the character	
+	CameraBoom->TargetArmLength = 500.f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
-	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	//Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	ViewCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+	ViewCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	bHanging = false;
 	HangCooldown = 0.f;
-	//bAlwaysRelevant = true;
+	
+	bAlwaysRelevant = true;
 }
 
 void ASpyCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -56,9 +57,7 @@ void ASpyCharacter::Tick(float deltaSeconds)
 	Super::Tick(deltaSeconds);
 
 	if (IsLocallyControlled())	// Only call on our client to do the heavy lifting
-	{
 		TickHangTrace(false);
-	}
 
 	// We need the server to check to hang if the player is moving right or left
 	// This will prevent the player from sliding past the wall
@@ -123,9 +122,7 @@ void ASpyCharacter::ServerStartHang_Implementation()
 	FRotator rot = hitLoc.Rotation().GetNormalized() - FRotator(0, 180, 0);
 	
 	if (GetNetMode() == NM_ListenServer) // ListenServer support
-	{
 		OnRep_Hanging();
-	}
 
 	SetActorRotation(rot);
 	ClientStartHang(rot.Yaw);
@@ -142,6 +139,30 @@ void ASpyCharacter::ServerCancelHang_Implementation()
 
 	if (GetNetMode() == NM_ListenServer) // ListenServer support
 		OnRep_Hanging();
+}
+
+void ASpyCharacter::ServerSwingOuterRight_Implementation(bool bLeft)
+{
+	FHitResult rightSwingHit = TraceHangSwingRight(bLeft);
+	if (!rightSwingHit.IsValidBlockingHit())
+		return;
+
+	FVector hitLocNormal = rightSwingHit.ImpactNormal;
+	FVector hitLoc = rightSwingHit.Location;
+	FRotator rot = hitLocNormal.Rotation().GetNormalized() - FRotator(0, 180, 0);
+
+	float multiplier = 20;
+	if (bLeft)
+		multiplier *= -1;
+
+	FVector currentLoc = GetActorLocation();
+	FVector newLocation = FVector(hitLoc.X, hitLoc.Y, currentLoc.Z);
+	newLocation += GetActorRightVector() * multiplier;
+
+	SetActorLocation(newLocation);
+	SetActorRotation(FRotator(0, rot.Yaw, 0));
+
+	ClientStartHang(rot.Yaw);
 }
 
 /*void ASpyCharacter::MulticastStartHang_Implementation(FVector forwardHit, FVector upperHit)
@@ -251,7 +272,7 @@ FHitResult ASpyCharacter::TraceClimbTop()
 
 FHitResult ASpyCharacter::TraceHangMoveRight(bool bLeft)
 {
-	float dirValue = 40;
+	float dirValue = 50;
 	if (bLeft)
 		dirValue *= -1;
 
@@ -260,20 +281,20 @@ FHitResult ASpyCharacter::TraceHangMoveRight(bool bLeft)
 	float capsuleHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
 	startLoc = GetActorLocation() + (GetActorRightVector() * dirValue);
 	startLoc.Z += capsuleHeight - 15;
-	endLoc = startLoc + (GetActorForwardVector() * 50);
+	endLoc = startLoc + (GetActorForwardVector() * 45);
 
 	return PerformLineTrace(startLoc, endLoc, TEXT("RightLeftHangTrace"));
 }
 
 FHitResult ASpyCharacter::TraceHangSwingRight(bool bLeft)
 {
-	float dirValue = 20;
+	float dirValue = 50;
 	if (bLeft)
 		dirValue *= -1;
 
 	FVector startLoc, endLoc;
 	float capsuleHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-	startLoc = GetActorLocation() + (GetActorRightVector() * (dirValue*2));
+	startLoc = GetActorLocation() + (GetActorRightVector() * dirValue);
 	startLoc.Z += capsuleHeight - 15;
 	startLoc += GetActorForwardVector() * 45;
 
@@ -294,7 +315,11 @@ void ASpyCharacter::ServerClimbUp_Implementation()
 void ASpyCharacter::ServerClimbRight_Implementation(bool bLeft)
 {
 	if (!CanClimbRight(bLeft))
+	{
+		// Elegant ;)
+		ClientFixPosition(GetActorLocation(), bLeft);
 		return;
+	}
 
 	float force = 100.f;
 	if (bLeft)
@@ -303,13 +328,22 @@ void ASpyCharacter::ServerClimbRight_Implementation(bool bLeft)
 	GetCharacterMovement()->Velocity = GetActorRightVector() * force;
 }
 
-void ASpyCharacter::ServerSwingRight_Implementation(bool bLeft)
+void ASpyCharacter::ClientFixPosition_Implementation(FVector newPosition, bool bLeft)
 {
+	SetActorLocation(newPosition);
+	
+	float moveValue = 1.f;
+	if (bLeft)
+		moveValue *= -1;
 
+	MoveRight(moveValue);
 }
 
 void ASpyCharacter::ServerClimbFinish_Implementation()
 {
+	if (GetOwner() == NULL)
+		return;
+
 	FHitResult topHit = TraceClimbTop();
 	if (!topHit.IsValidBlockingHit())
 		return;
@@ -357,7 +391,7 @@ bool ASpyCharacter::CanClimbRight(bool bLeft)
 	return hitResult.IsValidBlockingHit();
 }
 
-bool ASpyCharacter::CanSwingRight(bool bLeft)
+bool ASpyCharacter::CanSwingOuterRight(bool bLeft)
 {
 	FHitResult hitResult = TraceHangSwingRight(bLeft);
 	return hitResult.IsValidBlockingHit();
@@ -426,12 +460,23 @@ void ASpyCharacter::MoveRight(float Value)
 
 			if (rightClimb)
 				ServerClimbRight(false);
-			else if (!rightClimb && CanSwingRight(false))
-				ServerSwingRight(false);
+			else
+			{
+				if (CanSwingOuterRight(false))
+					ServerSwingOuterRight(false);
+			}
 		}
-		else if (Value < 0.0f)// Left
+		else if (Value < 0.0f)	// Left
 		{
-			ServerClimbRight(true);
+			bool leftClimb = CanClimbRight(true);
+
+			if (leftClimb)
+				ServerClimbRight(true);
+			else
+			{
+				if (CanSwingOuterRight(true))
+					ServerSwingOuterRight(true);
+			}
 		}
 		else if (Value == 0.0f && GetGameTimeSinceCreation() > NetStopMovementCooldown)
 		{
