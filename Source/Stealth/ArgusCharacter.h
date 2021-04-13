@@ -22,4 +22,13 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void ServerEquipWeapon(UClass* weaponClass);
+
+private:
+
+	UFUNCTION()
+	void ReloadWeapon();
+
+protected:
+
+	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };

@@ -72,7 +72,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponRifle() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AWeaponRifle, 3888186364);
+	IMPLEMENT_CLASS(AWeaponRifle, 590657979);
 	template<> STEALTH_API UClass* StaticClass<AWeaponRifle>()
 	{
 		return AWeaponRifle::StaticClass();

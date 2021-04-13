@@ -25,6 +25,13 @@ AArgusCharacter::AArgusCharacter()
 	movementComp->bOrientRotationToMovement = false;
 }
 
+void AArgusCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AArgusCharacter::ReloadWeapon);
+}
+
 void AArgusCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -46,7 +53,14 @@ void AArgusCharacter::ServerEquipWeapon_Implementation(UClass* weaponClass)
 	FActorSpawnParameters spawnParams;
 	spawnParams.Owner = this;
 
-	//CurrentWeapon = (AWeaponRifle*)GetWorld()->SpawnActor(weaponClass);
 	CurrentWeapon = GetWorld()->SpawnActor<AWeaponBase>(weaponClass, spawnParams);
 	CurrentWeapon->ServerEquipToCharacter(this);
+}
+
+void AArgusCharacter::ReloadWeapon()
+{
+	if (GetCurrentWeapon() == nullptr)
+		return;
+
+	GetCurrentWeapon()->Reload();
 }

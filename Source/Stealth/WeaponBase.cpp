@@ -3,9 +3,10 @@
 
 #include "WeaponBase.h"
 #include "Components/CapsuleComponent.h"
-//#include "Camera/CameraComponent.h"
+#include "Camera/CameraComponent.h"
 #include "StealthCharacter.h"
 #include "Util.h"
+#include "Net/UnrealNetwork.h"
 
 AWeaponBase::AWeaponBase()
 {
@@ -75,7 +76,8 @@ void AWeaponBase::ShootPrimary()
 		bPrimaryFiring = true;
 	else
 	{
-		ServerShootPrimary();
+		ClientShootPrimary();
+		ServerShootPrimary(GetAimingLocation());
 		FireRateCooldown = GetGameTimeSinceCreation() + FireRate;
 	}
 }
@@ -87,26 +89,92 @@ void AWeaponBase::StopPrimaryFire()
 
 void AWeaponBase::ShootSecondary()
 {
-	//ServerShootSecondary();
+	ServerShootSecondary();
 }
 
-void AWeaponBase::ServerShootPrimary_Implementation()
+void AWeaponBase::ServerShootPrimary_Implementation(FVector endLoc)
 {
 	if (!CanShootPrimary())
 		return;
 
-	Util::Debug("Bang!");
+	AStealthCharacter* playerOwner = (AStealthCharacter*)GetOwner();
+	if (playerOwner == nullptr)
+		return;
+
+	UWorld* World = GetWorld();
+
+	FName traceName = TEXT("BulletTrace");
+	FCollisionQueryParams traceParams(traceName, true, this);
+	World->DebugDrawTraceTag = traceName;
+
+	FVector startLoc;
+	startLoc = GetWeaponLocation();
+
+	FHitResult hitDetails;
+	bool hitResult = World->LineTraceSingleByChannel(
+		hitDetails,
+		startLoc,
+		endLoc,
+		ECC_Visibility,
+		traceParams
+	);
+
+	MulticastShootPrimary();
+
+	if (bUseAmmo)
+		MagazineCount--;
+
 	FireRateCooldown = GetGameTimeSinceCreation() + FireRate;
+}
+
+void AWeaponBase::MulticastShootPrimary_Implementation()
+{
+
+}
+
+void AWeaponBase::ClientShootPrimary()
+{
+
 }
 
 void AWeaponBase::ServerShootSecondary_Implementation()
 {
+}
 
+void AWeaponBase::Reload()
+{
+	if (!bUseAmmo || MagazineCount >= MagazineFullNum || AmmoCount <= 0 || bReloading)
+		return;
+
+	bReloading = true;
+	ServerReload();
+
+	FireRateCooldown = GetGameTimeSinceCreation() + 1.5; // Reload speed, change to animation speed when we have an animation
+}
+
+void AWeaponBase::ServerReload_Implementation()
+{
+	bReloading = true;
+
+	uint16 ammoDiff = (MagazineFullNum - MagazineCount);
+	if (AmmoCount >= ammoDiff)
+	{
+		AmmoCount -= ammoDiff;
+		MagazineCount = MagazineFullNum;
+	}
+	else
+	{
+		MagazineCount = AmmoCount;
+		AmmoCount = 0;
+	}
+
+	bReloading = false;
+	FireRateCooldown = GetGameTimeSinceCreation() + 1.5; // Reload speed, change to animation speed when we have an animation
 }
 
 bool AWeaponBase::CanShootPrimary()
 {
-	if (GetGameTimeSinceCreation() < FireRateCooldown)
+	if (GetGameTimeSinceCreation() < FireRateCooldown || (bUseAmmo && MagazineCount <= 0) || bReloading)
 		return false;
 
 	return true;
@@ -126,8 +194,53 @@ void AWeaponBase::Tick(float deltaSeconds)
 	{
 		if (CanShootPrimary())
 		{
-			ServerShootPrimary();
+			ClientShootPrimary();
+			ServerShootPrimary(GetAimingLocation());
 			FireRateCooldown = GetGameTimeSinceCreation() + FireRate;
 		}
 	}
+}
+
+FVector AWeaponBase::GetAimingLocation()
+{
+	AStealthCharacter* playerOwner = (AStealthCharacter*)GetOwner();
+	if (playerOwner == nullptr)
+		return FVector(0, 0, 0);
+
+	return GetWeaponLocation() + (playerOwner->GetViewCamera()->GetForwardVector() * 5000.f);
+}
+
+FVector AWeaponBase::GetWeaponLocation()
+{
+	AStealthCharacter* playerOwner = (AStealthCharacter*)GetOwner();
+	if (playerOwner == nullptr)
+		return FVector(0, 0, 0);
+
+	if (HasAuthority())
+	{
+;		USkeletalMeshComponent* charMesh = playerOwner->GetMesh();
+		if (charMesh != nullptr)
+			return playerOwner->GetMesh()->GetSocketLocation("weapon_ViewModel");
+
+		return playerOwner->GetActorLocation();
+	}
+
+	return playerOwner->GetWeaponViewModelAttachment()->GetComponentLocation();
+}
+
+// RepNotifys
+void AWeaponBase::OnRep_MagazineCount()
+{
+
+}
+
+void AWeaponBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AWeaponBase, MagazineCount);
+	DOREPLIFETIME(AWeaponBase, MagazineFullNum);
+	DOREPLIFETIME(AWeaponBase, AmmoCount);
+	DOREPLIFETIME(AWeaponBase, bUseAmmo);
+	DOREPLIFETIME(AWeaponBase, bReloading);
 }

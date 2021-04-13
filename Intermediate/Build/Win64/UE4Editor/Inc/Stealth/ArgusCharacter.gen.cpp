@@ -20,6 +20,13 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
 // End Cross Module References
+	DEFINE_FUNCTION(AArgusCharacter::execReloadWeapon)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ReloadWeapon();
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(AArgusCharacter::execServerEquipWeapon)
 	{
 		P_GET_OBJECT(UClass,Z_Param_weaponClass);
@@ -39,9 +46,32 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 	{
 		UClass* Class = AArgusCharacter::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
+			{ "ReloadWeapon", &AArgusCharacter::execReloadWeapon },
 			{ "ServerEquipWeapon", &AArgusCharacter::execServerEquipWeapon },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_AArgusCharacter_ReloadWeapon_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AArgusCharacter_ReloadWeapon_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "ArgusCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AArgusCharacter_ReloadWeapon_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AArgusCharacter, nullptr, "ReloadWeapon", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00040401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AArgusCharacter_ReloadWeapon_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AArgusCharacter_ReloadWeapon_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AArgusCharacter_ReloadWeapon()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AArgusCharacter_ReloadWeapon_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	struct Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon_Statics
 	{
@@ -90,6 +120,7 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_Stealth,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_AArgusCharacter_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_AArgusCharacter_ReloadWeapon, "ReloadWeapon" }, // 1067027677
 		{ &Z_Construct_UFunction_AArgusCharacter_ServerEquipWeapon, "ServerEquipWeapon" }, // 3301431893
 	};
 #if WITH_METADATA
@@ -127,7 +158,7 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AArgusCharacter, 3912225082);
+	IMPLEMENT_CLASS(AArgusCharacter, 1897770861);
 	template<> STEALTH_API UClass* StaticClass<AArgusCharacter>()
 	{
 		return AArgusCharacter::StaticClass();

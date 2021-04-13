@@ -6,6 +6,8 @@ I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\Components/CapsuleComponent.
 I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\Components/ShapeComponent.h
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ShapeComponent.generated.h
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\CapsuleComponent.generated.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\Camera/CameraComponent.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\CameraComponent.generated.h
 C:\UE4_Engine\Projects\Stealth\Source\Stealth\StealthCharacter.h
 I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/Character.h
 I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/CharacterMovementReplication.h
@@ -19,3 +21,4 @@ I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\PlayerState.
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthPlayerState.generated.h
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\StealthCharacter.generated.h
 C:\UE4_Engine\Projects\Stealth\Source\Stealth\Util.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Public\Net/UnrealNetwork.h

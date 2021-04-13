@@ -18,12 +18,14 @@ class UObject;
 #define Stealth_Source_Stealth_ArgusCharacter_h_15_RPC_WRAPPERS \
 	virtual void ServerEquipWeapon_Implementation(UClass* weaponClass); \
  \
+	DECLARE_FUNCTION(execReloadWeapon); \
 	DECLARE_FUNCTION(execServerEquipWeapon);
 
 
 #define Stealth_Source_Stealth_ArgusCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
 	virtual void ServerEquipWeapon_Implementation(UClass* weaponClass); \
  \
+	DECLARE_FUNCTION(execReloadWeapon); \
 	DECLARE_FUNCTION(execServerEquipWeapon);
 
 

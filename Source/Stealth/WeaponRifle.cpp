@@ -17,5 +17,12 @@ AWeaponRifle::AWeaponRifle()
 	WeaponName = "Rifle";
 
 	WeaponMode = EWeaponMode::AUTOMATIC;
+
+	MagazineCount = 30;
+	MagazineFullNum = 30;
+	AmmoCount = 320;
+
+	bUseAmmo = true;
+
 	FireRate = 0.1f;
 }

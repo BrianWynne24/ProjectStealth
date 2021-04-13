@@ -42,10 +42,25 @@ public:
 	bool CanShootSecondary();
 
 	UFUNCTION(Server, Unreliable)
-	void ServerShootPrimary();
+	void ServerShootPrimary(FVector endLoc);
+
+	UFUNCTION()
+	void ClientShootPrimary();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastShootPrimary();
 
 	UFUNCTION(Server, Unreliable)
 	void ServerShootSecondary();
+
+	UFUNCTION()
+	void Reload();
+
+	UFUNCTION(Server, Reliable)
+	void ServerReload();
+
+	UFUNCTION()
+	FVector GetAimingLocation();
 
 	UPROPERTY()
 	FString WeaponName;
@@ -55,6 +70,21 @@ public:
 
 	UPROPERTY()
 	float FireRate;
+
+	UPROPERTY(Replicated)
+	uint16 MagazineFullNum;
+
+	UPROPERTY(Replicated)
+	uint32 AmmoCount;
+
+	UPROPERTY(Replicated)
+	bool bUseAmmo;
+
+	UPROPERTY(Replicated)
+	bool bReloading;
+
+	UPROPERTY(ReplicatedUsing = OnRep_MagazineCount)
+	uint16 MagazineCount;
 
 	UPROPERTY()
 	float FireRateCooldown;
@@ -77,9 +107,18 @@ public:
 	UPROPERTY()
 	class USkeletalMeshComponent* FPPWeaponComponent;
 
+	// RepNotify
+	UFUNCTION()
+	void OnRep_MagazineCount();
+
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 private:
 
 	void Tick(float deltaSeconds);
+
+	UFUNCTION()
+	FVector GetWeaponLocation();
 
 public:
 
