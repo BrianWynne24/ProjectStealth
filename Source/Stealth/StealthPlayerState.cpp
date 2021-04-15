@@ -3,6 +3,7 @@
 
 #include "StealthPlayerState.h"
 #include "StealthGameState.h"
+#include "StealthPlayerController.h"
 #include "Blueprint/UserWidget.h"
 #include "Util.h"
 #include "Engine.h"
@@ -52,15 +53,22 @@ void AStealthPlayerState::SetTeam_Implementation(ETeam playerTeam)
 	if (oldCharacter != NULL)
 		World->DestroyActor(oldCharacter);
 
-	APlayerController* Player = (APlayerController*)GetOwner();
-	AStealthCharacter* newCharacter = World->SpawnActor<AStealthCharacter>(teamClass, curLocation, curRotation);
-	if (newCharacter == NULL || Player == NULL)
+	AStealthPlayerController* Player = (AStealthPlayerController*)GetOwner();
+
+	FActorSpawnParameters spawnParams;
+	spawnParams.Owner = Player;
+
+	AStealthCharacter* newCharacter = World->SpawnActor<AStealthCharacter>(teamClass, curLocation, curRotation, spawnParams);
+	if (newCharacter == nullptr || Player == nullptr)
 		return;
 
-	Player->UnPossess();
-	newCharacter->SetOwner(Player);
-	Player->Possess(newCharacter);
+	UClass* hudClass = newCharacter->GetHUDClass();
+	if (hudClass == nullptr)
+		Util::Debug("Invalid HUD");
 
+	//Player->UnPossess();
+	Player->Possess(newCharacter);
+	Player->SetClientHUD(newCharacter->GetHUDClass());
 	spawnPoint->StartCooldown(0);
 }
 

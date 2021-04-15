@@ -171,8 +171,10 @@ void AStealthCharacter::BeginPlay()
 
 	ServerBeginPlay();
 
-	if (GetSkeletalMesh() != NULL)
+	if (GetSkeletalMesh() != nullptr)
 		ServerSetCharacterMesh();
+
+	//ClientSpawnHUD();
 }
 
 void AStealthCharacter::Tick(float deltaSeconds)
@@ -185,6 +187,11 @@ void AStealthCharacter::ServerBeginPlay_Implementation()
 	SetActorEnableCollision(false);
 	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
 	SetOwner(GetController());
+
+	/*if (HUDClass != nullptr)
+	{
+		ClientSpawnHUD();
+	}*/
 }
 
 void AStealthCharacter::OnRep_CurrentWeapon()

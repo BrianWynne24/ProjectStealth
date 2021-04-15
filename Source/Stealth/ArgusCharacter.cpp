@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "WeaponRifle.h"
+#include "GameFramework/HUD.h"
 #include "Util.h"
 
 AArgusCharacter::AArgusCharacter()
@@ -14,6 +15,10 @@ AArgusCharacter::AArgusCharacter()
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> NewCharacterMesh(TEXT("/Game/Mannequin/Character/Mesh/SK_Mannequin"));
 	if (NewCharacterMesh.Object != NULL)
 		InitCharacterMesh = NewCharacterMesh.Object;
+
+	static ConstructorHelpers::FClassFinder<AHUD> NewHUD(TEXT("/Game/Stealth/Argus/UI/ArgusHUD"));
+	if (NewHUD.Class != NULL)
+		HUDClass = NewHUD.Class;
 
 	StartingWeaponClass = AWeaponRifle::StaticClass();
 

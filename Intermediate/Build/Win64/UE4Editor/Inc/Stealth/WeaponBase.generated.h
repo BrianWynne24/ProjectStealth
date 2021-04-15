@@ -22,6 +22,7 @@ class AStealthCharacter;
 	virtual void MulticastShootPrimary_Implementation(); \
 	virtual void ServerShootPrimary_Implementation(FVector endLoc); \
  \
+	DECLARE_FUNCTION(execGetMagazineCount); \
 	DECLARE_FUNCTION(execGetWeaponLocation); \
 	DECLARE_FUNCTION(execOnRep_MagazineCount); \
 	DECLARE_FUNCTION(execGetAimingLocation); \
@@ -46,6 +47,7 @@ class AStealthCharacter;
 	virtual void MulticastShootPrimary_Implementation(); \
 	virtual void ServerShootPrimary_Implementation(FVector endLoc); \
  \
+	DECLARE_FUNCTION(execGetMagazineCount); \
 	DECLARE_FUNCTION(execGetWeaponLocation); \
 	DECLARE_FUNCTION(execOnRep_MagazineCount); \
 	DECLARE_FUNCTION(execGetAimingLocation); \

@@ -4,6 +4,7 @@
 #include "StealthPlayerController.h"
 #include "StealthPlayerState.h"
 #include "Blueprint/UserWidget.h"
+#include "Util.h"
 #include "Engine.h"
 #include "Net/UnrealNetwork.h"
 
@@ -36,4 +37,26 @@ void AStealthPlayerController::ClientTeamSelectUI_Implementation()
 
 		SetShowMouseCursor(true);
 	}
+}
+
+void AStealthPlayerController::SetClientHUD_Implementation(class UClass* hudClass)
+{
+	if (hudClass == nullptr)
+		return;
+
+	UWorld* World = GetWorld();
+
+	FActorSpawnParameters spawnParams;
+	spawnParams.Owner = this;
+
+	AHUD* newHUD = World->SpawnActor<AHUD>(hudClass, spawnParams);
+	CurrentHUD = newHUD;
+}
+
+void AStealthPlayerController::RemoveHUD()
+{
+	if (CurrentHUD != nullptr)
+		CurrentHUD->Destroy();
+
+	CurrentHUD = nullptr;
 }

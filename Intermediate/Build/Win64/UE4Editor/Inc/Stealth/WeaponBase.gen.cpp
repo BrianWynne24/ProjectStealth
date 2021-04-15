@@ -24,6 +24,13 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
 // End Cross Module References
+	DEFINE_FUNCTION(AWeaponBase::execGetMagazineCount)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		*(int32*)Z_Param__Result=P_THIS->GetMagazineCount();
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(AWeaponBase::execGetWeaponLocation)
 	{
 		P_FINISH;
@@ -169,6 +176,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 			{ "ClientAttach", &AWeaponBase::execClientAttach },
 			{ "ClientShootPrimary", &AWeaponBase::execClientShootPrimary },
 			{ "GetAimingLocation", &AWeaponBase::execGetAimingLocation },
+			{ "GetMagazineCount", &AWeaponBase::execGetMagazineCount },
 			{ "GetWeaponLocation", &AWeaponBase::execGetWeaponLocation },
 			{ "MulticastShootPrimary", &AWeaponBase::execMulticastShootPrimary },
 			{ "OnRep_MagazineCount", &AWeaponBase::execOnRep_MagazineCount },
@@ -330,6 +338,40 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AWeaponBase_GetAimingLocation_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics
+	{
+		struct WeaponBase_eventGetMagazineCount_Parms
+		{
+			int32 ReturnValue;
+		};
+		static const UE4CodeGen_Private::FUnsizedIntPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FUnsizedIntPropertyParams Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(WeaponBase_eventGetMagazineCount_Parms, ReturnValue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::Function_MetaDataParams[] = {
+		{ "Comment", "// Blueprintys \n" },
+		{ "ModuleRelativePath", "WeaponBase.h" },
+		{ "ToolTip", "Blueprintys" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "GetMagazineCount", nullptr, nullptr, sizeof(WeaponBase_eventGetMagazineCount_Parms), Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AWeaponBase_GetMagazineCount()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -692,6 +734,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		{ &Z_Construct_UFunction_AWeaponBase_ClientAttach, "ClientAttach" }, // 2193811914
 		{ &Z_Construct_UFunction_AWeaponBase_ClientShootPrimary, "ClientShootPrimary" }, // 1214739821
 		{ &Z_Construct_UFunction_AWeaponBase_GetAimingLocation, "GetAimingLocation" }, // 732473729
+		{ &Z_Construct_UFunction_AWeaponBase_GetMagazineCount, "GetMagazineCount" }, // 3634636859
 		{ &Z_Construct_UFunction_AWeaponBase_GetWeaponLocation, "GetWeaponLocation" }, // 3345993111
 		{ &Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary, "MulticastShootPrimary" }, // 3066280575
 		{ &Z_Construct_UFunction_AWeaponBase_OnRep_MagazineCount, "OnRep_MagazineCount" }, // 273838558
@@ -864,7 +907,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AWeaponBase, 86353685);
+	IMPLEMENT_CLASS(AWeaponBase, 2836364539);
 	template<> STEALTH_API UClass* StaticClass<AWeaponBase>()
 	{
 		return AWeaponBase::StaticClass();

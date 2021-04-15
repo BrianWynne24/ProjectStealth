@@ -8,6 +8,7 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class UObject;
 #ifdef STEALTH_StealthPlayerController_generated_h
 #error "StealthPlayerController.generated.h already included, missing '#pragma once' in StealthPlayerController.h"
 #endif
@@ -15,18 +16,30 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 #define Stealth_Source_Stealth_StealthPlayerController_h_15_SPARSE_DATA
 #define Stealth_Source_Stealth_StealthPlayerController_h_15_RPC_WRAPPERS \
+	virtual void SetClientHUD_Implementation(UClass* hudClass); \
 	virtual void ClientTeamSelectUI_Implementation(); \
  \
+	DECLARE_FUNCTION(execRemoveHUD); \
+	DECLARE_FUNCTION(execSetClientHUD); \
 	DECLARE_FUNCTION(execClientTeamSelectUI);
 
 
 #define Stealth_Source_Stealth_StealthPlayerController_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void SetClientHUD_Implementation(UClass* hudClass); \
 	virtual void ClientTeamSelectUI_Implementation(); \
  \
+	DECLARE_FUNCTION(execRemoveHUD); \
+	DECLARE_FUNCTION(execSetClientHUD); \
 	DECLARE_FUNCTION(execClientTeamSelectUI);
 
 
-#define Stealth_Source_Stealth_StealthPlayerController_h_15_EVENT_PARMS
+#define Stealth_Source_Stealth_StealthPlayerController_h_15_EVENT_PARMS \
+	struct StealthPlayerController_eventSetClientHUD_Parms \
+	{ \
+		UClass* hudClass; \
+	};
+
+
 #define Stealth_Source_Stealth_StealthPlayerController_h_15_CALLBACK_WRAPPERS
 #define Stealth_Source_Stealth_StealthPlayerController_h_15_INCLASS_NO_PURE_DECLS \
 private: \

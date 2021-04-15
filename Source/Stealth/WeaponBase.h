@@ -122,6 +122,9 @@ private:
 
 public:
 
-	FORCEINLINE EWeaponMode GetWeaponMode() const { return WeaponMode; }
+	// Blueprintys 
+	UFUNCTION(BlueprintCallable)
+	int GetMagazineCount();
 
+	FORCEINLINE EWeaponMode GetWeaponMode() const { return WeaponMode; }
 };

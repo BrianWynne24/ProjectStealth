@@ -36,4 +36,9 @@ C:\UE4_Engine\Projects\Stealth\Source\Stealth\WeaponRifle.h
 C:\UE4_Engine\Projects\Stealth\Source\Stealth\WeaponBase.h
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\WeaponBase.generated.h
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\WeaponRifle.generated.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/HUD.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/HUDHitBox.h
+I:\UE4\UE_4.26\Engine\Source\Runtime\Engine\Classes\GameFramework/DebugTextInfo.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\DebugTextInfo.generated.h
+I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\HUD.generated.h
 C:\UE4_Engine\Projects\Stealth\Source\Stealth\Util.h

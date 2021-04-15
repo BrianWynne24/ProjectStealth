@@ -36,6 +36,9 @@ public:
 	UPROPERTY()
 	class UClass* AnimationClass;
 
+	UPROPERTY()
+	class UClass* HUDClass;
+
 	UPROPERTY(Replicated, ReplicatedUsing = OnRep_CurrentWeapon)
 	class AWeaponBase* CurrentWeapon;
 
@@ -110,10 +113,17 @@ public:
 
 	FORCEINLINE class USkeletalMesh* GetCharacterMesh() const { return CharacterMesh; }
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE class AWeaponBase* GetCurrentWeapon() const { return CurrentWeapon; }
 
 	FORCEINLINE class UCameraComponent* GetViewCamera() const { return ViewCamera; }
 
 	FORCEINLINE class USceneComponent* GetWeaponViewModelAttachment() const { return WeaponViewModelAttachment; }
+
+	FORCEINLINE class UClass* GetHUDClass() const { return HUDClass; }
+
+	UFUNCTION(BlueprintCallable)
+	float GetHealth() const { return Health; }
+
 };
 

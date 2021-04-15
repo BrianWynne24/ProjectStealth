@@ -8,6 +8,7 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class AWeaponBase;
 class UObject;
 #ifdef STEALTH_StealthCharacter_generated_h
 #error "StealthCharacter.generated.h already included, missing '#pragma once' in StealthCharacter.h"
@@ -19,6 +20,8 @@ class UObject;
 	virtual void ServerSetCharacterMesh_Implementation(); \
 	virtual void ServerBeginPlay_Implementation(); \
  \
+	DECLARE_FUNCTION(execGetHealth); \
+	DECLARE_FUNCTION(execGetCurrentWeapon); \
 	DECLARE_FUNCTION(execOnRep_Health); \
 	DECLARE_FUNCTION(execOnRep_CurrentWeapon); \
 	DECLARE_FUNCTION(execOnRep_CharacterMesh); \
@@ -31,6 +34,8 @@ class UObject;
 	virtual void ServerSetCharacterMesh_Implementation(); \
 	virtual void ServerBeginPlay_Implementation(); \
  \
+	DECLARE_FUNCTION(execGetHealth); \
+	DECLARE_FUNCTION(execGetCurrentWeapon); \
 	DECLARE_FUNCTION(execOnRep_Health); \
 	DECLARE_FUNCTION(execOnRep_CurrentWeapon); \
 	DECLARE_FUNCTION(execOnRep_CharacterMesh); \

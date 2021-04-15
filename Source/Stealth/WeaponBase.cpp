@@ -40,8 +40,6 @@ void AWeaponBase::BeginPlay()
 
 void AWeaponBase::ServerEquipToCharacter(AStealthCharacter* Character)
 {
-	Util::Debug(WeaponName);
-
 	if (GetNetMode() == NM_ListenServer)
 		ClientAttach();
 }
@@ -243,4 +241,9 @@ void AWeaponBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AWeaponBase, AmmoCount);
 	DOREPLIFETIME(AWeaponBase, bUseAmmo);
 	DOREPLIFETIME(AWeaponBase, bReloading);
+}
+
+int AWeaponBase::GetMagazineCount()
+{
+	return (int)MagazineCount;
 }

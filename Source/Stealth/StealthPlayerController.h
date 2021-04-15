@@ -16,8 +16,17 @@ class STEALTH_API AStealthPlayerController : public APlayerController
 
 public:
 
+	UPROPERTY()
+	class AHUD* CurrentHUD;
+
 	UFUNCTION(Client, Reliable)
 	void ClientTeamSelectUI();
+
+	UFUNCTION(Client, Reliable)
+	void SetClientHUD(class UClass* hudClass);
+
+	UFUNCTION()
+	void RemoveHUD();
 
 	/* Overrides */
 	void OnRep_PlayerState() override;
