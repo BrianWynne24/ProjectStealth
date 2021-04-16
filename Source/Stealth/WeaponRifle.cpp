@@ -20,7 +20,7 @@ AWeaponRifle::AWeaponRifle()
 
 	MagazineCount = 30;
 	MagazineFullNum = 30;
-	AmmoCount = 320;
+	AmmoCount = 15; //320;
 
 	bUseAmmo = true;
 

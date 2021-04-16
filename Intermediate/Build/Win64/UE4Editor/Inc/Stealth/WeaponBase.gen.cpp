@@ -24,6 +24,13 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
 // End Cross Module References
+	DEFINE_FUNCTION(AWeaponBase::execGetAmmoCount)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		*(int32*)Z_Param__Result=P_THIS->GetAmmoCount();
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(AWeaponBase::execGetMagazineCount)
 	{
 		P_FINISH;
@@ -176,6 +183,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 			{ "ClientAttach", &AWeaponBase::execClientAttach },
 			{ "ClientShootPrimary", &AWeaponBase::execClientShootPrimary },
 			{ "GetAimingLocation", &AWeaponBase::execGetAimingLocation },
+			{ "GetAmmoCount", &AWeaponBase::execGetAmmoCount },
 			{ "GetMagazineCount", &AWeaponBase::execGetMagazineCount },
 			{ "GetWeaponLocation", &AWeaponBase::execGetWeaponLocation },
 			{ "MulticastShootPrimary", &AWeaponBase::execMulticastShootPrimary },
@@ -338,6 +346,38 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AWeaponBase_GetAimingLocation_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics
+	{
+		struct WeaponBase_eventGetAmmoCount_Parms
+		{
+			int32 ReturnValue;
+		};
+		static const UE4CodeGen_Private::FUnsizedIntPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FUnsizedIntPropertyParams Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(WeaponBase_eventGetAmmoCount_Parms, ReturnValue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "WeaponBase.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "GetAmmoCount", nullptr, nullptr, sizeof(WeaponBase_eventGetAmmoCount_Parms), Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AWeaponBase_GetAmmoCount()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AWeaponBase_GetAmmoCount_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -683,11 +723,6 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		static void NewProp_bUseAmmo_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_bUseAmmo;
 #if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_bReloading_MetaData[];
-#endif
-		static void NewProp_bReloading_SetBit(void* Obj);
-		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_bReloading;
-#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MagazineCount_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FFInt16PropertyParams NewProp_MagazineCount;
@@ -734,6 +769,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		{ &Z_Construct_UFunction_AWeaponBase_ClientAttach, "ClientAttach" }, // 2193811914
 		{ &Z_Construct_UFunction_AWeaponBase_ClientShootPrimary, "ClientShootPrimary" }, // 1214739821
 		{ &Z_Construct_UFunction_AWeaponBase_GetAimingLocation, "GetAimingLocation" }, // 732473729
+		{ &Z_Construct_UFunction_AWeaponBase_GetAmmoCount, "GetAmmoCount" }, // 2864821506
 		{ &Z_Construct_UFunction_AWeaponBase_GetMagazineCount, "GetMagazineCount" }, // 3634636859
 		{ &Z_Construct_UFunction_AWeaponBase_GetWeaponLocation, "GetWeaponLocation" }, // 3345993111
 		{ &Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary, "MulticastShootPrimary" }, // 3066280575
@@ -795,16 +831,6 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		((AWeaponBase*)Obj)->bUseAmmo = 1;
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_AWeaponBase_Statics::NewProp_bUseAmmo = { "bUseAmmo", nullptr, (EPropertyFlags)0x0010000000000020, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(AWeaponBase), &Z_Construct_UClass_AWeaponBase_Statics::NewProp_bUseAmmo_SetBit, METADATA_PARAMS(Z_Construct_UClass_AWeaponBase_Statics::NewProp_bUseAmmo_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AWeaponBase_Statics::NewProp_bUseAmmo_MetaData)) };
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AWeaponBase_Statics::NewProp_bReloading_MetaData[] = {
-		{ "ModuleRelativePath", "WeaponBase.h" },
-	};
-#endif
-	void Z_Construct_UClass_AWeaponBase_Statics::NewProp_bReloading_SetBit(void* Obj)
-	{
-		((AWeaponBase*)Obj)->bReloading = 1;
-	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_AWeaponBase_Statics::NewProp_bReloading = { "bReloading", nullptr, (EPropertyFlags)0x0010000000000020, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(AWeaponBase), &Z_Construct_UClass_AWeaponBase_Statics::NewProp_bReloading_SetBit, METADATA_PARAMS(Z_Construct_UClass_AWeaponBase_Statics::NewProp_bReloading_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AWeaponBase_Statics::NewProp_bReloading_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AWeaponBase_Statics::NewProp_MagazineCount_MetaData[] = {
 		{ "ModuleRelativePath", "WeaponBase.h" },
@@ -870,7 +896,6 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AWeaponBase_Statics::NewProp_MagazineFullNum,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AWeaponBase_Statics::NewProp_AmmoCount,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AWeaponBase_Statics::NewProp_bUseAmmo,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AWeaponBase_Statics::NewProp_bReloading,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AWeaponBase_Statics::NewProp_MagazineCount,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AWeaponBase_Statics::NewProp_FireRateCooldown,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AWeaponBase_Statics::NewProp_bPrimaryFiring,
@@ -907,7 +932,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AWeaponBase, 2836364539);
+	IMPLEMENT_CLASS(AWeaponBase, 269652917);
 	template<> STEALTH_API UClass* StaticClass<AWeaponBase>()
 	{
 		return AWeaponBase::StaticClass();
@@ -919,14 +944,12 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		static const FName Name_MagazineFullNum(TEXT("MagazineFullNum"));
 		static const FName Name_AmmoCount(TEXT("AmmoCount"));
 		static const FName Name_bUseAmmo(TEXT("bUseAmmo"));
-		static const FName Name_bReloading(TEXT("bReloading"));
 		static const FName Name_MagazineCount(TEXT("MagazineCount"));
 
 		const bool bIsValid = true
 			&& Name_MagazineFullNum == ClassReps[(int32)ENetFields_Private::MagazineFullNum].Property->GetFName()
 			&& Name_AmmoCount == ClassReps[(int32)ENetFields_Private::AmmoCount].Property->GetFName()
 			&& Name_bUseAmmo == ClassReps[(int32)ENetFields_Private::bUseAmmo].Property->GetFName()
-			&& Name_bReloading == ClassReps[(int32)ENetFields_Private::bReloading].Property->GetFName()
 			&& Name_MagazineCount == ClassReps[(int32)ENetFields_Private::MagazineCount].Property->GetFName();
 
 		checkf(bIsValid, TEXT("UHT Generated Rep Indices do not match runtime populated Rep Indices for properties in AWeaponBase"));

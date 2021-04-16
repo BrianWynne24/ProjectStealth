@@ -16,7 +16,7 @@ AArgusCharacter::AArgusCharacter()
 	if (NewCharacterMesh.Object != NULL)
 		InitCharacterMesh = NewCharacterMesh.Object;
 
-	static ConstructorHelpers::FClassFinder<AHUD> NewHUD(TEXT("/Game/Stealth/Argus/UI/ArgusHUD"));
+	static ConstructorHelpers::FClassFinder<AHUD> NewHUD(TEXT("/Game/Stealth/Argus/UI/HUDArgus"));
 	if (NewHUD.Class != NULL)
 		HUDClass = NewHUD.Class;
 

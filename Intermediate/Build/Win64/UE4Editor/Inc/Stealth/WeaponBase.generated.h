@@ -22,6 +22,7 @@ class AStealthCharacter;
 	virtual void MulticastShootPrimary_Implementation(); \
 	virtual void ServerShootPrimary_Implementation(FVector endLoc); \
  \
+	DECLARE_FUNCTION(execGetAmmoCount); \
 	DECLARE_FUNCTION(execGetMagazineCount); \
 	DECLARE_FUNCTION(execGetWeaponLocation); \
 	DECLARE_FUNCTION(execOnRep_MagazineCount); \
@@ -47,6 +48,7 @@ class AStealthCharacter;
 	virtual void MulticastShootPrimary_Implementation(); \
 	virtual void ServerShootPrimary_Implementation(FVector endLoc); \
  \
+	DECLARE_FUNCTION(execGetAmmoCount); \
 	DECLARE_FUNCTION(execGetMagazineCount); \
 	DECLARE_FUNCTION(execGetWeaponLocation); \
 	DECLARE_FUNCTION(execOnRep_MagazineCount); \
@@ -87,7 +89,6 @@ public: \
 		MagazineFullNum=NETFIELD_REP_START, \
 		AmmoCount, \
 		bUseAmmo, \
-		bReloading, \
 		MagazineCount, \
 		NETFIELD_REP_END=MagazineCount	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
@@ -106,7 +107,6 @@ public: \
 		MagazineFullNum=NETFIELD_REP_START, \
 		AmmoCount, \
 		bUseAmmo, \
-		bReloading, \
 		MagazineCount, \
 		NETFIELD_REP_END=MagazineCount	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;

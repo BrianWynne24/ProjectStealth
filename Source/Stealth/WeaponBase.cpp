@@ -141,10 +141,9 @@ void AWeaponBase::ServerShootSecondary_Implementation()
 
 void AWeaponBase::Reload()
 {
-	if (!bUseAmmo || MagazineCount >= MagazineFullNum || AmmoCount <= 0 || bReloading)
+	if (!bUseAmmo || MagazineCount >= MagazineFullNum || AmmoCount <= 0)
 		return;
 
-	bReloading = true;
 	ServerReload();
 
 	FireRateCooldown = GetGameTimeSinceCreation() + 1.5; // Reload speed, change to animation speed when we have an animation
@@ -152,8 +151,6 @@ void AWeaponBase::Reload()
 
 void AWeaponBase::ServerReload_Implementation()
 {
-	bReloading = true;
-
 	uint16 ammoDiff = (MagazineFullNum - MagazineCount);
 	if (AmmoCount >= ammoDiff)
 	{
@@ -166,13 +163,12 @@ void AWeaponBase::ServerReload_Implementation()
 		AmmoCount = 0;
 	}
 
-	bReloading = false;
 	FireRateCooldown = GetGameTimeSinceCreation() + 1.5; // Reload speed, change to animation speed when we have an animation
 }
 
 bool AWeaponBase::CanShootPrimary()
 {
-	if (GetGameTimeSinceCreation() < FireRateCooldown || (bUseAmmo && MagazineCount <= 0) || bReloading)
+	if (GetGameTimeSinceCreation() < FireRateCooldown || (bUseAmmo && MagazineCount <= 0))
 		return false;
 
 	return true;
@@ -240,10 +236,14 @@ void AWeaponBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AWeaponBase, MagazineFullNum);
 	DOREPLIFETIME(AWeaponBase, AmmoCount);
 	DOREPLIFETIME(AWeaponBase, bUseAmmo);
-	DOREPLIFETIME(AWeaponBase, bReloading);
 }
 
 int AWeaponBase::GetMagazineCount()
 {
 	return (int)MagazineCount;
+}
+
+int AWeaponBase::GetAmmoCount()
+{
+	return (int)AmmoCount;
 }

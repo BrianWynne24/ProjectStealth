@@ -72,7 +72,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponTaser() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AWeaponTaser, 1034319108);
+	IMPLEMENT_CLASS(AWeaponTaser, 3903004485);
 	template<> STEALTH_API UClass* StaticClass<AWeaponTaser>()
 	{
 		return AWeaponTaser::StaticClass();

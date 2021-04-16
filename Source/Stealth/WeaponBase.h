@@ -80,9 +80,6 @@ public:
 	UPROPERTY(Replicated)
 	bool bUseAmmo;
 
-	UPROPERTY(Replicated)
-	bool bReloading;
-
 	UPROPERTY(ReplicatedUsing = OnRep_MagazineCount)
 	uint16 MagazineCount;
 
@@ -125,6 +122,9 @@ public:
 	// Blueprintys 
 	UFUNCTION(BlueprintCallable)
 	int GetMagazineCount();
+
+	UFUNCTION(BlueprintCallable)
+	int GetAmmoCount();
 
 	FORCEINLINE EWeaponMode GetWeaponMode() const { return WeaponMode; }
 };
