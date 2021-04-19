@@ -63,7 +63,7 @@ public: \
 
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
-	NO_API APlayerSpawnPoint(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
+	NO_API APlayerSpawnPoint(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(APlayerSpawnPoint) \
 	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, APlayerSpawnPoint); \
 DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(APlayerSpawnPoint); \
@@ -75,8 +75,6 @@ public:
 
 
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_ENHANCED_CONSTRUCTORS \
-	/** Standard constructor, called after all reflected properties have been initialized */ \
-	NO_API APlayerSpawnPoint(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { }; \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API APlayerSpawnPoint(APlayerSpawnPoint&&); \
@@ -84,7 +82,7 @@ private: \
 public: \
 	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, APlayerSpawnPoint); \
 DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(APlayerSpawnPoint); \
-	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(APlayerSpawnPoint)
+	DEFINE_DEFAULT_CONSTRUCTOR_CALL(APlayerSpawnPoint)
 
 
 #define Stealth_Source_Stealth_PlayerSpawnPoint_h_16_PRIVATE_PROPERTY_OFFSET \

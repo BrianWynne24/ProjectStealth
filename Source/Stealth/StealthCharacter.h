@@ -6,6 +6,7 @@
 #include "Enumeration.h"
 #include "GameFramework/Character.h"
 #include "StealthPlayerState.h"
+//#include "Gadgets/GadgetBase.h"
 #include "StealthCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -63,6 +64,12 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void ServerSetCharacterMesh();
+
+	UFUNCTION()
+	void ServerAddGadget(class UClass* gadgetClass);
+
+	UFUNCTION(BlueprintCallable)
+	class UGadgetBase* GetGadget(int gadgetIndex);
 
 	UFUNCTION()
 	void OnRep_CharacterMesh();
@@ -124,6 +131,14 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	float GetHealth() const { return Health; }
+
+private:
+
+	UPROPERTY(Replicated)
+	TArray<class UGadgetBase*> Gadgets;
+
+	UPROPERTY()
+	uint8 GadgetSelectedIndex;
 
 };
 

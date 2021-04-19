@@ -158,7 +158,7 @@ void EmptyLinkFunctionForGeneratedCodeArgusCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AArgusCharacter, 1170177896);
+	IMPLEMENT_CLASS(AArgusCharacter, 2002380136);
 	template<> STEALTH_API UClass* StaticClass<AArgusCharacter>()
 	{
 		return AArgusCharacter::StaticClass();

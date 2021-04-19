@@ -2,7 +2,13 @@
 
 
 #include "PlayerSpawnPoint.h"
-#include <Runtime\Engine\Public\Net\UnrealNetwork.h>
+#include "Components/ArrowComponent.h"
+#include "Engine.h"
+#include "Net/UnrealNetwork.h"
+
+APlayerSpawnPoint::APlayerSpawnPoint()
+{
+}
 
 ETeam APlayerSpawnPoint::GetTeam()
 {

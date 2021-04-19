@@ -5,6 +5,8 @@
 #include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
 #include "StealthCharacter.h"
+#include "BulletActor.h"
+#include "Engine/SkeletalMeshSocket.h"
 #include "Util.h"
 #include "Net/UnrealNetwork.h"
 
@@ -26,6 +28,8 @@ AWeaponBase::AWeaponBase()
 
 	SetActorTickEnabled(true);
 	PrimaryActorTick.bCanEverTick = true;
+
+	bAlwaysRelevant = true;
 }
 
 void AWeaponBase::BeginPlay()
@@ -35,7 +39,7 @@ void AWeaponBase::BeginPlay()
 	TPPWeaponComponent->SetSkeletalMesh(TPPWeaponObject);
 	FPPWeaponComponent->SetSkeletalMesh(FPPWeaponObject);
 
-	ClientAttach();
+	//ClientAttach();
 }
 
 void AWeaponBase::ServerEquipToCharacter(AStealthCharacter* Character)
@@ -63,6 +67,15 @@ void AWeaponBase::ClientAttach()
 	FPPWeaponComponent->AttachToComponent(playerOwner->GetWeaponViewModelAttachment(), FAttachmentTransformRules::KeepRelativeTransform);
 	FPPWeaponComponent->SetOnlyOwnerSee(true);
 	FPPWeaponComponent->SetOwnerNoSee(false);
+
+	FPPWeaponComponent->bCastDynamicShadow = false;
+	FPPWeaponComponent->CastShadow = false;
+}
+
+void AWeaponBase::OnRep_Owner()
+{
+	Super::OnRep_Owner();
+	ClientAttach();
 }
 
 void AWeaponBase::ShootPrimary()
@@ -74,7 +87,7 @@ void AWeaponBase::ShootPrimary()
 		bPrimaryFiring = true;
 	else
 	{
-		ClientShootPrimary();
+		ClientShootPrimary(GetAimingLocation());
 		ServerShootPrimary(GetAimingLocation());
 		FireRateCooldown = GetGameTimeSinceCreation() + FireRate;
 	}
@@ -103,21 +116,24 @@ void AWeaponBase::ServerShootPrimary_Implementation(FVector endLoc)
 
 	FName traceName = TEXT("BulletTrace");
 	FCollisionQueryParams traceParams(traceName, true, this);
+	traceParams.AddIgnoredActor(GetOwner());
+
 	World->DebugDrawTraceTag = traceName;
 
 	FVector startLoc;
-	startLoc = GetWeaponLocation();
+	//startLoc = GetMuzzleLocation();
+	startLoc = playerOwner->GetViewCamera()->GetComponentLocation();
 
 	FHitResult hitDetails;
 	bool hitResult = World->LineTraceSingleByChannel(
 		hitDetails,
 		startLoc,
 		endLoc,
-		ECC_Visibility,
+		ECC_GameTraceChannel14,
 		traceParams
 	);
 
-	MulticastShootPrimary();
+	MulticastShootPrimary(hitDetails);
 
 	if (bUseAmmo)
 		MagazineCount--;
@@ -125,14 +141,33 @@ void AWeaponBase::ServerShootPrimary_Implementation(FVector endLoc)
 	FireRateCooldown = GetGameTimeSinceCreation() + FireRate;
 }
 
-void AWeaponBase::MulticastShootPrimary_Implementation()
+void AWeaponBase::MulticastShootPrimary_Implementation(FHitResult hitResult)
 {
+	APawn* playerPawn = (APawn*)GetOwner();
+	if (playerPawn == nullptr)
+		return;
 
+	// We already ran this function on the owner when the player shot
+	if (playerPawn->IsLocallyControlled())
+		return;
+
+	FVector hitLoc = hitResult.Location;
+	ClientShootPrimary(hitLoc);
 }
 
-void AWeaponBase::ClientShootPrimary()
+void AWeaponBase::ClientShootPrimary(FVector hitLoc)
 {
+	UWorld* World = GetWorld();
 
+	FActorSpawnParameters spawnParams;
+	spawnParams.Owner = this;
+
+	FTransform spawnTransform;
+	spawnTransform.SetLocation(GetMuzzleLocation());
+	spawnTransform.SetRotation(GetFPPWeaponRotation().Quaternion());
+
+	ABulletActor* bullet = World->SpawnActor<ABulletActor>(ABulletActor::StaticClass(), spawnTransform, spawnParams);
+	bullet->SetEndLocation(hitLoc);
 }
 
 void AWeaponBase::ServerShootSecondary_Implementation()
@@ -159,8 +194,17 @@ void AWeaponBase::ServerReload_Implementation()
 	}
 	else
 	{
-		MagazineCount = AmmoCount;
-		AmmoCount = 0;
+		uint16 magDiff = (MagazineCount + AmmoCount);
+		if (magDiff > MagazineFullNum)
+		{
+			AmmoCount = ammoDiff;
+			MagazineCount = MagazineFullNum;
+		}
+		else
+		{
+			MagazineCount = magDiff;
+			AmmoCount = 0;
+		}
 	}
 
 	FireRateCooldown = GetGameTimeSinceCreation() + 1.5; // Reload speed, change to animation speed when we have an animation
@@ -188,7 +232,7 @@ void AWeaponBase::Tick(float deltaSeconds)
 	{
 		if (CanShootPrimary())
 		{
-			ClientShootPrimary();
+			ClientShootPrimary(GetAimingLocation());
 			ServerShootPrimary(GetAimingLocation());
 			FireRateCooldown = GetGameTimeSinceCreation() + FireRate;
 		}
@@ -199,27 +243,52 @@ FVector AWeaponBase::GetAimingLocation()
 {
 	AStealthCharacter* playerOwner = (AStealthCharacter*)GetOwner();
 	if (playerOwner == nullptr)
-		return FVector(0, 0, 0);
+		return GetActorLocation();
 
-	return GetWeaponLocation() + (playerOwner->GetViewCamera()->GetForwardVector() * 5000.f);
+	//FVector compLoc = playerOwner->GetViewCamera()->GetForwardVector();
+	//return GetMuzzleLocation() + (compLoc * 4000.f);
+
+	//FVector compLoc = playerOwner->GetViewCamera()->GetComponentLocation();
+	FVector compLoc = playerOwner->GetViewRotation().Vector();
+	return GetMuzzleLocation() + (compLoc * 4000.f);
 }
 
 FVector AWeaponBase::GetWeaponLocation()
 {
 	AStealthCharacter* playerOwner = (AStealthCharacter*)GetOwner();
 	if (playerOwner == nullptr)
-		return FVector(0, 0, 0);
+		return GetActorLocation();
 
-	if (HasAuthority())
+	if (playerOwner->IsLocallyControlled())
 	{
-;		USkeletalMeshComponent* charMesh = playerOwner->GetMesh();
-		if (charMesh != nullptr)
-			return playerOwner->GetMesh()->GetSocketLocation("weapon_ViewModel");
-
-		return playerOwner->GetActorLocation();
+		if (FPPWeaponComponent)
+			return FPPWeaponComponent->GetComponentLocation();
 	}
 
-	return playerOwner->GetWeaponViewModelAttachment()->GetComponentLocation();
+	return TPPWeaponComponent->GetComponentLocation();
+}
+
+FVector AWeaponBase::GetMuzzleLocation()
+{
+	AStealthCharacter* playerOwner = (AStealthCharacter*)GetOwner();
+	if (playerOwner == nullptr)
+		return GetActorLocation();
+
+	if (playerOwner->IsLocallyControlled())
+	{
+		if (FPPWeaponComponent)
+			return FPPWeaponComponent->GetSocketLocation("Muzzle");
+	}
+
+	return TPPWeaponComponent->GetSocketLocation("Muzzle");
+}
+
+FRotator AWeaponBase::GetFPPWeaponRotation()
+{
+	if (FPPWeaponComponent == nullptr)
+		return GetActorRotation();
+
+	return FPPWeaponComponent->GetRelativeRotation();
 }
 
 // RepNotifys

@@ -8,7 +8,9 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+struct FRotator;
 struct FVector;
+struct FHitResult;
 class AStealthCharacter;
 #ifdef STEALTH_WeaponBase_generated_h
 #error "WeaponBase.generated.h already included, missing '#pragma once' in WeaponBase.h"
@@ -19,11 +21,14 @@ class AStealthCharacter;
 #define Stealth_Source_Stealth_WeaponBase_h_15_RPC_WRAPPERS \
 	virtual void ServerReload_Implementation(); \
 	virtual void ServerShootSecondary_Implementation(); \
-	virtual void MulticastShootPrimary_Implementation(); \
+	virtual void MulticastShootPrimary_Implementation(FHitResult hitResult); \
 	virtual void ServerShootPrimary_Implementation(FVector endLoc); \
  \
+	DECLARE_FUNCTION(execGetWeaponName); \
 	DECLARE_FUNCTION(execGetAmmoCount); \
 	DECLARE_FUNCTION(execGetMagazineCount); \
+	DECLARE_FUNCTION(execGetFPPWeaponRotation); \
+	DECLARE_FUNCTION(execGetMuzzleLocation); \
 	DECLARE_FUNCTION(execGetWeaponLocation); \
 	DECLARE_FUNCTION(execOnRep_MagazineCount); \
 	DECLARE_FUNCTION(execGetAimingLocation); \
@@ -45,11 +50,14 @@ class AStealthCharacter;
 #define Stealth_Source_Stealth_WeaponBase_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
 	virtual void ServerReload_Implementation(); \
 	virtual void ServerShootSecondary_Implementation(); \
-	virtual void MulticastShootPrimary_Implementation(); \
+	virtual void MulticastShootPrimary_Implementation(FHitResult hitResult); \
 	virtual void ServerShootPrimary_Implementation(FVector endLoc); \
  \
+	DECLARE_FUNCTION(execGetWeaponName); \
 	DECLARE_FUNCTION(execGetAmmoCount); \
 	DECLARE_FUNCTION(execGetMagazineCount); \
+	DECLARE_FUNCTION(execGetFPPWeaponRotation); \
+	DECLARE_FUNCTION(execGetMuzzleLocation); \
 	DECLARE_FUNCTION(execGetWeaponLocation); \
 	DECLARE_FUNCTION(execOnRep_MagazineCount); \
 	DECLARE_FUNCTION(execGetAimingLocation); \
@@ -69,6 +77,10 @@ class AStealthCharacter;
 
 
 #define Stealth_Source_Stealth_WeaponBase_h_15_EVENT_PARMS \
+	struct WeaponBase_eventMulticastShootPrimary_Parms \
+	{ \
+		FHitResult hitResult; \
+	}; \
 	struct WeaponBase_eventServerShootPrimary_Parms \
 	{ \
 		FVector endLoc; \

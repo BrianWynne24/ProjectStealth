@@ -142,6 +142,8 @@ I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\PropertyPath\Proper
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\UMG\DynamicPropertyPath.generated.h
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\UMG\WidgetBlueprintGeneratedClass.generated.h
 I:\UE4\UE_4.26\Engine\Intermediate\Build\Win64\UE4Editor\Inc\UMG\UserWidget.generated.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\Gadgets/GadgetBase.h
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\GadgetBase.generated.h
 C:\UE4_Engine\Projects\Stealth\Source\Stealth\WeaponBase.h
 C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\WeaponBase.generated.h
 C:\UE4_Engine\Projects\Stealth\Source\Stealth\Util.h

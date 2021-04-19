@@ -18,12 +18,21 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 	ENGINE_API UClass* Z_Construct_UClass_AActor();
 	UPackage* Z_Construct_UPackage__Script_Stealth();
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FVector();
+	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FRotator();
+	ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FHitResult();
 	STEALTH_API UClass* Z_Construct_UClass_AStealthCharacter_NoRegister();
 	STEALTH_API UEnum* Z_Construct_UEnum_Stealth_EWeaponMode();
 	ENGINE_API UClass* Z_Construct_UClass_USkeletalMesh_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
 // End Cross Module References
+	DEFINE_FUNCTION(AWeaponBase::execGetWeaponName)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		*(FString*)Z_Param__Result=P_THIS->GetWeaponName();
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(AWeaponBase::execGetAmmoCount)
 	{
 		P_FINISH;
@@ -36,6 +45,20 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		P_FINISH;
 		P_NATIVE_BEGIN;
 		*(int32*)Z_Param__Result=P_THIS->GetMagazineCount();
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(AWeaponBase::execGetFPPWeaponRotation)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		*(FRotator*)Z_Param__Result=P_THIS->GetFPPWeaponRotation();
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(AWeaponBase::execGetMuzzleLocation)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		*(FVector*)Z_Param__Result=P_THIS->GetMuzzleLocation();
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(AWeaponBase::execGetWeaponLocation)
@@ -82,16 +105,18 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 	}
 	DEFINE_FUNCTION(AWeaponBase::execMulticastShootPrimary)
 	{
+		P_GET_STRUCT(FHitResult,Z_Param_hitResult);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->MulticastShootPrimary_Implementation();
+		P_THIS->MulticastShootPrimary_Implementation(Z_Param_hitResult);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(AWeaponBase::execClientShootPrimary)
 	{
+		P_GET_STRUCT(FVector,Z_Param_hitLoc);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->ClientShootPrimary();
+		P_THIS->ClientShootPrimary(Z_Param_hitLoc);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(AWeaponBase::execServerShootPrimary)
@@ -153,9 +178,11 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		P_NATIVE_END;
 	}
 	static FName NAME_AWeaponBase_MulticastShootPrimary = FName(TEXT("MulticastShootPrimary"));
-	void AWeaponBase::MulticastShootPrimary()
+	void AWeaponBase::MulticastShootPrimary(FHitResult hitResult)
 	{
-		ProcessEvent(FindFunctionChecked(NAME_AWeaponBase_MulticastShootPrimary),NULL);
+		WeaponBase_eventMulticastShootPrimary_Parms Parms;
+		Parms.hitResult=hitResult;
+		ProcessEvent(FindFunctionChecked(NAME_AWeaponBase_MulticastShootPrimary),&Parms);
 	}
 	static FName NAME_AWeaponBase_ServerReload = FName(TEXT("ServerReload"));
 	void AWeaponBase::ServerReload()
@@ -184,8 +211,11 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 			{ "ClientShootPrimary", &AWeaponBase::execClientShootPrimary },
 			{ "GetAimingLocation", &AWeaponBase::execGetAimingLocation },
 			{ "GetAmmoCount", &AWeaponBase::execGetAmmoCount },
+			{ "GetFPPWeaponRotation", &AWeaponBase::execGetFPPWeaponRotation },
 			{ "GetMagazineCount", &AWeaponBase::execGetMagazineCount },
+			{ "GetMuzzleLocation", &AWeaponBase::execGetMuzzleLocation },
 			{ "GetWeaponLocation", &AWeaponBase::execGetWeaponLocation },
+			{ "GetWeaponName", &AWeaponBase::execGetWeaponName },
 			{ "MulticastShootPrimary", &AWeaponBase::execMulticastShootPrimary },
 			{ "OnRep_MagazineCount", &AWeaponBase::execOnRep_MagazineCount },
 			{ "Reload", &AWeaponBase::execReload },
@@ -297,17 +327,27 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 	}
 	struct Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics
 	{
+		struct WeaponBase_eventClientShootPrimary_Parms
+		{
+			FVector hitLoc;
+		};
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_hitLoc;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::NewProp_hitLoc = { "hitLoc", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(WeaponBase_eventClientShootPrimary_Parms, hitLoc), Z_Construct_UScriptStruct_FVector, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::NewProp_hitLoc,
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::Function_MetaDataParams[] = {
 		{ "ModuleRelativePath", "WeaponBase.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "ClientShootPrimary", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "ClientShootPrimary", nullptr, nullptr, sizeof(WeaponBase_eventClientShootPrimary_Parms), Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00820401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_ClientShootPrimary_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_AWeaponBase_ClientShootPrimary()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -381,6 +421,38 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics
+	{
+		struct WeaponBase_eventGetFPPWeaponRotation_Parms
+		{
+			FRotator ReturnValue;
+		};
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(WeaponBase_eventGetFPPWeaponRotation_Parms, ReturnValue), Z_Construct_UScriptStruct_FRotator, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "WeaponBase.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "GetFPPWeaponRotation", nullptr, nullptr, sizeof(WeaponBase_eventGetFPPWeaponRotation_Parms), Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00820401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics
 	{
 		struct WeaponBase_eventGetMagazineCount_Parms
@@ -400,9 +472,9 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::Function_MetaDataParams[] = {
-		{ "Comment", "// Blueprintys \n" },
+		{ "Comment", "// Blueprints \n" },
 		{ "ModuleRelativePath", "WeaponBase.h" },
-		{ "ToolTip", "Blueprintys" },
+		{ "ToolTip", "Blueprints" },
 	};
 #endif
 	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "GetMagazineCount", nullptr, nullptr, sizeof(WeaponBase_eventGetMagazineCount_Parms), Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::Function_MetaDataParams)) };
@@ -412,6 +484,38 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AWeaponBase_GetMagazineCount_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics
+	{
+		struct WeaponBase_eventGetMuzzleLocation_Parms
+		{
+			FVector ReturnValue;
+		};
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(WeaponBase_eventGetMuzzleLocation_Parms, ReturnValue), Z_Construct_UScriptStruct_FVector, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "WeaponBase.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "GetMuzzleLocation", nullptr, nullptr, sizeof(WeaponBase_eventGetMuzzleLocation_Parms), Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00820401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -437,7 +541,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		{ "ModuleRelativePath", "WeaponBase.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "GetWeaponLocation", nullptr, nullptr, sizeof(WeaponBase_eventGetWeaponLocation_Parms), Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00840401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "GetWeaponLocation", nullptr, nullptr, sizeof(WeaponBase_eventGetWeaponLocation_Parms), Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00820401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetWeaponLocation_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_AWeaponBase_GetWeaponLocation()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -447,19 +551,57 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics
+	struct Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics
 	{
+		struct WeaponBase_eventGetWeaponName_Parms
+		{
+			FString ReturnValue;
+		};
+		static const UE4CodeGen_Private::FStrPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FStrPropertyParams Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Str, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(WeaponBase_eventGetWeaponName_Parms, ReturnValue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "WeaponBase.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "GetWeaponName", nullptr, nullptr, sizeof(WeaponBase_eventGetWeaponName_Parms), Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x54020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AWeaponBase_GetWeaponName()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AWeaponBase_GetWeaponName_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics
+	{
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_hitResult;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::NewProp_hitResult = { "hitResult", nullptr, (EPropertyFlags)0x0010008000000080, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(WeaponBase_eventMulticastShootPrimary_Parms, hitResult), Z_Construct_UScriptStruct_FHitResult, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::NewProp_hitResult,
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::Function_MetaDataParams[] = {
 		{ "ModuleRelativePath", "WeaponBase.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "MulticastShootPrimary", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00024CC0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AWeaponBase, nullptr, "MulticastShootPrimary", nullptr, nullptr, sizeof(WeaponBase_eventMulticastShootPrimary_Parms), Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00024CC0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -767,12 +909,15 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		{ &Z_Construct_UFunction_AWeaponBase_CanShootPrimary, "CanShootPrimary" }, // 1605829833
 		{ &Z_Construct_UFunction_AWeaponBase_CanShootSecondary, "CanShootSecondary" }, // 333992071
 		{ &Z_Construct_UFunction_AWeaponBase_ClientAttach, "ClientAttach" }, // 2193811914
-		{ &Z_Construct_UFunction_AWeaponBase_ClientShootPrimary, "ClientShootPrimary" }, // 1214739821
+		{ &Z_Construct_UFunction_AWeaponBase_ClientShootPrimary, "ClientShootPrimary" }, // 3886882489
 		{ &Z_Construct_UFunction_AWeaponBase_GetAimingLocation, "GetAimingLocation" }, // 732473729
 		{ &Z_Construct_UFunction_AWeaponBase_GetAmmoCount, "GetAmmoCount" }, // 2864821506
-		{ &Z_Construct_UFunction_AWeaponBase_GetMagazineCount, "GetMagazineCount" }, // 3634636859
-		{ &Z_Construct_UFunction_AWeaponBase_GetWeaponLocation, "GetWeaponLocation" }, // 3345993111
-		{ &Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary, "MulticastShootPrimary" }, // 3066280575
+		{ &Z_Construct_UFunction_AWeaponBase_GetFPPWeaponRotation, "GetFPPWeaponRotation" }, // 4076326366
+		{ &Z_Construct_UFunction_AWeaponBase_GetMagazineCount, "GetMagazineCount" }, // 1708626733
+		{ &Z_Construct_UFunction_AWeaponBase_GetMuzzleLocation, "GetMuzzleLocation" }, // 3834252381
+		{ &Z_Construct_UFunction_AWeaponBase_GetWeaponLocation, "GetWeaponLocation" }, // 2903091940
+		{ &Z_Construct_UFunction_AWeaponBase_GetWeaponName, "GetWeaponName" }, // 401255151
+		{ &Z_Construct_UFunction_AWeaponBase_MulticastShootPrimary, "MulticastShootPrimary" }, // 3279253544
 		{ &Z_Construct_UFunction_AWeaponBase_OnRep_MagazineCount, "OnRep_MagazineCount" }, // 273838558
 		{ &Z_Construct_UFunction_AWeaponBase_Reload, "Reload" }, // 4138818008
 		{ &Z_Construct_UFunction_AWeaponBase_ServerEquipToCharacter, "ServerEquipToCharacter" }, // 275409685
@@ -932,7 +1077,7 @@ void EmptyLinkFunctionForGeneratedCodeWeaponBase() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AWeaponBase, 269652917);
+	IMPLEMENT_CLASS(AWeaponBase, 1998259963);
 	template<> STEALTH_API UClass* StaticClass<AWeaponBase>()
 	{
 		return AWeaponBase::StaticClass();

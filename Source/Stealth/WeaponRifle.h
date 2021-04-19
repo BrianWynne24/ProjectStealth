@@ -17,5 +17,4 @@ class STEALTH_API AWeaponRifle : public AWeaponBase
 public:
 
 	AWeaponRifle();
-	
 };

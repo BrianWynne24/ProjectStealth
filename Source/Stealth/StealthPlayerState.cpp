@@ -5,6 +5,7 @@
 #include "StealthGameState.h"
 #include "StealthPlayerController.h"
 #include "Blueprint/UserWidget.h"
+#include "Gadgets/GadgetFrag.h"
 #include "Util.h"
 #include "Engine.h"
 #include "Net/UnrealNetwork.h"
@@ -47,11 +48,11 @@ void AStealthPlayerState::SetTeam_Implementation(ETeam playerTeam)
 		return;
 
 	FVector curLocation = spawnPoint->GetActorLocation();
-	FRotator curRotation = FRotator(0, 0, 0);
+	FRotator curRotation = FRotator(0, spawnPoint->GetActorRotation().Yaw, 0);
 
 	APawn* oldCharacter = (APawn*)GetPawn();
 	if (oldCharacter != NULL)
-		World->DestroyActor(oldCharacter);
+		oldCharacter->Destroy();
 
 	AStealthPlayerController* Player = (AStealthPlayerController*)GetOwner();
 
@@ -62,13 +63,15 @@ void AStealthPlayerState::SetTeam_Implementation(ETeam playerTeam)
 	if (newCharacter == nullptr || Player == nullptr)
 		return;
 
-	UClass* hudClass = newCharacter->GetHUDClass();
-	if (hudClass == nullptr)
-		Util::Debug("Invalid HUD");
-
-	//Player->UnPossess();
 	Player->Possess(newCharacter);
+	Player->ClientSetRotation(curRotation);
 	Player->SetClientHUD(newCharacter->GetHUDClass());
+
+	if (playerTeam == ETeam::ARGUS)
+	{
+		newCharacter->ServerAddGadget(UGadgetFrag::StaticClass());
+	}
+
 	spawnPoint->StartCooldown(0);
 }
 

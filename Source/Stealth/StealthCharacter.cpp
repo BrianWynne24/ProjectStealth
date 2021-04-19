@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "Blueprint/UserWidget.h"
+#include "Gadgets/GadgetBase.h"
 #include "WeaponBase.h"
 #include "Util.h"
 #include "PlayerSpawnPoint.h"
@@ -66,6 +67,9 @@ AStealthCharacter::AStealthCharacter()
 
 	// Custom variables
 	Health = 100.f;
+
+	Gadgets = TArray<UGadgetBase*>();
+	Gadgets.SetNum(4, true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -160,7 +164,11 @@ void AStealthCharacter::ServerSetCharacterMesh_Implementation()
 	SetActorEnableCollision(true);
 
 	CharacterMesh = InitCharacterMesh;
-	
+
+	// For bullet traces
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel14, ECollisionResponse::ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel14, ECollisionResponse::ECR_Block);
+
 	if (GetNetMode() == NM_ListenServer)
 		OnRep_CharacterMesh();
 }
@@ -218,6 +226,34 @@ void AStealthCharacter::PrimaryAttackEnd()
 		return;
 
 	GetCurrentWeapon()->StopPrimaryFire();
+}
+
+void AStealthCharacter::ServerAddGadget(class UClass* gadgetClass)
+{
+	// Only 4 gadgets allowed
+	if (Gadgets.Num() > 4)
+		return;
+
+	UGadgetBase* gadgetItem = NewObject<UGadgetBase>(this, gadgetClass);
+	uint8 index = Gadgets.Add(gadgetItem);
+
+	GadgetSelectedIndex = index;
+
+	/*if (GetGadget(0) != nullptr)
+		Util::Debug(GetGadget(0)->GetGadgetName());
+	else
+		Util::Debug(":(");*/
+}
+
+UGadgetBase* AStealthCharacter::GetGadget(int gadgetIndex)
+{
+	UGadgetBase* gadgetItem;
+	Gadgets.Find(gadgetItem, gadgetIndex);
+
+	if (gadgetItem != nullptr)
+		return gadgetItem;
+
+	return nullptr;
 }
 
 void AStealthCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

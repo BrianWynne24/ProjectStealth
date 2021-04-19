@@ -1,0 +1,5 @@
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\Definitions.Stealth.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\Gadgets\GadgetFrag.h
+C:\UE4_Engine\Projects\Stealth\Source\Stealth\Gadgets\GadgetBase.h
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\GadgetBase.generated.h
+C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Inc\Stealth\GadgetFrag.generated.h

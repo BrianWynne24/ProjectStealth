@@ -45,10 +45,10 @@ public:
 	void ServerShootPrimary(FVector endLoc);
 
 	UFUNCTION()
-	void ClientShootPrimary();
+	void ClientShootPrimary(FVector hitLoc);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MulticastShootPrimary();
+	void MulticastShootPrimary(FHitResult hitResult);
 
 	UFUNCTION(Server, Unreliable)
 	void ServerShootSecondary();
@@ -110,21 +110,32 @@ public:
 
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-private:
-
-	void Tick(float deltaSeconds);
+	void OnRep_Owner() override;
 
 	UFUNCTION()
 	FVector GetWeaponLocation();
 
+	UFUNCTION()
+	FVector GetMuzzleLocation();
+
+	UFUNCTION()
+	FRotator GetFPPWeaponRotation();
+
+private:
+
+	void Tick(float deltaSeconds);
+
 public:
 
-	// Blueprintys 
+	// Blueprints 
 	UFUNCTION(BlueprintCallable)
 	int GetMagazineCount();
 
 	UFUNCTION(BlueprintCallable)
 	int GetAmmoCount();
+
+	UFUNCTION(BlueprintCallable)
+	FString GetWeaponName() const { return WeaponName; }
 
 	FORCEINLINE EWeaponMode GetWeaponMode() const { return WeaponMode; }
 };

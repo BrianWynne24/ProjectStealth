@@ -1204,7 +1204,7 @@ void EmptyLinkFunctionForGeneratedCodeSpyCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(ASpyCharacter, 3185850444);
+	IMPLEMENT_CLASS(ASpyCharacter, 1874921452);
 	template<> STEALTH_API UClass* StaticClass<ASpyCharacter>()
 	{
 		return ASpyCharacter::StaticClass();

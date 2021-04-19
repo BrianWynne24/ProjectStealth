@@ -20,6 +20,7 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
 	STEALTH_API UClass* Z_Construct_UClass_AWeaponBase_NoRegister();
+	STEALTH_API UClass* Z_Construct_UClass_UGadgetBase_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USkeletalMesh_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
@@ -57,6 +58,22 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		P_FINISH;
 		P_NATIVE_BEGIN;
 		P_THIS->OnRep_CharacterMesh();
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(AStealthCharacter::execGetGadget)
+	{
+		P_GET_PROPERTY(FIntProperty,Z_Param_gadgetIndex);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		*(UGadgetBase**)Z_Param__Result=P_THIS->GetGadget(Z_Param_gadgetIndex);
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(AStealthCharacter::execServerAddGadget)
+	{
+		P_GET_OBJECT(UClass,Z_Param_gadgetClass);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ServerAddGadget(Z_Param_gadgetClass);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(AStealthCharacter::execServerSetCharacterMesh)
@@ -97,10 +114,12 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		static const FNameNativePtrPair Funcs[] = {
 			{ "EquipWeapon", &AStealthCharacter::execEquipWeapon },
 			{ "GetCurrentWeapon", &AStealthCharacter::execGetCurrentWeapon },
+			{ "GetGadget", &AStealthCharacter::execGetGadget },
 			{ "GetHealth", &AStealthCharacter::execGetHealth },
 			{ "OnRep_CharacterMesh", &AStealthCharacter::execOnRep_CharacterMesh },
 			{ "OnRep_CurrentWeapon", &AStealthCharacter::execOnRep_CurrentWeapon },
 			{ "OnRep_Health", &AStealthCharacter::execOnRep_Health },
+			{ "ServerAddGadget", &AStealthCharacter::execServerAddGadget },
 			{ "ServerBeginPlay", &AStealthCharacter::execServerBeginPlay },
 			{ "ServerSetCharacterMesh", &AStealthCharacter::execServerSetCharacterMesh },
 		};
@@ -167,6 +186,42 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics
+	{
+		struct StealthCharacter_eventGetGadget_Parms
+		{
+			int32 gadgetIndex;
+			UGadgetBase* ReturnValue;
+		};
+		static const UE4CodeGen_Private::FUnsizedIntPropertyParams NewProp_gadgetIndex;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FUnsizedIntPropertyParams Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::NewProp_gadgetIndex = { "gadgetIndex", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(StealthCharacter_eventGetGadget_Parms, gadgetIndex), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(StealthCharacter_eventGetGadget_Parms, ReturnValue), Z_Construct_UClass_UGadgetBase_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::NewProp_gadgetIndex,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "StealthCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStealthCharacter, nullptr, "GetGadget", nullptr, nullptr, sizeof(StealthCharacter_eventGetGadget_Parms), Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStealthCharacter_GetGadget()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStealthCharacter_GetGadget_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -265,6 +320,38 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStealthCharacter_OnRep_Health_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics
+	{
+		struct StealthCharacter_eventServerAddGadget_Parms
+		{
+			UClass* gadgetClass;
+		};
+		static const UE4CodeGen_Private::FClassPropertyParams NewProp_gadgetClass;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FClassPropertyParams Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::NewProp_gadgetClass = { "gadgetClass", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(StealthCharacter_eventServerAddGadget_Parms, gadgetClass), Z_Construct_UClass_UObject_NoRegister, Z_Construct_UClass_UClass, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::NewProp_gadgetClass,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "StealthCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStealthCharacter, nullptr, "ServerAddGadget", nullptr, nullptr, sizeof(StealthCharacter_eventServerAddGadget_Parms), Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStealthCharacter_ServerAddGadget()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStealthCharacter_ServerAddGadget_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -372,6 +459,15 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ViewCamera_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ViewCamera;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_Gadgets_Inner;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Gadgets_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_Gadgets;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_GadgetSelectedIndex_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FBytePropertyParams NewProp_GadgetSelectedIndex;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UE4CodeGen_Private::FClassParams ClassParams;
@@ -383,10 +479,12 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 	const FClassFunctionLinkInfo Z_Construct_UClass_AStealthCharacter_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_AStealthCharacter_EquipWeapon, "EquipWeapon" }, // 727827549
 		{ &Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon, "GetCurrentWeapon" }, // 3071759712
+		{ &Z_Construct_UFunction_AStealthCharacter_GetGadget, "GetGadget" }, // 4288075373
 		{ &Z_Construct_UFunction_AStealthCharacter_GetHealth, "GetHealth" }, // 2235423884
 		{ &Z_Construct_UFunction_AStealthCharacter_OnRep_CharacterMesh, "OnRep_CharacterMesh" }, // 2855183062
 		{ &Z_Construct_UFunction_AStealthCharacter_OnRep_CurrentWeapon, "OnRep_CurrentWeapon" }, // 4138600955
 		{ &Z_Construct_UFunction_AStealthCharacter_OnRep_Health, "OnRep_Health" }, // 2445276480
+		{ &Z_Construct_UFunction_AStealthCharacter_ServerAddGadget, "ServerAddGadget" }, // 3112038540
 		{ &Z_Construct_UFunction_AStealthCharacter_ServerBeginPlay, "ServerBeginPlay" }, // 190754658
 		{ &Z_Construct_UFunction_AStealthCharacter_ServerSetCharacterMesh, "ServerSetCharacterMesh" }, // 4170579145
 	};
@@ -486,6 +584,19 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 	};
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AStealthCharacter_Statics::NewProp_ViewCamera = { "ViewCamera", nullptr, (EPropertyFlags)0x00100000000a001d, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AStealthCharacter, ViewCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_AStealthCharacter_Statics::NewProp_ViewCamera_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AStealthCharacter_Statics::NewProp_ViewCamera_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AStealthCharacter_Statics::NewProp_Gadgets_Inner = { "Gadgets", nullptr, (EPropertyFlags)0x0000000000000000, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, 0, Z_Construct_UClass_UGadgetBase_NoRegister, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AStealthCharacter_Statics::NewProp_Gadgets_MetaData[] = {
+		{ "ModuleRelativePath", "StealthCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UClass_AStealthCharacter_Statics::NewProp_Gadgets = { "Gadgets", nullptr, (EPropertyFlags)0x0040000000000020, UE4CodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AStealthCharacter, Gadgets), EArrayPropertyFlags::None, METADATA_PARAMS(Z_Construct_UClass_AStealthCharacter_Statics::NewProp_Gadgets_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AStealthCharacter_Statics::NewProp_Gadgets_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AStealthCharacter_Statics::NewProp_GadgetSelectedIndex_MetaData[] = {
+		{ "ModuleRelativePath", "StealthCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UClass_AStealthCharacter_Statics::NewProp_GadgetSelectedIndex = { "GadgetSelectedIndex", nullptr, (EPropertyFlags)0x0040000000000000, UE4CodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AStealthCharacter, GadgetSelectedIndex), nullptr, METADATA_PARAMS(Z_Construct_UClass_AStealthCharacter_Statics::NewProp_GadgetSelectedIndex_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AStealthCharacter_Statics::NewProp_GadgetSelectedIndex_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AStealthCharacter_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthCharacter_Statics::NewProp_BaseTurnRate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthCharacter_Statics::NewProp_BaseLookUpRate,
@@ -499,6 +610,9 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthCharacter_Statics::NewProp_bPrimaryFiring,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthCharacter_Statics::NewProp_StartingWeaponClass,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthCharacter_Statics::NewProp_ViewCamera,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthCharacter_Statics::NewProp_Gadgets_Inner,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthCharacter_Statics::NewProp_Gadgets,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStealthCharacter_Statics::NewProp_GadgetSelectedIndex,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_AStealthCharacter_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<AStealthCharacter>::IsAbstract,
@@ -527,7 +641,7 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStealthCharacter, 1741646909);
+	IMPLEMENT_CLASS(AStealthCharacter, 670745983);
 	template<> STEALTH_API UClass* StaticClass<AStealthCharacter>()
 	{
 		return AStealthCharacter::StaticClass();
@@ -539,11 +653,13 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		static const FName Name_CharacterMesh(TEXT("CharacterMesh"));
 		static const FName Name_CurrentWeapon(TEXT("CurrentWeapon"));
 		static const FName Name_Health(TEXT("Health"));
+		static const FName Name_Gadgets(TEXT("Gadgets"));
 
 		const bool bIsValid = true
 			&& Name_CharacterMesh == ClassReps[(int32)ENetFields_Private::CharacterMesh].Property->GetFName()
 			&& Name_CurrentWeapon == ClassReps[(int32)ENetFields_Private::CurrentWeapon].Property->GetFName()
-			&& Name_Health == ClassReps[(int32)ENetFields_Private::Health].Property->GetFName();
+			&& Name_Health == ClassReps[(int32)ENetFields_Private::Health].Property->GetFName()
+			&& Name_Gadgets == ClassReps[(int32)ENetFields_Private::Gadgets].Property->GetFName();
 
 		checkf(bIsValid, TEXT("UHT Generated Rep Indices do not match runtime populated Rep Indices for properties in AStealthCharacter"));
 	}

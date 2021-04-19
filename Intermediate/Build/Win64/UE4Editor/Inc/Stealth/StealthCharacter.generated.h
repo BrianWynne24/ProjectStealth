@@ -9,14 +9,15 @@
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 class AWeaponBase;
+class UGadgetBase;
 class UObject;
 #ifdef STEALTH_StealthCharacter_generated_h
 #error "StealthCharacter.generated.h already included, missing '#pragma once' in StealthCharacter.h"
 #endif
 #define STEALTH_StealthCharacter_generated_h
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_SPARSE_DATA
-#define Stealth_Source_Stealth_StealthCharacter_h_14_RPC_WRAPPERS \
+#define Stealth_Source_Stealth_StealthCharacter_h_15_SPARSE_DATA
+#define Stealth_Source_Stealth_StealthCharacter_h_15_RPC_WRAPPERS \
 	virtual void ServerSetCharacterMesh_Implementation(); \
 	virtual void ServerBeginPlay_Implementation(); \
  \
@@ -25,12 +26,14 @@ class UObject;
 	DECLARE_FUNCTION(execOnRep_Health); \
 	DECLARE_FUNCTION(execOnRep_CurrentWeapon); \
 	DECLARE_FUNCTION(execOnRep_CharacterMesh); \
+	DECLARE_FUNCTION(execGetGadget); \
+	DECLARE_FUNCTION(execServerAddGadget); \
 	DECLARE_FUNCTION(execServerSetCharacterMesh); \
 	DECLARE_FUNCTION(execEquipWeapon); \
 	DECLARE_FUNCTION(execServerBeginPlay);
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_RPC_WRAPPERS_NO_PURE_DECLS \
+#define Stealth_Source_Stealth_StealthCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
 	virtual void ServerSetCharacterMesh_Implementation(); \
 	virtual void ServerBeginPlay_Implementation(); \
  \
@@ -39,14 +42,16 @@ class UObject;
 	DECLARE_FUNCTION(execOnRep_Health); \
 	DECLARE_FUNCTION(execOnRep_CurrentWeapon); \
 	DECLARE_FUNCTION(execOnRep_CharacterMesh); \
+	DECLARE_FUNCTION(execGetGadget); \
+	DECLARE_FUNCTION(execServerAddGadget); \
 	DECLARE_FUNCTION(execServerSetCharacterMesh); \
 	DECLARE_FUNCTION(execEquipWeapon); \
 	DECLARE_FUNCTION(execServerBeginPlay);
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_EVENT_PARMS
-#define Stealth_Source_Stealth_StealthCharacter_h_14_CALLBACK_WRAPPERS
-#define Stealth_Source_Stealth_StealthCharacter_h_14_INCLASS_NO_PURE_DECLS \
+#define Stealth_Source_Stealth_StealthCharacter_h_15_EVENT_PARMS
+#define Stealth_Source_Stealth_StealthCharacter_h_15_CALLBACK_WRAPPERS
+#define Stealth_Source_Stealth_StealthCharacter_h_15_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAStealthCharacter(); \
 	friend struct Z_Construct_UClass_AStealthCharacter_Statics; \
@@ -59,11 +64,12 @@ public: \
 		CharacterMesh=NETFIELD_REP_START, \
 		CurrentWeapon, \
 		Health, \
-		NETFIELD_REP_END=Health	}; \
+		Gadgets, \
+		NETFIELD_REP_END=Gadgets	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_INCLASS \
+#define Stealth_Source_Stealth_StealthCharacter_h_15_INCLASS \
 private: \
 	static void StaticRegisterNativesAStealthCharacter(); \
 	friend struct Z_Construct_UClass_AStealthCharacter_Statics; \
@@ -76,11 +82,12 @@ public: \
 		CharacterMesh=NETFIELD_REP_START, \
 		CurrentWeapon, \
 		Health, \
-		NETFIELD_REP_END=Health	}; \
+		Gadgets, \
+		NETFIELD_REP_END=Gadgets	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_STANDARD_CONSTRUCTORS \
+#define Stealth_Source_Stealth_StealthCharacter_h_15_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API AStealthCharacter(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(AStealthCharacter) \
@@ -93,7 +100,7 @@ private: \
 public:
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_ENHANCED_CONSTRUCTORS \
+#define Stealth_Source_Stealth_StealthCharacter_h_15_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API AStealthCharacter(AStealthCharacter&&); \
@@ -104,33 +111,37 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AStealthCharacter); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(AStealthCharacter)
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_PRIVATE_PROPERTY_OFFSET
-#define Stealth_Source_Stealth_StealthCharacter_h_11_PROLOG \
-	Stealth_Source_Stealth_StealthCharacter_h_14_EVENT_PARMS
+#define Stealth_Source_Stealth_StealthCharacter_h_15_PRIVATE_PROPERTY_OFFSET \
+	FORCEINLINE static uint32 __PPO__Gadgets() { return STRUCT_OFFSET(AStealthCharacter, Gadgets); } \
+	FORCEINLINE static uint32 __PPO__GadgetSelectedIndex() { return STRUCT_OFFSET(AStealthCharacter, GadgetSelectedIndex); }
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_GENERATED_BODY_LEGACY \
+#define Stealth_Source_Stealth_StealthCharacter_h_12_PROLOG \
+	Stealth_Source_Stealth_StealthCharacter_h_15_EVENT_PARMS
+
+
+#define Stealth_Source_Stealth_StealthCharacter_h_15_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	Stealth_Source_Stealth_StealthCharacter_h_14_PRIVATE_PROPERTY_OFFSET \
-	Stealth_Source_Stealth_StealthCharacter_h_14_SPARSE_DATA \
-	Stealth_Source_Stealth_StealthCharacter_h_14_RPC_WRAPPERS \
-	Stealth_Source_Stealth_StealthCharacter_h_14_CALLBACK_WRAPPERS \
-	Stealth_Source_Stealth_StealthCharacter_h_14_INCLASS \
-	Stealth_Source_Stealth_StealthCharacter_h_14_STANDARD_CONSTRUCTORS \
+	Stealth_Source_Stealth_StealthCharacter_h_15_PRIVATE_PROPERTY_OFFSET \
+	Stealth_Source_Stealth_StealthCharacter_h_15_SPARSE_DATA \
+	Stealth_Source_Stealth_StealthCharacter_h_15_RPC_WRAPPERS \
+	Stealth_Source_Stealth_StealthCharacter_h_15_CALLBACK_WRAPPERS \
+	Stealth_Source_Stealth_StealthCharacter_h_15_INCLASS \
+	Stealth_Source_Stealth_StealthCharacter_h_15_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define Stealth_Source_Stealth_StealthCharacter_h_14_GENERATED_BODY \
+#define Stealth_Source_Stealth_StealthCharacter_h_15_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	Stealth_Source_Stealth_StealthCharacter_h_14_PRIVATE_PROPERTY_OFFSET \
-	Stealth_Source_Stealth_StealthCharacter_h_14_SPARSE_DATA \
-	Stealth_Source_Stealth_StealthCharacter_h_14_RPC_WRAPPERS_NO_PURE_DECLS \
-	Stealth_Source_Stealth_StealthCharacter_h_14_CALLBACK_WRAPPERS \
-	Stealth_Source_Stealth_StealthCharacter_h_14_INCLASS_NO_PURE_DECLS \
-	Stealth_Source_Stealth_StealthCharacter_h_14_ENHANCED_CONSTRUCTORS \
+	Stealth_Source_Stealth_StealthCharacter_h_15_PRIVATE_PROPERTY_OFFSET \
+	Stealth_Source_Stealth_StealthCharacter_h_15_SPARSE_DATA \
+	Stealth_Source_Stealth_StealthCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	Stealth_Source_Stealth_StealthCharacter_h_15_CALLBACK_WRAPPERS \
+	Stealth_Source_Stealth_StealthCharacter_h_15_INCLASS_NO_PURE_DECLS \
+	Stealth_Source_Stealth_StealthCharacter_h_15_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

@@ -7,11 +7,11 @@
 AWeaponRifle::AWeaponRifle()
 {
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> NewFPPSkeletalMesh(TEXT("/Game/FirstPerson/FPWeapon/Mesh/SK_FPGun"));
-	if (NewFPPSkeletalMesh.Object != NULL)
+	if (NewFPPSkeletalMesh.Object != nullptr)
 		FPPWeaponObject = NewFPPSkeletalMesh.Object;
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> NewTPPSkeletalMesh(TEXT("/Game/FPS_Weapon_Bundle/Weapons/Meshes/Ka47/SK_KA47"));
-	if (NewTPPSkeletalMesh.Object != NULL)
+	if (NewTPPSkeletalMesh.Object != nullptr)
 		TPPWeaponObject = NewTPPSkeletalMesh.Object;
 
 	WeaponName = "Rifle";
@@ -20,7 +20,7 @@ AWeaponRifle::AWeaponRifle()
 
 	MagazineCount = 30;
 	MagazineFullNum = 30;
-	AmmoCount = 15; //320;
+	AmmoCount = 320;
 
 	bUseAmmo = true;
 
