@@ -17,6 +17,8 @@ struct FVector;
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_SPARSE_DATA
 #define Stealth_Source_Stealth_SpyCharacter_h_15_RPC_WRAPPERS \
+	virtual void ClientEquipWeapon_Implementation(bool bEqupped); \
+	virtual void ServerEquipWeapon_Implementation(); \
 	virtual void MulticastClimbUp_Implementation(); \
 	virtual void ServerSwingOuterRight_Implementation(bool bLeft); \
 	virtual void ServerClimbRight_Implementation(bool bLeft); \
@@ -28,6 +30,10 @@ struct FVector;
 	virtual void ServerStartHang_Implementation(); \
 	virtual void ServerClimbFinish_Implementation(); \
  \
+	DECLARE_FUNCTION(execGetEnergy); \
+	DECLARE_FUNCTION(execClientEquipWeapon); \
+	DECLARE_FUNCTION(execEquipWeapon); \
+	DECLARE_FUNCTION(execServerEquipWeapon); \
 	DECLARE_FUNCTION(execOnGround); \
 	DECLARE_FUNCTION(execTraceHangSwingRight); \
 	DECLARE_FUNCTION(execTraceHangMoveRight); \
@@ -43,6 +49,7 @@ struct FVector;
 	DECLARE_FUNCTION(execServerClimbUp); \
 	DECLARE_FUNCTION(execCanHang); \
 	DECLARE_FUNCTION(execStartHangCooldown); \
+	DECLARE_FUNCTION(execTickEnergyRecharge); \
 	DECLARE_FUNCTION(execTickHangTrace); \
 	DECLARE_FUNCTION(execServerStopMovement); \
 	DECLARE_FUNCTION(execServerCancelHang); \
@@ -50,10 +57,13 @@ struct FVector;
 	DECLARE_FUNCTION(execClientStartHang); \
 	DECLARE_FUNCTION(execServerStartHang); \
 	DECLARE_FUNCTION(execOnRep_Hanging); \
+	DECLARE_FUNCTION(execRemoveEnergy); \
 	DECLARE_FUNCTION(execServerClimbFinish);
 
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void ClientEquipWeapon_Implementation(bool bEqupped); \
+	virtual void ServerEquipWeapon_Implementation(); \
 	virtual void MulticastClimbUp_Implementation(); \
 	virtual void ServerSwingOuterRight_Implementation(bool bLeft); \
 	virtual void ServerClimbRight_Implementation(bool bLeft); \
@@ -65,6 +75,10 @@ struct FVector;
 	virtual void ServerStartHang_Implementation(); \
 	virtual void ServerClimbFinish_Implementation(); \
  \
+	DECLARE_FUNCTION(execGetEnergy); \
+	DECLARE_FUNCTION(execClientEquipWeapon); \
+	DECLARE_FUNCTION(execEquipWeapon); \
+	DECLARE_FUNCTION(execServerEquipWeapon); \
 	DECLARE_FUNCTION(execOnGround); \
 	DECLARE_FUNCTION(execTraceHangSwingRight); \
 	DECLARE_FUNCTION(execTraceHangMoveRight); \
@@ -80,6 +94,7 @@ struct FVector;
 	DECLARE_FUNCTION(execServerClimbUp); \
 	DECLARE_FUNCTION(execCanHang); \
 	DECLARE_FUNCTION(execStartHangCooldown); \
+	DECLARE_FUNCTION(execTickEnergyRecharge); \
 	DECLARE_FUNCTION(execTickHangTrace); \
 	DECLARE_FUNCTION(execServerStopMovement); \
 	DECLARE_FUNCTION(execServerCancelHang); \
@@ -87,10 +102,15 @@ struct FVector;
 	DECLARE_FUNCTION(execClientStartHang); \
 	DECLARE_FUNCTION(execServerStartHang); \
 	DECLARE_FUNCTION(execOnRep_Hanging); \
+	DECLARE_FUNCTION(execRemoveEnergy); \
 	DECLARE_FUNCTION(execServerClimbFinish);
 
 
 #define Stealth_Source_Stealth_SpyCharacter_h_15_EVENT_PARMS \
+	struct SpyCharacter_eventClientEquipWeapon_Parms \
+	{ \
+		bool bEqupped; \
+	}; \
 	struct SpyCharacter_eventClientFixPosition_Parms \
 	{ \
 		FVector newPosition; \
@@ -123,7 +143,8 @@ public: \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
 		bHanging=NETFIELD_REP_START, \
 		bClimbing, \
-		NETFIELD_REP_END=bClimbing	}; \
+		Energy, \
+		NETFIELD_REP_END=Energy	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
@@ -139,7 +160,8 @@ public: \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
 		bHanging=NETFIELD_REP_START, \
 		bClimbing, \
-		NETFIELD_REP_END=bClimbing	}; \
+		Energy, \
+		NETFIELD_REP_END=Energy	}; \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
@@ -171,6 +193,8 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(ASpyCharacter); \
 	FORCEINLINE static uint32 __PPO__CameraBoom() { return STRUCT_OFFSET(ASpyCharacter, CameraBoom); } \
 	FORCEINLINE static uint32 __PPO__bHanging() { return STRUCT_OFFSET(ASpyCharacter, bHanging); } \
 	FORCEINLINE static uint32 __PPO__bClimbing() { return STRUCT_OFFSET(ASpyCharacter, bClimbing); } \
+	FORCEINLINE static uint32 __PPO__Energy() { return STRUCT_OFFSET(ASpyCharacter, Energy); } \
+	FORCEINLINE static uint32 __PPO__EnergyRechargeCooldown() { return STRUCT_OFFSET(ASpyCharacter, EnergyRechargeCooldown); } \
 	FORCEINLINE static uint32 __PPO__ClimbCooldown() { return STRUCT_OFFSET(ASpyCharacter, ClimbCooldown); } \
 	FORCEINLINE static uint32 __PPO__NetStopMovementCooldown() { return STRUCT_OFFSET(ASpyCharacter, NetStopMovementCooldown); } \
 	FORCEINLINE static uint32 __PPO__HangCooldown() { return STRUCT_OFFSET(ASpyCharacter, HangCooldown); } \

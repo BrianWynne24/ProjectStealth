@@ -11,7 +11,6 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 struct FRotator;
 struct FVector;
 struct FHitResult;
-class AStealthCharacter;
 #ifdef STEALTH_WeaponBase_generated_h
 #error "WeaponBase.generated.h already included, missing '#pragma once' in WeaponBase.h"
 #endif
@@ -23,6 +22,7 @@ class AStealthCharacter;
 	virtual void ServerShootSecondary_Implementation(); \
 	virtual void MulticastShootPrimary_Implementation(FHitResult hitResult); \
 	virtual void ServerShootPrimary_Implementation(FVector endLoc); \
+	virtual void ClientAttachWeaponMesh_Implementation(); \
  \
 	DECLARE_FUNCTION(execGetWeaponName); \
 	DECLARE_FUNCTION(execGetAmmoCount); \
@@ -38,13 +38,13 @@ class AStealthCharacter;
 	DECLARE_FUNCTION(execMulticastShootPrimary); \
 	DECLARE_FUNCTION(execClientShootPrimary); \
 	DECLARE_FUNCTION(execServerShootPrimary); \
+	DECLARE_FUNCTION(execOnShootTrace); \
 	DECLARE_FUNCTION(execCanShootSecondary); \
 	DECLARE_FUNCTION(execCanShootPrimary); \
 	DECLARE_FUNCTION(execShootSecondary); \
 	DECLARE_FUNCTION(execStopPrimaryFire); \
 	DECLARE_FUNCTION(execShootPrimary); \
-	DECLARE_FUNCTION(execClientAttach); \
-	DECLARE_FUNCTION(execServerEquipToCharacter);
+	DECLARE_FUNCTION(execClientAttachWeaponMesh);
 
 
 #define Stealth_Source_Stealth_WeaponBase_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
@@ -52,6 +52,7 @@ class AStealthCharacter;
 	virtual void ServerShootSecondary_Implementation(); \
 	virtual void MulticastShootPrimary_Implementation(FHitResult hitResult); \
 	virtual void ServerShootPrimary_Implementation(FVector endLoc); \
+	virtual void ClientAttachWeaponMesh_Implementation(); \
  \
 	DECLARE_FUNCTION(execGetWeaponName); \
 	DECLARE_FUNCTION(execGetAmmoCount); \
@@ -67,13 +68,13 @@ class AStealthCharacter;
 	DECLARE_FUNCTION(execMulticastShootPrimary); \
 	DECLARE_FUNCTION(execClientShootPrimary); \
 	DECLARE_FUNCTION(execServerShootPrimary); \
+	DECLARE_FUNCTION(execOnShootTrace); \
 	DECLARE_FUNCTION(execCanShootSecondary); \
 	DECLARE_FUNCTION(execCanShootPrimary); \
 	DECLARE_FUNCTION(execShootSecondary); \
 	DECLARE_FUNCTION(execStopPrimaryFire); \
 	DECLARE_FUNCTION(execShootPrimary); \
-	DECLARE_FUNCTION(execClientAttach); \
-	DECLARE_FUNCTION(execServerEquipToCharacter);
+	DECLARE_FUNCTION(execClientAttachWeaponMesh);
 
 
 #define Stealth_Source_Stealth_WeaponBase_h_15_EVENT_PARMS \

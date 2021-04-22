@@ -24,13 +24,14 @@ public:
 
 	ASpyCharacter();
 
-	void EquipWeapon(UClass* weaponClass);
-
 	void Jump();
 	void StopJumping();
 
 	UFUNCTION(Server, Reliable)
 	void ServerClimbFinish();
+
+	UFUNCTION()
+	void RemoveEnergy(int energyAmount);
 
 private:
 
@@ -39,6 +40,12 @@ private:
 
 	UPROPERTY(Replicated)
 	bool bClimbing;
+
+	UPROPERTY(Replicated)
+	uint8 Energy;
+
+	UPROPERTY()
+	float EnergyRechargeCooldown;
 
 	UPROPERTY()
 	uint32 ClimbCooldown;
@@ -78,6 +85,9 @@ private:
 
 	UFUNCTION()
 	TArray<FHitResult> TickHangTrace(bool bIsServer);
+
+	UFUNCTION()
+	void TickEnergyRecharge();
 
 	UFUNCTION()
 	void StartHangCooldown();
@@ -125,6 +135,15 @@ private:
 	UFUNCTION()
 	bool OnGround();
 
+	UFUNCTION(Server, Reliable)
+	void ServerEquipWeapon();
+
+	UFUNCTION()
+	void EquipWeapon();
+
+	UFUNCTION(Client, Reliable)
+	void ClientEquipWeapon(bool bEqupped);
+
 protected:
 
 	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -142,5 +161,8 @@ protected:
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
+	UFUNCTION(BlueprintCallable)
+	int GetEnergy() { return (int)Energy; }
 	
 };

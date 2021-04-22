@@ -204,7 +204,8 @@ void AStealthCharacter::ServerBeginPlay_Implementation()
 
 void AStealthCharacter::OnRep_CurrentWeapon()
 {
-	CurrentWeapon->ClientAttach();
+	if (CurrentWeapon)
+		CurrentWeapon->ClientAttachWeaponMesh();
 }
 
 void AStealthCharacter::OnRep_Health()
@@ -214,7 +215,7 @@ void AStealthCharacter::OnRep_Health()
 
 void AStealthCharacter::PrimaryAttackBegin()
 {
-	if (GetCurrentWeapon() == nullptr)
+	if (GetCurrentWeapon() == nullptr || GetCurrentWeapon()->IsActorBeingDestroyed())
 		return;
 
 	GetCurrentWeapon()->ShootPrimary();
@@ -222,7 +223,7 @@ void AStealthCharacter::PrimaryAttackBegin()
 
 void AStealthCharacter::PrimaryAttackEnd()
 {
-	if (GetCurrentWeapon() == nullptr)
+	if (GetCurrentWeapon() == nullptr || GetCurrentWeapon()->IsActorBeingDestroyed())
 		return;
 
 	GetCurrentWeapon()->StopPrimaryFire();

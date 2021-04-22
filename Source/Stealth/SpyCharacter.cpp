@@ -16,14 +16,15 @@ ASpyCharacter::ASpyCharacter()
 {
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> NewCharacterMesh(TEXT("/Game/Mannequin/Character/Mesh/SK_Mannequin"));
 	if (NewCharacterMesh.Object != NULL)
-	{
 		InitCharacterMesh = NewCharacterMesh.Object;
-		//Util::Debug("Assigned Skeleton - Spy");
-	}
 
 	static ConstructorHelpers::FObjectFinder<UAnimSequence> hangAnimation(TEXT("/Game/Stealth/Spy/Animation/Hang_to_Crouch_fixed"));
 	if (hangAnimation.Object != NULL)
 		AnimationHang = hangAnimation.Object;
+
+	static ConstructorHelpers::FClassFinder<AHUD> NewHUD(TEXT("/Game/Stealth/Spy/UI/HUDSpy"));
+	if (NewHUD.Class != NULL)
+		HUDClass = NewHUD.Class;
 
 	StartingWeaponClass = AWeaponTaser::StaticClass();
 
@@ -40,6 +41,8 @@ ASpyCharacter::ASpyCharacter()
 
 	bHanging = false;
 	HangCooldown = 0.f;
+
+	Energy = 100;
 	
 	bAlwaysRelevant = true;
 }
@@ -50,6 +53,7 @@ void ASpyCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 
 	DOREPLIFETIME(ASpyCharacter, bHanging);
 	DOREPLIFETIME(ASpyCharacter, bClimbing);
+	DOREPLIFETIME(ASpyCharacter, Energy);
 }
 
 void ASpyCharacter::Tick(float deltaSeconds)
@@ -58,6 +62,9 @@ void ASpyCharacter::Tick(float deltaSeconds)
 
 	if (IsLocallyControlled())	// Only call on our client to do the heavy lifting
 		TickHangTrace(false);
+
+	if (HasAuthority())
+		TickEnergyRecharge();
 
 	// We need the server to check to hang if the player is moving right or left
 	// This will prevent the player from sliding past the wall
@@ -76,6 +83,29 @@ void ASpyCharacter::Tick(float deltaSeconds)
 		if (currentVelocity.X != 0 || currentVelocity.Y != 0 || currentVelocity.Z != 0)
 			ServerStopMovement();
 	}
+}
+
+void ASpyCharacter::TickEnergyRecharge()
+{
+	float timeCreated = GetGameTimeSinceCreation();
+	if (Energy >= 100 || EnergyRechargeCooldown > timeCreated)
+		return;
+
+	Energy += 10;
+	if (Energy > 100)
+		Energy = 100;
+
+	EnergyRechargeCooldown = timeCreated + 0.6f;
+}
+
+void ASpyCharacter::RemoveEnergy(int energyAmount)
+{
+	if ((Energy - energyAmount) < 0)
+		Energy = 0;
+	else
+		Energy -= energyAmount;
+
+	EnergyRechargeCooldown = GetGameTimeSinceCreation() + 1.2f;
 }
 
 TArray<FHitResult> ASpyCharacter::TickHangTrace(bool bIsServer)
@@ -416,18 +446,11 @@ bool ASpyCharacter::OnGround()
 	return false;
 }
 
-void ASpyCharacter::EquipWeapon(UClass* weaponClass)
-{
-	/*if (CurrentWeapon != NULL)
-		CurrentWeapon->Destroy();
-
-	CurrentWeapon = (AWeaponBase*)GetWorld()->SpawnActor(weaponClass);
-	CurrentWeapon->EquipToCharacter(this);*/
-}
-
 void ASpyCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction("EquipWeapon", IE_Pressed, this, &ASpyCharacter::EquipWeapon);
 }
 
 void ASpyCharacter::MoveForward(float Value)
@@ -532,4 +555,72 @@ void ASpyCharacter::StopJumping()
 void ASpyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void ASpyCharacter::EquipWeapon()
+{
+	// We are going to have to implement a cooldown
+	// I do not want the player spamming server messages to put weapon up and down
+
+	ServerEquipWeapon();
+}
+
+void ASpyCharacter::ServerEquipWeapon_Implementation()
+{
+	if (CurrentWeapon && !CurrentWeapon->IsActorBeingDestroyed())
+	{
+		CurrentWeapon->Destroy();
+
+		UCharacterMovementComponent* movementComp = GetCharacterMovement();
+		movementComp->MaxWalkSpeed = 500.f;
+		movementComp->bUseControllerDesiredRotation = false;
+		movementComp->bOrientRotationToMovement = true;
+
+		ClientEquipWeapon(false);
+
+		return;
+	}
+
+	FActorSpawnParameters spawnParams;
+	spawnParams.Owner = this;
+
+	CurrentWeapon = GetWorld()->SpawnActor<AWeaponTaser>(AWeaponTaser::StaticClass(), spawnParams);
+
+	UCharacterMovementComponent* movementComp = GetCharacterMovement();
+	movementComp->MaxWalkSpeed = 350.f;
+	movementComp->bUseControllerDesiredRotation = true;
+	movementComp->bOrientRotationToMovement = false;
+
+	ClientEquipWeapon(true);
+}
+
+void ASpyCharacter::ClientEquipWeapon_Implementation(bool bEquipped)
+{
+	if (bEquipped)
+	{
+		FVector socketLoc = GetMesh()->GetSocketLocation("tpp_weaponADS");
+		CameraBoom->AttachTo(GetRootComponent());
+		CameraBoom->SetWorldLocation(socketLoc);
+		CameraBoom->TargetArmLength = 40.f;
+
+		ViewCamera->bUsePawnControlRotation = true;
+
+		UCharacterMovementComponent* movementComp = GetCharacterMovement();
+		movementComp->MaxWalkSpeed = 350.f;
+		movementComp->bUseControllerDesiredRotation = true;
+		movementComp->bOrientRotationToMovement = false;
+	}
+	else
+	{
+		//ViewCamera->AttachToComponent(CameraBoom, FAttachmentTransformRules::KeepRelativeTransform, USpringArmComponent::SocketName);
+		CameraBoom->SetWorldLocation(GetCapsuleComponent()->GetComponentLocation());
+		CameraBoom->TargetArmLength = 500.f;
+
+		ViewCamera->bUsePawnControlRotation = false;
+
+		UCharacterMovementComponent* movementComp = GetCharacterMovement();
+		movementComp->MaxWalkSpeed = 500.f;
+		movementComp->bUseControllerDesiredRotation = false;
+		movementComp->bOrientRotationToMovement = true;
+	}
 }

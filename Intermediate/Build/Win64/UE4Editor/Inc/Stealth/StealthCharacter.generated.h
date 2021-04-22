@@ -29,7 +29,6 @@ class UObject;
 	DECLARE_FUNCTION(execGetGadget); \
 	DECLARE_FUNCTION(execServerAddGadget); \
 	DECLARE_FUNCTION(execServerSetCharacterMesh); \
-	DECLARE_FUNCTION(execEquipWeapon); \
 	DECLARE_FUNCTION(execServerBeginPlay);
 
 
@@ -45,7 +44,6 @@ class UObject;
 	DECLARE_FUNCTION(execGetGadget); \
 	DECLARE_FUNCTION(execServerAddGadget); \
 	DECLARE_FUNCTION(execServerSetCharacterMesh); \
-	DECLARE_FUNCTION(execEquipWeapon); \
 	DECLARE_FUNCTION(execServerBeginPlay);
 
 

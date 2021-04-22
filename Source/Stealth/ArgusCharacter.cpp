@@ -59,7 +59,6 @@ void AArgusCharacter::ServerEquipWeapon_Implementation(UClass* weaponClass)
 	spawnParams.Owner = this;
 
 	CurrentWeapon = GetWorld()->SpawnActor<AWeaponBase>(weaponClass, spawnParams);
-	CurrentWeapon->ServerEquipToCharacter(this);
 }
 
 void AArgusCharacter::ReloadWeapon()

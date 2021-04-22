@@ -17,5 +17,9 @@ class STEALTH_API AWeaponTaser : public AWeaponBase
 public:
 
 	AWeaponTaser();
+
+	void ServerShootPrimary_Implementation(FVector endLoc);
+
+	bool CanShootPrimary();
 	
 };

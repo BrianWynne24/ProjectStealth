@@ -20,11 +20,8 @@ public:
 
 	void BeginPlay();
 
-	UFUNCTION()
-	void ServerEquipToCharacter(AStealthCharacter* Character);
-
-	UFUNCTION()
-	void ClientAttach();
+	UFUNCTION(Client, Reliable)
+	void ClientAttachWeaponMesh();
 
 	UFUNCTION()
 	void ShootPrimary();
@@ -40,6 +37,9 @@ public:
 
 	UFUNCTION()
 	bool CanShootSecondary();
+
+	UFUNCTION()
+	void OnShootTrace(FVector endLoc, FHitResult &shootResult);
 
 	UFUNCTION(Server, Unreliable)
 	void ServerShootPrimary(FVector endLoc);

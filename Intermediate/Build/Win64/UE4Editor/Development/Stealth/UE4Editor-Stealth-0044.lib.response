@@ -8,6 +8,8 @@
 /NODEFAULTLIB
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\StealthEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\StealthAnimClimbNotify.cpp.obj"
+"C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\GadgetBase.cpp.obj"
+"C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\GadgetFrag.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\ArgusCharacter.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\BulletActor.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\PlayerSpawnPoint.cpp.obj"
@@ -27,6 +29,8 @@
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\ArgusCharacter.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\BulletActor.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\Enumeration.gen.cpp.obj"
+"C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\GadgetBase.gen.cpp.obj"
+"C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\GadgetFrag.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\PlayerSpawnPoint.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\SpyCharacter.gen.cpp.obj"
 "C:\UE4_Engine\Projects\Stealth\Intermediate\Build\Win64\UE4Editor\Development\Stealth\Stealth.init.gen.cpp.obj"

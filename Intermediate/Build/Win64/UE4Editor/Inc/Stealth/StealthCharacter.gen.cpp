@@ -17,10 +17,10 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 	STEALTH_API UClass* Z_Construct_UClass_AStealthCharacter();
 	ENGINE_API UClass* Z_Construct_UClass_ACharacter();
 	UPackage* Z_Construct_UPackage__Script_Stealth();
-	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
-	COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
 	STEALTH_API UClass* Z_Construct_UClass_AWeaponBase_NoRegister();
 	STEALTH_API UClass* Z_Construct_UClass_UGadgetBase_NoRegister();
+	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
+	COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USkeletalMesh_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
@@ -83,14 +83,6 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		P_THIS->ServerSetCharacterMesh_Implementation();
 		P_NATIVE_END;
 	}
-	DEFINE_FUNCTION(AStealthCharacter::execEquipWeapon)
-	{
-		P_GET_OBJECT(UClass,Z_Param_weaponClass);
-		P_FINISH;
-		P_NATIVE_BEGIN;
-		P_THIS->EquipWeapon(Z_Param_weaponClass);
-		P_NATIVE_END;
-	}
 	DEFINE_FUNCTION(AStealthCharacter::execServerBeginPlay)
 	{
 		P_FINISH;
@@ -112,7 +104,6 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 	{
 		UClass* Class = AStealthCharacter::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
-			{ "EquipWeapon", &AStealthCharacter::execEquipWeapon },
 			{ "GetCurrentWeapon", &AStealthCharacter::execGetCurrentWeapon },
 			{ "GetGadget", &AStealthCharacter::execGetGadget },
 			{ "GetHealth", &AStealthCharacter::execGetHealth },
@@ -124,38 +115,6 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 			{ "ServerSetCharacterMesh", &AStealthCharacter::execServerSetCharacterMesh },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
-	}
-	struct Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics
-	{
-		struct StealthCharacter_eventEquipWeapon_Parms
-		{
-			UClass* weaponClass;
-		};
-		static const UE4CodeGen_Private::FClassPropertyParams NewProp_weaponClass;
-		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-	const UE4CodeGen_Private::FClassPropertyParams Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::NewProp_weaponClass = { "weaponClass", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(StealthCharacter_eventEquipWeapon_Parms, weaponClass), Z_Construct_UClass_UObject_NoRegister, Z_Construct_UClass_UClass, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::PropPointers[] = {
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::NewProp_weaponClass,
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "StealthCharacter.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStealthCharacter, nullptr, "EquipWeapon", nullptr, nullptr, sizeof(StealthCharacter_eventEquipWeapon_Parms), Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020400, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_AStealthCharacter_EquipWeapon()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStealthCharacter_EquipWeapon_Statics::FuncParams);
-		}
-		return ReturnFunction;
 	}
 	struct Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics
 	{
@@ -179,7 +138,7 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		{ "ModuleRelativePath", "StealthCharacter.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStealthCharacter, nullptr, "GetCurrentWeapon", nullptr, nullptr, sizeof(StealthCharacter_eventGetCurrentWeapon_Parms), Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x54020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStealthCharacter, nullptr, "GetCurrentWeapon", nullptr, nullptr, sizeof(StealthCharacter_eventGetCurrentWeapon_Parms), Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -477,8 +436,7 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_Stealth,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_AStealthCharacter_Statics::FuncInfo[] = {
-		{ &Z_Construct_UFunction_AStealthCharacter_EquipWeapon, "EquipWeapon" }, // 727827549
-		{ &Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon, "GetCurrentWeapon" }, // 3071759712
+		{ &Z_Construct_UFunction_AStealthCharacter_GetCurrentWeapon, "GetCurrentWeapon" }, // 2745516330
 		{ &Z_Construct_UFunction_AStealthCharacter_GetGadget, "GetGadget" }, // 4288075373
 		{ &Z_Construct_UFunction_AStealthCharacter_GetHealth, "GetHealth" }, // 2235423884
 		{ &Z_Construct_UFunction_AStealthCharacter_OnRep_CharacterMesh, "OnRep_CharacterMesh" }, // 2855183062
@@ -641,7 +599,7 @@ void EmptyLinkFunctionForGeneratedCodeStealthCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStealthCharacter, 670745983);
+	IMPLEMENT_CLASS(AStealthCharacter, 1844833471);
 	template<> STEALTH_API UClass* StaticClass<AStealthCharacter>()
 	{
 		return AStealthCharacter::StaticClass();

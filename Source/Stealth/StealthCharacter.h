@@ -59,9 +59,6 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UFUNCTION()
-	virtual void EquipWeapon(UClass* weaponClass) {}
-
 	UFUNCTION(Server, Reliable)
 	void ServerSetCharacterMesh();
 
@@ -121,7 +118,7 @@ public:
 	FORCEINLINE class USkeletalMesh* GetCharacterMesh() const { return CharacterMesh; }
 
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE class AWeaponBase* GetCurrentWeapon() const { return CurrentWeapon; }
+	FORCEINLINE class AWeaponBase* GetCurrentWeapon() { return CurrentWeapon; }
 
 	FORCEINLINE class UCameraComponent* GetViewCamera() const { return ViewCamera; }
 

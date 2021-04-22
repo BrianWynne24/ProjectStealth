@@ -36,19 +36,12 @@ void AWeaponBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TPPWeaponComponent->SetSkeletalMesh(TPPWeaponObject);
-	FPPWeaponComponent->SetSkeletalMesh(FPPWeaponObject);
-
-	//ClientAttach();
+	// Listen server support
+	if (GetNetMode() == NM_ListenServer && HasAuthority())
+		ClientAttachWeaponMesh_Implementation();
 }
 
-void AWeaponBase::ServerEquipToCharacter(AStealthCharacter* Character)
-{
-	if (GetNetMode() == NM_ListenServer)
-		ClientAttach();
-}
-
-void AWeaponBase::ClientAttach()
+void AWeaponBase::ClientAttachWeaponMesh_Implementation()
 {
 	AStealthCharacter* playerOwner = (AStealthCharacter*)GetOwner();
 	if (playerOwner == nullptr)
@@ -58,13 +51,15 @@ void AWeaponBase::ClientAttach()
 	AttachToActor(playerOwner, FAttachmentTransformRules::SnapToTargetIncludingScale);
 
 	TPPWeaponComponent->AttachToComponent(characterMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("weapon_WorldModel"));
-	TPPWeaponComponent->SetOwnerNoSee(true);
+	TPPWeaponComponent->SetSkeletalMesh(TPPWeaponObject);
+	TPPWeaponComponent->SetOwnerNoSee(false);
 	TPPWeaponComponent->SetOnlyOwnerSee(false);
 
 	if (FPPWeaponObject == nullptr)
 		return;
 
 	FPPWeaponComponent->AttachToComponent(playerOwner->GetWeaponViewModelAttachment(), FAttachmentTransformRules::KeepRelativeTransform);
+	FPPWeaponComponent->SetSkeletalMesh(FPPWeaponObject);
 	FPPWeaponComponent->SetOnlyOwnerSee(true);
 	FPPWeaponComponent->SetOwnerNoSee(false);
 
@@ -74,8 +69,8 @@ void AWeaponBase::ClientAttach()
 
 void AWeaponBase::OnRep_Owner()
 {
+	ClientAttachWeaponMesh();
 	Super::OnRep_Owner();
-	ClientAttach();
 }
 
 void AWeaponBase::ShootPrimary()
@@ -103,11 +98,8 @@ void AWeaponBase::ShootSecondary()
 	ServerShootSecondary();
 }
 
-void AWeaponBase::ServerShootPrimary_Implementation(FVector endLoc)
+void AWeaponBase::OnShootTrace(FVector endLoc, FHitResult &shootResult)
 {
-	if (!CanShootPrimary())
-		return;
-
 	AStealthCharacter* playerOwner = (AStealthCharacter*)GetOwner();
 	if (playerOwner == nullptr)
 		return;
@@ -121,18 +113,24 @@ void AWeaponBase::ServerShootPrimary_Implementation(FVector endLoc)
 	World->DebugDrawTraceTag = traceName;
 
 	FVector startLoc;
-	//startLoc = GetMuzzleLocation();
 	startLoc = playerOwner->GetViewCamera()->GetComponentLocation();
 
-	FHitResult hitDetails;
 	bool hitResult = World->LineTraceSingleByChannel(
-		hitDetails,
+		shootResult,
 		startLoc,
 		endLoc,
 		ECC_GameTraceChannel14,
 		traceParams
 	);
+}
 
+void AWeaponBase::ServerShootPrimary_Implementation(FVector endLoc)
+{
+	if (!CanShootPrimary())
+		return;
+
+	FHitResult hitDetails;
+	OnShootTrace(endLoc, hitDetails);
 	MulticastShootPrimary(hitDetails);
 
 	if (bUseAmmo)
